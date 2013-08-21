@@ -133,67 +133,66 @@ var BrowserDetect = {
 function showThumbs(videos) {
 	 // console.log(videos.length);
 
-	 if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
-	 {
+	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
+	{
 	 	var thumbs = document.getElementById('thumbs');
 	 	thumbs.innerHTML = '';
 
 	 	for (var i = 0; i < videos.length; i++) {
-		//<iframe src="http://player.vimeo.com/video/37808348?title=0&byline=0&portrait=0" width="300" height="179" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-		var thumb = document.createElement('iframe');
-		var url = "http://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
-		//<iframe src="http://player.vimeo.com/video/50193820" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/50193820">Holographic Show Window</a> from <a href="http://vimeo.com/user13689345">Hyge Interface Inc.</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
-		// console.log(url);
-		thumb.src = url;
-		thumb.setAttribute('width', "300");
-		thumb.setAttribute('height', "179");
-		thumb.setAttribute('frameborder', "0");
-		thumb.setAttribute('webkitAllowFullScreen');
-		thumb.setAttribute('mozallowfullscreen');
-		thumb.setAttribute('allowFullScreen');
+			var thumb = document.createElement('iframe');
+			var url = "http://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
+			
+			thumb.src = url;
+			thumb.setAttribute('width', "300");
+			thumb.setAttribute('height', "179");
+			thumb.setAttribute('frameborder', "0");
+			thumb.setAttribute('webkitAllowFullScreen');
+			thumb.setAttribute('mozallowfullscreen');
+			thumb.setAttribute('allowFullScreen');
 
-		thumbs.appendChild(thumb);
+			thumbs.appendChild(thumb);
+		}
+	
 	}
-}
-else
-{
-	var thumbs = document.getElementById('thumbs');
-	thumbs.innerHTML = '';
+	else
+	{
+		var thumbs = document.getElementById('thumbs');
+		thumbs.innerHTML = '';
 
-	for (var i = 0; i < videos.length; i++) {
+		for (var i = 0; i < videos.length; i++) {
 
-		var object = document.createElement('object');
-		object.setAttribute('width', "300");
-		object.setAttribute('height', "179");
+			var object = document.createElement('object');
+			object.setAttribute('width', "300");
+			object.setAttribute('height', "179");
 
-		var param = document.createElement('param');
-		param.setAttribute('allowfullscreen', "true");
-		object.appendChild(param);
+			var param = document.createElement('param');
+			param.setAttribute('allowfullscreen', "true");
+			object.appendChild(param);
 
 
-		param = document.createElement('param');
-		param.setAttribute('allowscriptaccess', "always");
-		object.appendChild(param);
+			param = document.createElement('param');
+			param.setAttribute('allowscriptaccess', "always");
+			object.appendChild(param);
 
-		param = document.createElement('param');
-		param.setAttribute('movie', "http://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
-		object.appendChild(param);
+			param = document.createElement('param');
+			param.setAttribute('movie', "http://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
+			object.appendChild(param);
 
-		embed = document.createElement('embed');
+			embed = document.createElement('embed');
 
-		var url = "http://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
+			var url = "http://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
 
-		embed.src = url;
-		embed.setAttribute('type', "application/x-shockwave-flash");
-		embed.setAttribute('allowfullscreen', "true");
-		embed.setAttribute('allowscriptaccess', "always");
-		embed.setAttribute('width', "300");
-		embed.setAttribute('height', "179");
-		object.appendChild(embed);
+			embed.src = url;
+			embed.setAttribute('type', "application/x-shockwave-flash");
+			embed.setAttribute('allowfullscreen', "true");
+			embed.setAttribute('allowscriptaccess', "always");
+			embed.setAttribute('width', "300");
+			embed.setAttribute('height', "179");
+			object.appendChild(embed);
 
-		thumbs.appendChild(object);
+			$("#thumbs").appendChild(object);
+		}
 	}
-}
 
 
 }
@@ -216,7 +215,7 @@ function init() {
 	document.getElementsByTagName('head').item(0).appendChild(js);
 
 
-	// var three = document.getElementById('three');
+	// var three = $("#three');
 	// var script1 = document.createElement('script');
 	// script1.src = "./js/three.min.js";
 
