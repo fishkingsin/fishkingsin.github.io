@@ -1,2 +1,2 @@
-fishkingsin.github.io
-=====================
+fishkingsin.com
+===============

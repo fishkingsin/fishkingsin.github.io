@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" manifest="fishkingsin.appcache">
+<link type="image/gif" rel="shortcut icon" href="/logo.gif"/>
+<head>
+	
+	<meta name="generator" content=
+
+	"fishkingsin.com homepage">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title> iJK.io </title>
+	<script type="text/javascript" src="js/Three.js"></script>
+	<script type="text/javascript" src="js/Stats.js"></script>
+	<script type="text/ecmascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/three_main.js"></script>
+	<script type="text/javascript" src="js/screenfull.min.js"></script>
+
+	<script type="text/javascript">
+
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-4875451-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+	</script>
+	<style type="text/css">
+	
+	.social img{
+		margin-left: 10px;
+		width: 32px;
+		height: 32px;
+	}
+	div#three {
+		display: block;
+		z-index: 2;
+		background: #000;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		text-align: center;
+		opacity:1;	
+	}
+	div#overlay {
+		display: block;
+		z-index: 2;
+		background: #000;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		text-align: center;
+		opacity:0.1;
+	}
+	div#specialBox {
+		display: block;
+		position: relative;
+		z-index: 3;
+		margin: 0px auto 0px auto;
+		width: 100%; 
+		height: 100%;
+		width:950px;
+
+		/*background: #0;*/
+		/*color: #000;*/
+	}
+	div#wrapper {
+		position:absolute;
+		top: 0px;
+		left: 0px;
+		padding-left:24px;
+	}
+	body {
+		background: rgb(0,0,0); /* Old browsers */
+		background: -moz-radial-gradient(center, ellipse cover,  rgba(69,72,77,1) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+		background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(69,72,77,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+		background: -webkit-radial-gradient(center, ellipse cover,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-radial-gradient(center, ellipse cover,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Opera 12+ */
+		background: -ms-radial-gradient(center, ellipse cover,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
+		background: radial-gradient(ellipse at center,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */*/
+	}
+/*			div.box2 {
+
+	}*/
+	</style>
+
+</head>
+
+<body>
+	<a href="https://github.com/fishkingsin">
+		<img style="z-index: 10; position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub">
+	</a>
+	
+	<div id="three">
+		<script src="./js/three.min.js"></script>
+		<script src="./js/three.canvas.js?$$REVISION$$">
+		</script>
+
+	</div>
+	<div id="overlay">
+
+		<a>James Kong</a>
+	</div>
+	
+	<div id="specialBox" >
+
+		<div id="bio" >
+
+
+			<div class="social">
+				<a href="http://www.facebook.com/profile.php?id=kongkingsin" target="_blank">
+					<img src="images/facebook.png" alt="facebook">
+				</a>
+
+				<a href="http://twitter.com/fishkingsin/" target="_blank">
+					<img src="images/twitter.png" alt="twitter">
+				</a>
+
+				<a href="http://vimeo.com/fishking" target="_blank">
+					<img src="images/vimeo.png" alt="vimeo">
+				</a>
+
+			</div>
+			
+
+			<p style="width:1024;font-family:verdana;color:white;font-size:12px;background-color:black;"><img src="/logo.gif" width="16"	height="16"/><a style="font-size:20px;">James, Kong King-sin<a> graduated with a Bachelor of Science at the School of Creative Media, City University of Hong Kong. Since then, as an Interactive Media Engineer. He dedicate to human,computer interaction and apply multimedia thecnique into the theater. He also explores the possibilities of computational media in the theater.
+
+
+				With James' specialization in progamming, he worked for exhibitions and interactive installations such as Science Museum , Science Park , City Hall Gallery, ICC Sky 100 Observation Desk and West Kowloon Cultural District Area- Public Engagement Exercise Stage 2 Exhibition.
+
+				As an new media artist, he participated in the pieces Kok Heng Leun'sin 2008.Daniel Yueng Ivanheo Lam <27> in 2011 , Ricky Hui < Play With Abondan >and Rock Fang of Hong Kong Art Festival Contemporary Dance Series in 2012.</p>
+			</div>
+			<center id="thumbs"></center>
+		</div>
+		<div id="wrapper"></div>
+		<!-- </div> -->
+
+	</body>
+
+	<script type="text/javascript">
+
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-4875451-2']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+	</script>
+</html>
+
