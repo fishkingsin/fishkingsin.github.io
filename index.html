@@ -102,9 +102,60 @@
 	
 	<div id="three">
 		<script src="./js/three.min.js"></script>
-		<script src="./js/three.canvas.js">
-		</script>
+		<!--<script src="./js/three.canvas1.js"></script>-->
 
+		<script>
+
+		function loadjscssfile(filename, filetype){
+			if (filetype=="js"){ //if filename is a external JavaScript file
+				var fileref=document.createElement('script')
+				fileref.setAttribute("type","text/javascript")
+				fileref.setAttribute("src", filename)
+				console.log("load "+filename);
+			}
+			else if (filetype=="css"){ //if filename is an external CSS file
+				var fileref=document.createElement("link")
+				fileref.setAttribute("rel", "stylesheet")
+				fileref.setAttribute("type", "text/css")
+				fileref.setAttribute("href", filename)
+			}
+			if (typeof fileref!="undefined")
+				document.getElementsByTagName("head")[0].appendChild(fileref)
+		}
+		var r = Math.floor(Math.random()*4);
+		if(r==0)
+		{
+			loadjscssfile("./js/three.canvas1.js", "js") //dynamically load and add this .js file
+		}else if(r==1)
+		{
+			loadjscssfile("./js/three.canvas2.js", "js") //dynamically load and add this .js file
+		}else if(r==2)
+		{
+			loadjscssfile("./js/three.canvas3.js", "js") //dynamically load and add this .js file
+		}
+		
+		// //this function will work cross-browser for loading scripts asynchronously
+		// function loadScript(src, callback)
+		// {
+		//   var s,
+		//       r,
+		//       t;
+		//   r = false;
+		//   s = document.createElement('script');
+		//   s.type = 'text/javascript';
+		//   s.src = src;
+		//   s.onload = s.onreadystatechange = function() {
+		//     //console.log( this.readyState ); //uncomment this line to see which ready states are called.
+		//     if ( !r && (!this.readyState || this.readyState == 'complete') )
+		//     {
+		//       r = true;
+		//       callback(s);
+		//     }
+		//   };
+		//   t = document.getElementsByTagName('script')[0];
+		//   t.parent.insertBefore(s, t);
+		// }
+		</script>
 	</div>
 	<div id="overlay">
 
@@ -159,5 +210,5 @@
 	})();
 
 	</script>
-</html>
+	</html>
 

@@ -11,7 +11,10 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
 var PI2 = Math.PI * 2;
-
+(function () {
+	init();
+	animate();
+})();
 var programFill = function ( context ) {
 
 	context.beginPath();
@@ -32,9 +35,6 @@ var programStroke = function ( context ) {
 }
 
 var mouse = { x: 0, y: 0 }, INTERSECTED;
-
-init();
-animate();
 
 function init() {
 
