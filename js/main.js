@@ -15,8 +15,8 @@ var BrowserDetect = {
 	init: function () {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
 		this.version = this.searchVersion(navigator.userAgent)
-			|| this.searchVersion(navigator.appVersion)
-			|| "an unknown version";
+		|| this.searchVersion(navigator.appVersion)
+		|| "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 		console.log(this.browser + this.version + this.OS);
 	},
@@ -39,47 +39,47 @@ var BrowserDetect = {
 		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
 	},
 	dataBrowser: [
-		{
-			string: navigator.userAgent,
-			subString: "Chrome",
-			identity: "Chrome"
-		},
-		{ 	string: navigator.userAgent,
-			subString: "OmniWeb",
-			versionSearch: "OmniWeb/",
-			identity: "OmniWeb"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Apple",
-			identity: "Safari",
-			versionSearch: "Version"
-		},
-		{
-			prop: window.opera,
-			identity: "Opera",
-			versionSearch: "Version"
-		},
-		{
-			string: navigator.vendor,
-			subString: "iCab",
-			identity: "iCab"
-		},
-		{
-			string: navigator.vendor,
-			subString: "KDE",
-			identity: "Konqueror"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Firefox",
-			identity: "Firefox"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Camino",
-			identity: "Camino"
-		},
+	{
+		string: navigator.userAgent,
+		subString: "Chrome",
+		identity: "Chrome"
+	},
+	{ 	string: navigator.userAgent,
+		subString: "OmniWeb",
+		versionSearch: "OmniWeb/",
+		identity: "OmniWeb"
+	},
+	{
+		string: navigator.vendor,
+		subString: "Apple",
+		identity: "Safari",
+		versionSearch: "Version"
+	},
+	{
+		prop: window.opera,
+		identity: "Opera",
+		versionSearch: "Version"
+	},
+	{
+		string: navigator.vendor,
+		subString: "iCab",
+		identity: "iCab"
+	},
+	{
+		string: navigator.vendor,
+		subString: "KDE",
+		identity: "Konqueror"
+	},
+	{
+		string: navigator.userAgent,
+		subString: "Firefox",
+		identity: "Firefox"
+	},
+	{
+		string: navigator.vendor,
+		subString: "Camino",
+		identity: "Camino"
+	},
 		{		// for newer Netscapes (6+)
 			string: navigator.userAgent,
 			subString: "Netscape",
@@ -103,8 +103,8 @@ var BrowserDetect = {
 			identity: "Netscape",
 			versionSearch: "Mozilla"
 		}
-	],
-	dataOS : [
+		],
+		dataOS : [
 		{
 			string: navigator.platform,
 			subString: "Win",
@@ -116,29 +116,29 @@ var BrowserDetect = {
 			identity: "Mac"
 		},
 		{
-			   string: navigator.userAgent,
-			   subString: "iPhone",
-			   identity: "iPhone/iPod"
-	    },
+			string: navigator.userAgent,
+			subString: "iPhone",
+			identity: "iPhone/iPod"
+		},
 		{
 			string: navigator.platform,
 			subString: "Linux",
 			identity: "Linux"
 		}
-	]
+		]
 
-};
+	};
 
 // This function goes through the clips and puts them on the page
 function showThumbs(videos) {
 	 // console.log(videos.length);
 
-	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
-	{
-	var thumbs = document.getElementById('thumbs');
-	thumbs.innerHTML = '';
+	 if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
+	 {
+	 	var thumbs = document.getElementById('thumbs');
+	 	thumbs.innerHTML = '';
 
-	for (var i = 0; i < videos.length; i++) {
+	 	for (var i = 0; i < videos.length; i++) {
 		//<iframe src="http://player.vimeo.com/video/37808348?title=0&byline=0&portrait=0" width="300" height="179" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 		var thumb = document.createElement('iframe');
 		var url = "http://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
@@ -154,48 +154,48 @@ function showThumbs(videos) {
 
 		thumbs.appendChild(thumb);
 	}
+}
+else
+{
+	var thumbs = document.getElementById('thumbs');
+	thumbs.innerHTML = '';
+
+	for (var i = 0; i < videos.length; i++) {
+
+		var object = document.createElement('object');
+		object.setAttribute('width', "300");
+		object.setAttribute('height', "179");
+
+		var param = document.createElement('param');
+		param.setAttribute('allowfullscreen', "true");
+		object.appendChild(param);
+
+
+		param = document.createElement('param');
+		param.setAttribute('allowscriptaccess', "always");
+		object.appendChild(param);
+
+		param = document.createElement('param');
+		param.setAttribute('movie', "http://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
+		object.appendChild(param);
+
+		embed = document.createElement('embed');
+
+		var url = "http://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
+
+		embed.src = url;
+		embed.setAttribute('type', "application/x-shockwave-flash");
+		embed.setAttribute('allowfullscreen', "true");
+		embed.setAttribute('allowscriptaccess', "always");
+		embed.setAttribute('width', "300");
+		embed.setAttribute('height', "179");
+		object.appendChild(embed);
+
+		thumbs.appendChild(object);
 	}
-	else
-	{
-		var thumbs = document.getElementById('thumbs');
-		thumbs.innerHTML = '';
+}
 
-		for (var i = 0; i < videos.length; i++) {
-			
-			var object = document.createElement('object');
-			object.setAttribute('width', "300");
-			object.setAttribute('height', "179");
 
-			var param = document.createElement('param');
-			param.setAttribute('allowfullscreen', "true");
-			object.appendChild(param);
-			
-			
-			param = document.createElement('param');
-			param.setAttribute('allowscriptaccess', "always");
-			object.appendChild(param);
-			
-			param = document.createElement('param');
-			param.setAttribute('movie', "http://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
-			object.appendChild(param);
-
-			embed = document.createElement('embed');
-
-			var url = "http://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
-			
-			embed.src = url;
-			embed.setAttribute('type', "application/x-shockwave-flash");
-			embed.setAttribute('allowfullscreen', "true");
-			embed.setAttribute('allowscriptaccess', "always");
-			embed.setAttribute('width', "300");
-			embed.setAttribute('height', "179");
-			object.appendChild(embed);
-
-			thumbs.appendChild(object);
-		}
-	}
-
-	
 }
 
 function init() {
@@ -216,20 +216,43 @@ function init() {
 	document.getElementsByTagName('head').item(0).appendChild(js);
 
 
+	// var three = document.getElementById('three');
+	// var script1 = document.createElement('script');
+	// script1.src = "./js/three.min.js";
+
+	// var r = float2int(Math.random()*3);
+
+	// var script2 = document.createElement('script');
+	// if(r==0)
+	// {
+	// 	script2.src = "./js/three.canvas1.js";
+	// }
+	// else if(r==1)
+	// {
+	// 	script2.src = "./js/three.canvas2.js";
+	// }
+	// else if(r==2)
+	// {
+	// 	script2.src = "./js/three.canvas3.js";
+	// }
+
+	// three.appendChild(script1);
+	// three.appendChild(script2);
+
 	$(document).on('keydown', onDocumentKeyDown);
 }
 /** Event handler for the document object's 'keydown' event */
 var onDocumentKeyDown = function (event) {
-    switch (event.keyCode) {
+	switch (event.keyCode) {
         // case 'H'.charCodeAt(0):
         //     hud.toggle();
             // break;
-        case 'F'.charCodeAt(0):
+            case 'F'.charCodeAt(0):
             if (screenfull.enabled) screenfull.toggle();
             break;
         // case 'P'.charCodeAt(0):
         //     screenshot();
             // break;
-    }
-};
+        }
+    };
 

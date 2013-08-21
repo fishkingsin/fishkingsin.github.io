@@ -102,9 +102,34 @@
 	
 	<div id="three">
 		<script src="./js/three.min.js"></script>
-		<script src="./js/three.canvas.js">
+		<script>
+		function loadjscssfile(filename, filetype){
+			if (filetype=="js"){ //if filename is a external JavaScript file
+				var fileref=document.createElement('script')
+				fileref.setAttribute("type","text/javascript")
+				fileref.setAttribute("src", filename)
+				console.log("load "+filename);
+			}
+			else if (filetype=="css"){ //if filename is an external CSS file
+				var fileref=document.createElement("link")
+				fileref.setAttribute("rel", "stylesheet")
+				fileref.setAttribute("type", "text/css")
+				fileref.setAttribute("href", filename)
+			}
+			if (typeof fileref!="undefined")
+				document.getElementsByTagName("head")[0].appendChild(fileref)
+		}
+		var array =
+		[
+			"./js/three.canvas1.js",
+			"./js/three.canvas2.js",
+			"./js/three.canvas3.js",
+		]
+		var r = Math.floor(Math.random()*array.length);
+		
+		loadjscssfile(array[r], "js") //dynamically load and add this .js file
+		
 		</script>
-
 	</div>
 	<div id="overlay">
 
@@ -159,5 +184,5 @@
 	})();
 
 	</script>
-</html>
+	</html>
 
