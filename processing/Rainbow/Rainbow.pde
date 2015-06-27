@@ -5,8 +5,8 @@ void setup()
 }
 void draw()
 {
-  float block = 800.0/7.0;
-  for(int i = 0 ; i < 7 ;i++)
+  float block = 800.0/6.0;
+  for(int i = 0 ; i < 6 ;i++)
   {
     noStroke();
     fill(i*block, height, height);
