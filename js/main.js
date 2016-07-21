@@ -140,7 +140,7 @@ function showThumbs(videos) {
 
 	 	for (var i = 0; i < videos.length; i++) {
 			var thumb = document.createElement('iframe');
-			var url = "http://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
+			var url = "https://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
 			
 			thumb.src = url;
 			thumb.setAttribute('width', "300");
@@ -175,12 +175,12 @@ function showThumbs(videos) {
 			object.appendChild(param);
 
 			param = document.createElement('param');
-			param.setAttribute('movie', "http://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
+			param.setAttribute('movie', "https://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
 			object.appendChild(param);
 
 			embed = document.createElement('embed');
 
-			var url = "http://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
+			var url = "https://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
 
 			embed.src = url;
 			embed.setAttribute('type', "application/x-shockwave-flash");
@@ -206,7 +206,7 @@ function init() {
 	var callback = 'showThumbs';
 
 	// Set up the URLs
-	var url = 'http://vimeo.com/api/v2/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=50';
+	var url = 'https://vimeo.com/api/v2/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=50';
 
 
 	var js = document.createElement('script');
