@@ -126,17 +126,39 @@
 		
 		var array =
 		[
-			"./js/three.canvas1.js"
-			 ,"./js/three.canvas2.js"
-			 ,"./js/three.canvas3.js"
-			 ,"./js/three.canvas4.js"
-			 ,"./js/three.canvas5.js"
-			,"./js/three.canvas6.js"
+		"./js/three.canvas1.js"
+		,"./js/three.canvas2.js"
+		,"./js/three.canvas3.js"
+		,"./js/three.canvas4.js"
+		,"./js/three.canvas5.js"
+		,"./js/three.canvas6.js"
 		]
 		var r = Math.floor(Math.random()*array.length);
-		
-		loadjscssfile(array[r], "js") //dynamically load and add this .js file
-		
+		var query = getQueryParams(document.location.search);
+		console.log(query);
+		if(query["canvas"]!=null){
+			if(query["canvas"]<array.length){
+				loadjscssfile(array[query.canvas], "js")
+			}else{
+				loadjscssfile(array[r], "js") //dynamically load and add this .js file
+			}
+		}
+		else{
+			loadjscssfile(array[r], "js") //dynamically load and add this .js file
+		}
+		function getQueryParams(qs) {
+			qs = qs.split('+').join(' ');
+
+			var params = {},
+			tokens,
+			re = /[?&]?([^=]+)=([^&]*)/g;
+
+			while (tokens = re.exec(qs)) {
+				params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+			}
+
+			return params;
+		}
 		</script>
 	</div>
 	<div id="overlay">
