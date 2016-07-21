@@ -131,7 +131,7 @@ var BrowserDetect = {
 
 // This function goes through the clips and puts them on the page
 function showThumbs(videos) {
-	 // console.log(videos.length);
+	 console.log(videos.length);
 
 	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
 	{
@@ -146,9 +146,9 @@ function showThumbs(videos) {
 			thumb.setAttribute('width', "300");
 			thumb.setAttribute('height', "179");
 			thumb.setAttribute('frameborder', "0");
-			thumb.setAttribute('webkitAllowFullScreen');
-			thumb.setAttribute('mozallowfullscreen');
-			thumb.setAttribute('allowFullScreen');
+			// thumb.setAttribute('webkitAllowFullScreen');
+			// thumb.setAttribute('mozallowfullscreen');
+			// thumb.setAttribute('allowFullScreen');
 
 			thumbs.appendChild(thumb);
 		}
