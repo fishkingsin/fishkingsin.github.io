@@ -10,7 +10,9 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<title> iJK.io </title>
 	<!--<script type="text/javascript" src="js/Three.js"></script>-->
-	<script type="text/javascript" src="js/Stats.js"></script>
+	<script type="text/javascript" src="js/stats.min.js"></script>
+	<script type="text/javascript" src="js/tween.min.js"></script>
+	
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<!--<script type="text/javascript" src="js/three_main.js"></script>-->
@@ -101,7 +103,9 @@
 	</a>
 	
 	<div id="three">
-		<script src="./js/three.min.js"></script>
+		<script src="./js/three.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+		<script src="js/renderers/Projector.js"></script>
 		<script>
 		function loadjscssfile(filename, filetype){
 			if (filetype=="js"){ //if filename is a external JavaScript file

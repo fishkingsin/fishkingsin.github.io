@@ -1,8 +1,14 @@
-var container;
+var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
 
+var container, stats;
 var camera, scene, renderer;
 
-var mesh;
+var particles, particle, count = 0;
+
+var mouseX = 0, mouseY = 0;
+
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
 
 init();
 animate();
@@ -10,208 +16,55 @@ animate();
 function init() {
 
 	container = document.getElementById( 'three' );
+	document.body.appendChild( container );
 
-	//
-
-	camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 1, 3500 );
-	camera.position.z = 2750;
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera.position.z = 1000;
 
 	scene = new THREE.Scene();
-	scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
 
-	//
+	particles = new Array();
 
-	scene.add( new THREE.AmbientLight( 0x444444 ) );
+	var PI2 = Math.PI * 2;
+	var material = new THREE.SpriteCanvasMaterial( {
 
-	var light1 = new THREE.DirectionalLight( 0xffffff, 0.5 );
-	light1.position.set( 1, 1, 1 );
-	scene.add( light1 );
+		color: 0xffffff,
+		program: function ( context ) {
 
-	var light2 = new THREE.DirectionalLight( 0xffffff, 1.5 );
-	light2.position.set( 0, -1, 0 );
-	scene.add( light2 );
+			context.beginPath();
+			context.arc( 0, 0, 0.5, 0, PI2, true );
+			context.fill();
 
-	//
-
-	var triangles = 160000;
-
-	var geometry = new THREE.BufferGeometry();
-	geometry.attributes = {
-		index: {
-			itemSize: 1,
-			array: new Uint16Array( triangles * 3 )
-		},
-		position: {
-			itemSize: 3,
-			array: new Float32Array( triangles * 3 * 3 )
-		},
-		normal: {
-			itemSize: 3,
-			array: new Float32Array( triangles * 3 * 3 )
-		},
-		color: {
-			itemSize: 3,
-			array: new Float32Array( triangles * 3 * 3 )
 		}
-	}
 
-	// break geometry into
-	// chunks of 21,845 triangles (3 unique vertices per triangle)
-	// for indices to fit into 16 bit integer number
-	// floor(2^16 / 3) = 21845
-
-	var chunkSize = 21845;
-
-	var indices = geometry.attributes.index.array;
-
-	for ( var i = 0; i < indices.length; i ++ ) {
-
-		indices[ i ] = i % ( 3 * chunkSize );
-
-	}
-
-	var positions = geometry.attributes.position.array;
-	var normals = geometry.attributes.normal.array;
-	var colors = geometry.attributes.color.array;
-
-	var color = new THREE.Color();
-
-	var n = 800, n2 = n/2;	// triangles spread in the cube
-	var d = 12, d2 = d/2;	// individual triangle size
-
-	var pA = new THREE.Vector3();
-	var pB = new THREE.Vector3();
-	var pC = new THREE.Vector3();
-
-	var cb = new THREE.Vector3();
-	var ab = new THREE.Vector3();
-
-	for ( var i = 0; i < positions.length; i += 9 ) {
-
-		// positions
-
-		var x = Math.random() * n - n2;
-		var y = Math.random() * n - n2;
-		var z = Math.random() * n - n2;
-
-		var ax = x + Math.random() * d - d2;
-		var ay = y + Math.random() * d - d2;
-		var az = z + Math.random() * d - d2;
-
-		var bx = x + Math.random() * d - d2;
-		var by = y + Math.random() * d - d2;
-		var bz = z + Math.random() * d - d2;
-
-		var cx = x + Math.random() * d - d2;
-		var cy = y + Math.random() * d - d2;
-		var cz = z + Math.random() * d - d2;
-
-		positions[ i ]     = ax;
-		positions[ i + 1 ] = ay;
-		positions[ i + 2 ] = az;
-
-		positions[ i + 3 ] = bx;
-		positions[ i + 4 ] = by;
-		positions[ i + 5 ] = bz;
-
-		positions[ i + 6 ] = cx;
-		positions[ i + 7 ] = cy;
-		positions[ i + 8 ] = cz;
-
-		// flat face normals
-
-		pA.set( ax, ay, az );
-		pB.set( bx, by, bz );
-		pC.set( cx, cy, cz );
-
-		cb.subVectors( pC, pB );
-		ab.subVectors( pA, pB );
-		cb.cross( ab );
-
-		cb.normalize();
-
-		var nx = cb.x;
-		var ny = cb.y;
-		var nz = cb.z;
-
-		normals[ i ]     = nx;
-		normals[ i + 1 ] = ny;
-		normals[ i + 2 ] = nz;
-
-		normals[ i + 3 ] = nx;
-		normals[ i + 4 ] = ny;
-		normals[ i + 5 ] = nz;
-
-		normals[ i + 6 ] = nx;
-		normals[ i + 7 ] = ny;
-		normals[ i + 8 ] = nz;
-
-		// colors
-
-		var vx = ( x / n ) + 0.5;
-		var vy = ( y / n ) + 0.5;
-		var vz = ( z / n ) + 0.5;
-
-		color.setRGB( vx, vy, vz );
-
-		colors[ i ]     = color.r;
-		colors[ i + 1 ] = color.g;
-		colors[ i + 2 ] = color.b;
-
-		colors[ i + 3 ] = color.r;
-		colors[ i + 4 ] = color.g;
-		colors[ i + 5 ] = color.b;
-
-		colors[ i + 6 ] = color.r;
-		colors[ i + 7 ] = color.g;
-		colors[ i + 8 ] = color.b;
-
-	}
-
-	geometry.offsets = [];
-
-	var offsets = triangles / chunkSize;
-
-	for ( var i = 0; i < offsets; i ++ ) {
-
-		var offset = {
-			start: i * chunkSize * 3,
-			index: i * chunkSize * 3,
-			count: Math.min( triangles - ( i * chunkSize ), chunkSize ) * 3
-		};
-
-		geometry.offsets.push( offset );
-
-	}
-
-	geometry.computeBoundingSphere();
-
-	var material = new THREE.MeshPhongMaterial( {
-			color: 0xaaaaaa, ambient: 0xaaaaaa, specular: 0xffffff, shininess: 250,
-			side: THREE.DoubleSide, vertexColors: THREE.VertexColors
 	} );
 
-	mesh = new THREE.Mesh( geometry, material );
-	scene.add( mesh );
+	var i = 0;
 
-	//
+	for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
 
-	renderer = new THREE.WebGLRenderer( { antialias: false, clearColor: 0x333333, clearAlpha: 1, alpha: false } );
+		for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+			particle = particles[ i ++ ] = new THREE.Sprite( material );
+			particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+			particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+			scene.add( particle );
+
+		}
+
+	}
+
+	renderer = new THREE.CanvasRenderer();
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.setClearColor( scene.fog.color, 1 );
-
-	renderer.gammaInput = true;
-	renderer.gammaOutput = true;
-	renderer.physicallyBasedShading = true;
-
 	container.appendChild( renderer.domElement );
 
-	//
+	stats = new Stats();
+	container.appendChild( stats.dom );
 
-	// stats = new Stats();
-	// stats.domElement.style.position = 'absolute';
-	// stats.domElement.style.top = '0px';
-	// container.appendChild( stats.domElement );
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 	//
 
@@ -220,6 +73,9 @@ function init() {
 }
 
 function onWindowResize() {
+
+	windowHalfX = window.innerWidth / 2;
+	windowHalfY = window.innerHeight / 2;
 
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
@@ -230,22 +86,74 @@ function onWindowResize() {
 
 //
 
+function onDocumentMouseMove( event ) {
+
+	mouseX = event.clientX - windowHalfX;
+	mouseY = event.clientY - windowHalfY;
+
+}
+
+function onDocumentTouchStart( event ) {
+
+	if ( event.touches.length === 1 ) {
+
+		event.preventDefault();
+
+		mouseX = event.touches[ 0 ].pageX - windowHalfX;
+		mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+	}
+
+}
+
+function onDocumentTouchMove( event ) {
+
+	if ( event.touches.length === 1 ) {
+
+		event.preventDefault();
+
+		mouseX = event.touches[ 0 ].pageX - windowHalfX;
+		mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+	}
+
+}
+
+//
+
 function animate() {
 
 	requestAnimationFrame( animate );
 
 	render();
-	// stats.update();
+	stats.update();
 
 }
 
 function render() {
 
-	var time = Date.now() * 0.001;
+	camera.position.x += ( mouseX - camera.position.x ) * .05;
+	camera.position.y += ( - mouseY - camera.position.y ) * .05;
+	camera.lookAt( scene.position );
 
-	mesh.rotation.x = time * 0.25;
-	mesh.rotation.y = time * 0.5;
+	var i = 0;
+
+	for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+		for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+			particle = particles[ i++ ];
+			particle.position.y = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) +
+				( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+			particle.scale.x = particle.scale.y = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 4 +
+				( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 4;
+
+		}
+
+	}
 
 	renderer.render( scene, camera );
+
+	count += 0.1;
 
 }
