@@ -1,8 +1,4 @@
-var SEPARATION = 100;
-var AMOUNTX = 50;
-var AMOUNTY = 50;
-
-var container;
+var container, stats;
 var camera, scene, renderer, particle;
 var mouseX = 0, mouseY = 0;
 
@@ -15,32 +11,35 @@ animate();
 function init() {
 
 	container = document.getElementById( 'three' );
-	
+	document.body.appendChild( container );
 
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
 	camera.position.z = 1000;
 
 	scene = new THREE.Scene();
 
-	var material = new THREE.ParticleBasicMaterial();
+	var material = new THREE.SpriteMaterial( {
+		map: new THREE.CanvasTexture( generateSprite() ),
+		blending: THREE.AdditiveBlending
+	} );
 
-	for ( var ix = 0; ix < AMOUNTX; ix++ ) {
+	for ( var i = 0; i < 1000; i++ ) {
 
-		for ( var iy = 0; iy < AMOUNTY; iy++ ) {
+		particle = new THREE.Sprite( material );
 
-			particle = new THREE.Particle( material );
-			particle.scale.y = 4;
-			particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
-			particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
-			scene.add( particle );
-		}
+		initParticle( particle, i * 10 );
+
+		scene.add( particle );
 	}
 
 	renderer = new THREE.CanvasRenderer();
+	renderer.setClearColor( 0x00000 );
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 
-	
+	stats = new Stats();
+	container.appendChild( stats.dom );
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
@@ -64,6 +63,52 @@ function onWindowResize() {
 
 }
 
+function generateSprite() {
+
+	var canvas = document.createElement( 'canvas' );
+	canvas.width = 16;
+	canvas.height = 16;
+
+	var context = canvas.getContext( '2d' );
+	var gradient = context.createRadialGradient( canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width / 2 );
+	gradient.addColorStop( 0, 'rgba(255,255,255,1)' );
+	gradient.addColorStop( 0.2, 'rgba(64,64,64,1)' );
+	gradient.addColorStop( 0.4, 'rgba(128,128,128,1)' );
+	gradient.addColorStop( 1, 'rgba(0,0,0,1)' );
+
+	context.fillStyle = gradient;
+	context.fillRect( 0, 0, canvas.width, canvas.height );
+
+	return canvas;
+
+}
+
+function initParticle( particle, delay ) {
+
+	var particle = this instanceof THREE.Sprite ? this : particle;
+	var delay = delay !== undefined ? delay : 0;
+
+	particle.position.set( 0, 0, 0 );
+	particle.scale.x = particle.scale.y = Math.random() * 32 + 16;
+
+	new TWEEN.Tween( particle )
+		.delay( delay )
+		.to( {}, 10000 )
+		.onComplete( initParticle )
+		.start();
+
+	new TWEEN.Tween( particle.position )
+		.delay( delay )
+		.to( { x: Math.random() * 4000 - 2000, y: Math.random() * 1000 - 500, z: Math.random() * 4000 - 2000 }, 10000 )
+		.start();
+
+	new TWEEN.Tween( particle.scale )
+		.delay( delay )
+		.to( { x: 0.01, y: 0.01 }, 10000 )
+		.start();
+
+}
+
 //
 
 function onDocumentMouseMove( event ) {
@@ -74,13 +119,15 @@ function onDocumentMouseMove( event ) {
 
 function onDocumentTouchStart( event ) {
 
-	if ( event.touches.length > 1 ) {
+	if ( event.touches.length == 1 ) {
 
 		event.preventDefault();
 
 		mouseX = event.touches[ 0 ].pageX - windowHalfX;
 		mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
 	}
+
 }
 
 function onDocumentTouchMove( event ) {
@@ -91,6 +138,7 @@ function onDocumentTouchMove( event ) {
 
 		mouseX = event.touches[ 0 ].pageX - windowHalfX;
 		mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
 	}
 
 }
@@ -102,14 +150,16 @@ function animate() {
 	requestAnimationFrame( animate );
 
 	render();
-	
+	stats.update();
 
 }
 
 function render() {
 
-	camera.position.x += ( mouseX - camera.position.x ) * .05;
-	camera.position.y += ( - mouseY - camera.position.y ) * .05;
+	TWEEN.update();
+
+	camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+	camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 	camera.lookAt( scene.position );
 
 	renderer.render( scene, camera );

@@ -30,8 +30,8 @@ function init() {
 	};
 
 	var vertStr = `void main()	{
-				gl_Position = vec4( position, 1.0 );
-			}`;
+		gl_Position = vec4( position, 1.0 );
+	}`;
 	var fragStr = `
 	uniform vec2 resolution;
 	uniform float time;
@@ -77,8 +77,10 @@ function init() {
 	renderer.setPixelRatio( window.devicePixelRatio );
 	container.appendChild( renderer.domElement );
 
-	// stats = new Stats();
-	// container.appendChild( stats.dom );
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
+	container.appendChild( stats.domElement );
 
 	onWindowResize();
 
@@ -100,14 +102,15 @@ function animate() {
 	requestAnimationFrame( animate );
 
 	render();
-	// stats.update();
+	stats.update();
 
 }
 
 function render() {
 
 	uniforms.time.value += 0.05;
-
-	renderer.render( scene, camera );
+	if(renderer){
+		renderer.render( scene, camera );
+	}
 
 }
