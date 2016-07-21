@@ -131,7 +131,7 @@ var BrowserDetect = {
 
 // This function goes through the clips and puts them on the page
 function showThumbs(videos) {
-	return;
+	
 	 console.log(videos.length);
 
 	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
@@ -207,7 +207,7 @@ function init() {
 	var callback = 'showThumbs';
 
 	// Set up the URLs
-	var url = 'https://vimeo.com/api/v2/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=50';
+	var url = 'https://vimeo.com/api/v2/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=20';
 
 
 	var js = document.createElement('script');
