@@ -198,8 +198,8 @@ function onWindowResize( event ) {
 }
 function onDocumentMouseMove( event ) {
 
-	uniform.iMouse.x = event.clientX;
-	uniform.iMouse.y = event.clientY;
+	uniforms.iMouse.x = event.clientX;
+	uniforms.iMouse.y = event.clientY;
 }
 function animate() {
 
