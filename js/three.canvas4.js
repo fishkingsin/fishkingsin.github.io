@@ -120,27 +120,24 @@ function onWindowResize( event ) {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
+function animate() {
 
-	//
+	requestAnimationFrame( animate );
 
-	function animate() {
+	render();
+	stats.update();
 
-		requestAnimationFrame( animate );
+}
 
-		render();
-		stats.update();
+function render() {
 
-	}
+	var time = performance.now();
 
-	function render() {
+	var object = scene.children[ 0 ];
 
-		var time = performance.now();
+	object.rotation.y = time * 0.0005;
+	object.material.uniforms.time.value = time * 0.005;
 
-		var object = scene.children[ 0 ];
+	renderer.render( scene, camera );
 
-		object.rotation.y = time * 0.0005;
-		object.material.uniforms.time.value = time * 0.005;
-
-		renderer.render( scene, camera );
-
-	}
+}
