@@ -201,13 +201,14 @@ function showThumbs(videos) {
 function init() {
 	BrowserDetect.init();
 	// Change this to your username to load in your clips
-	var vimeoUserName = 'fishking';
+	var vimeoUserName = '3227782';
 
 	// Tell Vimeo what function to call
 	var callback = 'showThumbs';
 
 	// Set up the URLs
-	var url = 'https://vimeo.com/api/v2/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=20';
+	//https://vimeo.com/album/3227782
+	var url = 'https://vimeo.com/api/v2/album/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=30';
 
 
 	var js = document.createElement('script');
