@@ -131,7 +131,7 @@ var BrowserDetect = {
 
 // This function goes through the clips and puts them on the page
 function showThumbs(videos) {
-	return;
+	
 	 console.log(videos.length);
 
 	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
