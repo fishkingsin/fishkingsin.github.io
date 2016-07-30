@@ -39,7 +39,7 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 	stats = new Stats();
-	container.appendChild( stats.dom );
+//	container.appendChild( stats.dom );
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
