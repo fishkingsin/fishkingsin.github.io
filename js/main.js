@@ -19,6 +19,9 @@ var BrowserDetect = {
 		|| "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 		console.log(this.browser + this.version + this.OS);
+		if(detectmob()){
+			$('#forkme').hide();
+		}
 	},
 	searchString: function (data) {
 		for (var i=0;i<data.length;i++)	{
@@ -197,7 +200,21 @@ function showThumbs(videos) {
 
 
 }
-
+function detectmob() { 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+    return true;
+  }
+ else {
+    return false;
+  }
+}
 function init() {
 	BrowserDetect.init();
 	// Change this to your username to load in your clips
