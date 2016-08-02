@@ -19,9 +19,9 @@ var BrowserDetect = {
 		|| "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 		console.log(this.browser + this.version + this.OS);
-		if(detectmob()){
-			$('#forkme').hide();
-		}
+		// if(detectmob()){
+		// 	$('#forkme').hide();
+		// }
 	},
 	searchString: function (data) {
 		for (var i=0;i<data.length;i++)	{
@@ -137,7 +137,7 @@ function showThumbs(videos) {
 	
 	 console.log(videos.length);
 
-	if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
+	// if(BrowserDetect.browser=="Chrome" || BrowserDetect.browser=="Safari")
 	{
 	 	var thumbs = document.getElementById('thumbs');
 	 	thumbs.innerHTML = '';
@@ -147,8 +147,9 @@ function showThumbs(videos) {
 			var url = "https://player.vimeo.com/video/" + videos[i].id + "?title=0&byline=0&portrait=0&color=aaaaaa";
 			
 			thumb.src = url;
-			thumb.setAttribute('width', "300");
-			thumb.setAttribute('height', "179");
+			// thumb.setAttribute('width', "300");
+			// thumb.setAttribute('height', "179");
+			thumb.setAttribute('style', " position: relative; height: 90%; width: 90%' " )
 			thumb.setAttribute('frameborder', "0");
 			// thumb.setAttribute('webkitAllowFullScreen');
 			// thumb.setAttribute('mozallowfullscreen');
@@ -158,45 +159,45 @@ function showThumbs(videos) {
 		}
 	
 	}
-	else
-	{
-		var thumbs = document.getElementById('thumbs');
-		thumbs.innerHTML = '';
+	// else
+	// {
+	// 	var thumbs = document.getElementById('thumbs');
+	// 	thumbs.innerHTML = '';
 
-		for (var i = 0; i < videos.length; i++) {
+	// 	for (var i = 0; i < videos.length; i++) {
 
-			var object = document.createElement('object');
-			object.setAttribute('width', "300");
-			object.setAttribute('height', "179");
+	// 		var object = document.createElement('object');
+	// 		object.setAttribute('width', "300");
+	// 		object.setAttribute('height', "179");
 
-			var param = document.createElement('param');
-			param.setAttribute('allowfullscreen', "true");
-			object.appendChild(param);
+	// 		var param = document.createElement('param');
+	// 		param.setAttribute('allowfullscreen', "true");
+	// 		object.appendChild(param);
 
 
-			param = document.createElement('param');
-			param.setAttribute('allowscriptaccess', "always");
-			object.appendChild(param);
+	// 		param = document.createElement('param');
+	// 		param.setAttribute('allowscriptaccess', "always");
+	// 		object.appendChild(param);
 
-			param = document.createElement('param');
-			param.setAttribute('movie', "https://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
-			object.appendChild(param);
+	// 		param = document.createElement('param');
+	// 		param.setAttribute('movie', "https://vimeo.com/moogaloop.swf?clip_id=="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1");
+	// 		object.appendChild(param);
 
-			embed = document.createElement('embed');
+	// 		embed = document.createElement('embed');
 
-			var url = "https://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
+	// 		var url = "https://vimeo.com/moogaloop.swf?clip_id="+videos[i].id+"&server=vimeo.com&title=0&byline=0&portrait=0&color=aaaaaa&fullscreen=1"
 
-			embed.src = url;
-			embed.setAttribute('type', "application/x-shockwave-flash");
-			embed.setAttribute('allowfullscreen', "true");
-			embed.setAttribute('allowscriptaccess', "always");
-			embed.setAttribute('width', "300");
-			embed.setAttribute('height', "179");
-			object.appendChild(embed);
-
-			$("#thumbs").appendChild(object);
-		}
-	}
+	// 		embed.src = url;
+	// 		embed.setAttribute('type', "application/x-shockwave-flash");
+	// 		embed.setAttribute('allowfullscreen', "true");
+	// 		embed.setAttribute('allowscriptaccess', "always");
+	// 		embed.setAttribute('width', "300");
+	// 		embed.setAttribute('height', "179");
+	// 		object.appendChild(embed);
+	// 		console.log(object);
+	// 		thumbs.appendChild(object);
+	// 	}
+	// }
 
 
 }
