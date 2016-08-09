@@ -222,11 +222,11 @@ function init() {
 	var vimeoUserName = '3227782';
 
 	// Tell Vimeo what function to call
-	var callback = 'showThumbs';
+	// var callback = 'showThumbs';
 
 	// Set up the URLs
 	//https://vimeo.com/album/3227782
-	var url = 'https://vimeo.com/api/v2/album/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=30';
+	// var url = 'https://vimeo.com/api/v2/album/' +vimeoUserName+ '/videos.json?callback=' + callback+'&page=1&per_page=30';
 
 
 	var js = document.createElement('script');
