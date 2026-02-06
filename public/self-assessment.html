@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>戰略思維自我檢測 - 19題版（Harvard ManageMentor 靈感改編）</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 30px;
+    }
+    .intro {
+      background: #e8f4fd;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+    .question {
+      margin-bottom: 25px;
+      padding: 15px;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    .question h3 {
+      margin: 0 0 12px 0;
+      font-size: 1.1em;
+      color: #34495e;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+      accent-color: #3498db;
+    }
+    button {
+      display: block;
+      width: 200px;
+      margin: 30px auto 0;
+      padding: 14px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    #result {
+      margin-top: 40px;
+      padding: 25px;
+      background: #e8f4fd;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+    }
+    .score {
+      font-size: 2.8em;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 10px 0;
+    }
+    .level {
+      font-size: 1.4em;
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .level-high { background: #d4edda; color: #155724; }
+    .level-good { background: #fff3cd; color: #856404; }
+    .level-medium { background: #cce5ff; color: #004085; }
+    .level-low { background: #f8d7da; color: #721c24; }
+    .suggestion {
+      margin-top: 20px;
+      font-size: 1.05em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>戰略思維自我檢測</h1>
+    <p class="subtitle">Harvard ManageMentor 靈感改編版（19 題，約 5 分鐘）</p>
+
+    <div class="intro">
+      <p>使用 1–5 分評估自己（1 = 幾乎從不，5 = 幾乎總是），請根據真實行為誠實作答。完成後點擊「提交並計算得分」即可自動顯示總分與評語。</p>
+    </div>
+
+    <form id="quizForm">
+
+      <div class="question">
+        <h3>1. 我會主動詢問單位/公司/產業/外部環境正在發生什麼事。</h3>
+        <div class="options">
+          <label><input type="radio" name="q1" value="1"> 1</label>
+          <label><input type="radio" name="q1" value="2"> 2</label>
+          <label><input type="radio" name="q1" value="3"> 3</label>
+          <label><input type="radio" name="q1" value="4"> 4</label>
+          <label><input type="radio" name="q1" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>2. 當新資訊出現，我能調整既有想法與做法。</h3>
+        <div class="options">
+          <label><input type="radio" name="q2" value="1"> 1</label>
+          <label><input type="radio" name="q2" value="2"> 2</label>
+          <label><input type="radio" name="q2" value="3"> 3</label>
+          <label><input type="radio" name="q2" value="4"> 4</label>
+          <label><input type="radio" name="q2" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>3. 我會尋找今天能做、明天有價值的事。</h3>
+        <div class="options">
+          <label><input type="radio" name="q3" value="1"> 1</label>
+          <label><input type="radio" name="q3" value="2"> 2</label>
+          <label><input type="radio" name="q3" value="3"> 3</label>
+          <label><input type="radio" name="q3" value="4"> 4</label>
+          <label><input type="radio" name="q3" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>4. 我把挑戰視為機會而非威脅。</h3>
+        <div class="options">
+          <label><input type="radio" name="q4" value="1"> 1</label>
+          <label><input type="radio" name="q4" value="2"> 2</label>
+          <label><input type="radio" name="q4" value="3"> 3</label>
+          <label><input type="radio" name="q4" value="4"> 4</label>
+          <label><input type="radio" name="q4" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>5. 我願意接受乍看奇怪的新觀點。</h3>
+        <div class="options">
+          <label><input type="radio" name="q5" value="1"> 1</label>
+          <label><input type="radio" name="q5" value="2"> 2</label>
+          <label><input type="radio" name="q5" value="3"> 3</label>
+          <label><input type="radio" name="q5" value="4"> 4</label>
+          <label><input type="radio" name="q5" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>6. 面對批評，我不會馬上防衛，而是先理解。</h3>
+        <div class="options">
+          <label><input type="radio" name="q6" value="1"> 1</label>
+          <label><input type="radio" name="q6" value="2"> 2</label>
+          <label><input type="radio" name="q6" value="3"> 3</label>
+          <label><input type="radio" name="q6" value="4"> 4</label>
+          <label><input type="radio" name="q6" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>7. 我持續擴充知識、經驗與技能。</h3>
+        <div class="options">
+          <label><input type="radio" name="q7" value="1"> 1</label>
+          <label><input type="radio" name="q7" value="2"> 2</label>
+          <label><input type="radio" name="q7" value="3"> 3</label>
+          <label><input type="radio" name="q7" value="4"> 4</label>
+          <label><input type="radio" name="q7" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>8. 我會主動徵詢他人意見。</h3>
+        <div class="options">
+          <label><input type="radio" name="q8" value="1"> 1</label>
+          <label><input type="radio" name="q8" value="2"> 2</label>
+          <label><input type="radio" name="q8" value="3"> 3</label>
+          <label><input type="radio" name="q8" value="4"> 4</label>
+          <label><input type="radio" name="q8" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>9. 我會預想自己的行動對周圍人的影響。</h3>
+        <div class="options">
+          <label><input type="radio" name="q9" value="1"> 1</label>
+          <label><input type="radio" name="q9" value="2"> 2</label>
+          <label><input type="radio" name="q9" value="3"> 3</label>
+          <label><input type="radio" name="q9" value="4"> 4</label>
+          <label><input type="radio" name="q9" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>10. 我會質疑自己長久以來的假設，也鼓勵別人這麼做。</h3>
+        <div class="options">
+          <label><input type="radio" name="q10" value="1"> 1</label>
+          <label><input type="radio" name="q10" value="2"> 2</label>
+          <label><input type="radio" name="q10" value="3"> 3</label>
+          <label><input type="radio" name="q10" value="4"> 4</label>
+          <label><input type="radio" name="q10" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>11. 我了解影響團隊績效的主要力量。</h3>
+        <div class="options">
+          <label><input type="radio" name="q11" value="1"> 1</label>
+          <label><input type="radio" name="q11" value="2"> 2</label>
+          <label><input type="radio" name="q11" value="3"> 3</label>
+          <label><input type="radio" name="q11" value="4"> 4</label>
+          <label><input type="radio" name="q11" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>12. 我知道客戶真正重視什麼。</h3>
+        <div class="options">
+          <label><input type="radio" name="q12" value="1"> 1</label>
+          <label><input type="radio" name="q12" value="2"> 2</label>
+          <label><input type="radio" name="q12" value="3"> 3</label>
+          <label><input type="radio" name="q12" value="4"> 4</label>
+          <label><input type="radio" name="q12" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>13. 我清楚競爭優勢來自哪裡。</h3>
+        <div class="options">
+          <label><input type="radio" name="q13" value="1"> 1</label>
+          <label><input type="radio" name="q13" value="2"> 2</label>
+          <label><input type="radio" name="q13" value="3"> 3</label>
+          <label><input type="radio" name="q13" value="4"> 4</label>
+          <label><input type="radio" name="q13" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>14. 我會跟上影響產業與工作的重大趨勢。</h3>
+        <div class="options">
+          <label><input type="radio" name="q14" value="1"> 1</label>
+          <label><input type="radio" name="q14" value="2"> 2</label>
+          <label><input type="radio" name="q14" value="3"> 3</label>
+          <label><input type="radio" name="q14" value="4"> 4</label>
+          <label><input type="radio" name="q14" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>15. 我能客觀分析情境。</h3>
+        <div class="options">
+          <label><input type="radio" name="q15" value="1"> 1</label>
+          <label><input type="radio" name="q15" value="2"> 2</label>
+          <label><input type="radio" name="q15" value="3"> 3</label>
+          <label><input type="radio" name="q15" value="4"> 4</label>
+          <label><input type="radio" name="q15" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>16. 我會評估不同方案的利弊與長期影響。</h3>
+        <div class="options">
+          <label><input type="radio" name="q16" value="1"> 1</label>
+          <label><input type="radio" name="q16" value="2"> 2</label>
+          <label><input type="radio" name="q16" value="3"> 3</label>
+          <label><input type="radio" name="q16" value="4"> 4</label>
+          <label><input type="radio" name="q16" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>17. 我能把抽象概念與零散片段組成完整圖景。</h3>
+        <div class="options">
+          <label><input type="radio" name="q17" value="1"> 1</label>
+          <label><input type="radio" name="q17" value="2"> 2</label>
+          <label><input type="radio" name="q17" value="3"> 3</label>
+          <label><input type="radio" name="q17" value="4"> 4</label>
+          <label><input type="radio" name="q17" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>18. 我能產生多樣選項、想像新可能性。</h3>
+        <div class="options">
+          <label><input type="radio" name="q18" value="1"> 1</label>
+          <label><input type="radio" name="q18" value="2"> 2</label>
+          <label><input type="radio" name="q18" value="3"> 3</label>
+          <label><input type="radio" name="q18" value="4"> 4</label>
+          <label><input type="radio" name="q18" value="5"> 5</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>19. 我能在看似無關的事件中發現模式。</h3>
+        <div class="options">
+          <label><input type="radio" name="q19" value="1"> 1</label>
+          <label><input type="radio" name="q19" value="2"> 2</label>
+          <label><input type="radio" name="q19" value="3"> 3</label>
+          <label><input type="radio" name="q19" value="4"> 4</label>
+          <label><input type="radio" name="q19" value="5"> 5</label>
+        </div>
+      </div>
+
+      <button type="button" onclick="calculateScore()">提交並計算得分</button>
+    </form>
+
+    <div id="result">
+      <h2>你的戰略思維得分</h2>
+      <div class="score" id="totalScore">--</div>
+      <div class="level" id="levelText"></div>
+      <div class="suggestion" id="suggestionText"></div>
+      <button type="button" onclick="location.reload()">重新測驗</button>
+    </div>
+  </div>
+
+  <script>
+    function calculateScore() {
+      const form = document.getElementById('quizForm');
+      let total = 0;
+      let answered = 0;
+
+      for (let i = 1; i <= 19; i++) {
+        const radios = form.elements['q' + i];
+        let selected = false;
+        for (let radio of radios) {
+          if (radio.checked) {
+            total += parseInt(radio.value);
+            answered++;
+            selected = true;
+            break;
+          }
+        }
+        if (!selected) {
+          alert('請完成所有題目（第 ' + i + ' 題尚未選擇）');
+          return;
+        }
+      }
+
+      const max = 19 * 5;
+      const score = total;
+
+      let level = '';
+      let className = '';
+      let suggestion = '';
+
+      if (score >= 80) {
+        level = '極強的戰略思維者 (80–95)';
+        className = 'level-high';
+        suggestion = '你已經具備頂尖的戰略思維能力，未來發展潛力極高。繼續保持，並可考慮指導他人或帶領更大規模的策略項目。';
+      } else if (score >= 65) {
+        level = '優秀，但仍有精進空間 (65–79)';
+        className = 'level-good';
+        suggestion = '你的戰略思維已相當不錯，通常缺在趨勢敏感度或取捨決斷力。建議加強「跟上重大趨勢」與「長期影響評估」的習慣。';
+      } else if (score >= 50) {
+        level = '中等偏上，執行力強 (50–64)';
+        className = 'level-medium';
+        suggestion = '執行力很強，但戰略高度還可再拉高。建議從「拉高視角」（每週花時間看產業/競爭/宏觀趨勢）與「問為什麼」（深入探討背後原因）兩個練習開始。';
+      } else {
+        level = '建議從基礎強化開始 (50 以下)';
+        className = 'level-low';
+        suggestion = '目前以執行導向為主，建議優先培養「拉高視角」與「問為什麼」的習慣，例如每週固定 2 小時只閱讀產業報告、競爭動態與公司戰略，不碰日常任務。';
+      }
+
+      document.getElementById('totalScore').textContent = score + ' / ' + max;
+      document.getElementById('levelText').textContent = level;
+      document.getElementById('levelText').className = 'level ' + className;
+      document.getElementById('suggestionText').textContent = suggestion;
+
+      document.getElementById('result').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('result').offsetTop - 40, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
