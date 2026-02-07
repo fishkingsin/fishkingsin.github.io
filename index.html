@@ -1,1 +1,225 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="./favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="./logo192.png"/><link rel="manifest" href="./manifest.json"/><title>React App</title><script defer="defer" src="/static/js/main.7c0ebb21.js"></script><link href="/static/css/main.073c9b0a.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kong King Sin - Tech Lead | Cloud Architect</title>
+    <!-- Link to your CSS file will go here -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- Add meta tags for SEO and description if needed -->
+    <meta name="description" content="Profile of Kong King Sin, a Tech Lead and Cloud Architect with expertise in solution architecture, cloud adoption, fintech, and microservices.">
+    <link rel="canonical" href="https://fishkingsin.github.io/"> <!-- Your GitHub Pages URL -->
+
+    <!-- Favicon -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+
+    <!-- Add any other meta tags or links here -->
+</head>
+<body>
+
+    <!-- Floating Contact Button -->
+    <div id="floating-contact-button">
+      <button class="cta-button floating-button">Contact Me</button>
+    </div>
+
+    <!-- Floating Contact Overlay (initially hidden) -->
+    <div id="floating-contact-overlay" class="contact-overlay">
+      <div class="overlay-content">
+        <button class="close-button">&times;</button>
+        <h3>Get In Touch</h3>
+        <form id="floating-contact-form">
+          <div class="form-group">
+            <label for="overlay-name">Name:</label>
+            <input type="text" id="overlay-name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="overlay-email">Email Address:</label>
+            <input type="email" id="overlay-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="overlay-message">Message:</label>
+            <textarea id="overlay-message" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="cta-button">Send Message</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="section-with-background">
+      <div class="container">
+        <div class="hero-content">
+          <h1>KONG KING SIN</h1>
+          <p class="title">Tech Lead | Cloud Architect | Microservices Expert | Technologist</p>
+          <p class="value-proposition">Driving digital transformation with a focus on scalable architectures and impactful technology.</p>
+          <!-- The CTA button here will link to the contact section -->
+          <a href="#contact" class="cta-button primary-cta">Contact Me</a>
+        </div>
+        <div class="hero-image">
+          <!-- Placeholder for profile image - update src with your image path -->
+          <img src="https://avatars.githubusercontent.com/u/481343?v=4" alt="Kong King Sin's Profile Picture">
+        </div>
+      </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>
+          Results-driven Tech Lead and Cloud Architect with 15+ years of progressive experience in solution architecture, cloud adoption, and enterprise-scale transformations in Financial Services and Technology. Expertise in crafting architecture blueprints, governance frameworks, and multi-cloud strategies (AWS & Azure) to align technology with business outcomes. Proven leader in guiding cross-functional teams, influencing stakeholders and architecture committees, and delivering secure, scalable, event-driven solutions. Fluent in English and Cantonese, with deep exposure to FSI, DevSecOps, fintech platforms, and high-stakes payments ecosystems.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills & Expertise Section -->
+    <section id="skills">
+      <div class="container">
+        <h2>Skills & Expertise</h2>
+        <div class="skills-content">
+          <div class="technical-skills">
+<div class="project-links">
+              <!-- Placeholder links -->
+              <a href="#" target="_blank" rel="noopener noreferrer">Live Demo (if available)</a> |
+              <a href="#" target="_blank" rel="noopener noreferrer">GitHub Repo (if applicable)</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <h3>Nixplay Mobile Ecosystem Revamp</h3>
+            <p class="project-role">Senior Software Engineer</p>
+            <p class="project-description">
+              Revamped the entire mobile ecosystem using React Native and AWS cloud backends, implementing a clean and scalable architecture. Designed the Redux + Saga core architecture to establish a reusable business logic framework. Delivered a mobile design library that improved UI consistency across platforms, reducing development time by 30%.
+            </p>
+            <div class="project-links">
+              <!-- Placeholder links -->
+              <a href="#" target="_blank" rel="noopener noreferrer">Live Demo (if available)</a> |
+              <a href="#" target="_blank" rel="noopener noreferrer">GitHub Repo (if applicable)</a>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <h3>GenAI-Powered Release Risk Assessment Automation</h3>
+            <p class="project-role">Tech Lead</p>
+            <p class="project-description">
+              Led the enablement of automation experience by initiating and guiding the development of a release risk assessment review process powered by Generative AI, reducing manual work by 50%.
+            </p>
+            <div class="project-links">
+              <!-- Placeholder links -->
+              <a href="#" target="_blank" rel="noopener noreferrer">Live Demo (if available)</a> |
+              <a href="#" target="_blank" rel="noopener noreferrer">GitHub Repo (if applicable)</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience">
+      <div class="container">
+        <h2>Experience & Education</h2>
+        <div class="experience-list">
+
+          <div class="job-item">
+            <h3>HSBC</h3>
+            <p class="job-title">Tech Lead</p>
+            <p class="job-dates">03/2023 – Present | Hong Kong</p>
+            <p class="job-description">
+              Led cross-functional teams, architected event-driven microservices, orchestrated UnionPay integration, managed containerized workloads (AWS EKS, Azure AKS), and mentored developers. Focused on secure, scalable software delivery and cloud infrastructure governance.
+            </p>
+          </div>
+
+          <div class="job-item">
+            <h3>Chief Group</h3>
+            <p class="job-title">Head of Mobile</p>
+            <p class="job-dates">04/2022 – 03/2023 | Hong Kong</p>
+            <p class="job-description">
+              Owned mobile architecture strategy and governance, led product teams (10-20 people), and managed engineering leads. Championed reusable components, DevOps practices for mobile SDLC automation, and improved engineering maturity.
+            </p>
+          </div>
+
+          <div class="job-item">
+            <h3>HSBC (Secondment via China-soft International)</h3>
+            <p class="job-title">Lead iOS Engineer</p>
+            <p class="job-dates">01/2020 – 04/2022 | Hong Kong</p>
+            <p class="job-description">
+              Partnered with solution architects on mobile service blueprints, delivered secure and scalable architectures with strong governance, and drove event-driven API design.
+            </p>
+          </div>
+
+          <div class="job-item">
+            <h3>Nixplay</h3>
+            <p class="job-title">Senior Software Engineer</p>
+            <p class="job-dates">01/2017 – 12/2019</p>
+            <p class="job-description">
+                Revamped mobile ecosystem with React Native and AWS, designed Redux + Saga architecture, and delivered a mobile design library that reduced development time by 30%.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="education-section">
+          <h3>Education</h3>
+          <p><strong>BSc (Hons), Creative Media</strong><br>City University of Hong Kong</p>
+        </div>
+
+        <div class="certifications-section">
+          <h3>Certifications</h3>
+          <ul>
+            <li>AWS Certified Developer – Associate</li>
+            <li>AWS Certified Solution Architect – Associate</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Information Section -->
+    <section id="contact">
+      <div class="container">
+        <h2>Get In Touch</h2>
+        <div class="contact-content">
+          <div class="contact-details">
+            <p>
+              Have a project in mind, a challenging problem to solve, or just want to connect? Feel free to reach out!
+            </p>
+            <ul>
+              <li><strong>Email:</strong> <a href="mailto:kongkingsin@protonmail.com">kongkingsin@protonmail.com</a></li>
+              <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/kong-king-sin" target="_blank" rel="noopener noreferrer">linkedin.com/in/kong-king-sin</a></li>
+              <li><strong>GitHub:</strong> <a href="https://www.github.com/fishkingsin" target="_blank" rel="noopener noreferrer">github.com/fishkingsin</a></li>
+            </ul>
+          </div>
+          <div class="contact-form">
+            <h3>Send a Message</h3>
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="cta-button">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Kong King Sin. All rights reserved.</p>
+        <!-- You can add social links or other footer content here -->
+      </div>
+    </footer>
+
+    <!-- JavaScript for floating overlay toggle and smooth scrolling -->
+    <!-- <script src="script.js"></script> -->
+</body>
+</html>
