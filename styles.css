@@ -1,0 +1,507 @@
+/* Basic Reset & Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, clean font */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #324E66; /* Dark Blue/Gray for primary text */
+    background-color: #F7F4F3; /* Off-white/Light Gray for background */
+    scroll-behavior: smooth; /* For smooth scrolling */
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px; /* Maximum width for content */
+    margin: 0 auto; /* Center align */
+    padding: 20px 0;
+}
+
+h1, h2, h3 {
+    color: #324E66; /* Dark Blue/Gray for headings */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    border-bottom: 2px solid #9DB6C9; /* Muted Blue/Gray for underline */
+    padding-bottom: 10px;
+    display: inline-block; /* To make border-bottom fit the text */
+}
+
+h3 {
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: #5F7B94; /* Deeper Blue/Gray for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #324E66; /* Darker on hover */
+}
+
+ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* Hero Section */
+#hero {
+    background-color: #324E66; /* Dark Blue/Gray background */
+    color: #F7F4F3; /* Off-white text */
+    padding: 100px 0;
+    text-align: center;
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    min-height: 70vh; /* Minimum height */
+    position: relative; /* For potential parallax if you add it later */
+    overflow: hidden; /* Hide overflow for background images */
+}
+
+.hero-content {
+    max-width: 700px;
+    z-index: 2; /* Ensure content is above image */
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 10px;
+    color: #F7F4F3; /* Off-white for name */
+}
+
+.hero-content .title {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    color: #E8EFF4; /* Light Blue/Gray for title */
+    font-weight: 300;
+}
+
+.hero-content .value-proposition {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #E8EFF4; /* Light Blue/Gray */
+}
+
+.hero-image {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.hero-image img {
+    width: 150px; /* Adjust size as needed */
+    height: 150px;
+    border-radius: 50%; /* Circular image */
+    object-fit: cover; /* Ensure image covers the area */
+    border: 4px solid #9DB6C9; /* Muted Blue/Gray border */
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    background-color: #5F7B94; /* Deeper Blue/Gray for buttons */
+    color: #F7F4F3 !important; /* Off-white text for contrast */
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background-color: #324E66; /* Darker Blue/Gray on hover */
+    transform: translateY(-2px);
+}
+
+.primary-cta { /* Specific style for hero CTA if needed */
+    font-size: 1.1em;
+}
+
+/* About Me Section */
+#about {
+    padding: 60px 0;
+    text-align: center;
+    background-color: #E8EFF4; /* Light Blue/Gray background */
+}
+
+#about p {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1em;
+}
+
+/* Skills Section */
+#skills {
+    padding: 80px 0;
+    background-color: #F7F4F3; /* Off-white background */
+}
+
+.skills-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: space-around; /* Space out skill categories */
+    gap: 40px; /* Space between skill categories */
+}
+
+.technical-skills, .soft-skills {
+    flex: 1; /* Allow them to grow */
+    min-width: 300px; /* Minimum width before wrapping */
+    background-color: #E8EFF4; /* Light Blue/Gray background for skill blocks */
+    padding: 30px;
+    border-radius: 8px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.technical-skills ul, .soft-skills ul {
+    list-style-position: inside; /* Bullets inside the padding */
+    padding-left: 0;
+}
+
+.technical-skills li, .soft-skills li {
+    font-size: 1.05em;
+}
+
+/* Projects Section */
+#projects {
+    padding: 80px 0;
+    background-color: #E8EFF4; /* Light Blue/Gray background */
+}
+
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 40px;
+}
+
+.project-item {
+    background-color: #F7F4F3; /* Off-white background for project cards */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push links to the bottom */
+}
+
+.project-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.project-item h3 {
+    margin-top: 0;
+    color: #324E66;
+}
+
+.project-role {
+    font-style: italic;
+    color: #5F7B94;
+    margin-bottom: 15px;
+}
+
+.project-description {
+    flex-grow: 1; /* Allow description to take available space */
+    margin-bottom: 20px;
+}
+
+.project-links a {
+    margin: 0 5px;
+}
+
+/* Experience & Education Section */
+#experience {
+    padding: 80px 0;
+    background-color: #F7F4F3; /* Off-white background */
+}
+
+.experience-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.job-item {
+    background-color: #E8EFF4; /* Light Blue/Gray background for job items */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.job-item h3 {
+    margin-top: 0;
+    color: #324E66;
+}
+
+.job-title {
+    font-weight: bold;
+    color: #5F7B94;
+    margin-bottom: 5px;
+}
+
+.job-dates {
+    font-size: 0.9em;
+    color: #9DB6C9;
+    margin-bottom: 15px;
+}
+
+.education-section, .certifications-section {
+    background-color: #E8EFF4; /* Light Blue/Gray background */
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.certifications-section ul {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+/* Contact Section */
+#contact {
+    padding: 80px 0;
+    background-color: #E8EFF4; /* Light Blue/Gray background */
+    position: relative; /* Needed for the floating button */
+}
+
+.contact-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.contact-details {
+    flex: 1;
+    min-width: 300px;
+    background-color: #F7F4F3; /* Off-white background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.contact-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.contact-details li {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.contact-form {
+    flex: 1;
+    min-width: 300px;
+    background-color: #F7F4F3; /* Off-white background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: calc(100% - 20px); /* Account for padding */
+    padding: 10px;
+    border: 1px solid #9DB6C9; /* Muted Blue/Gray border */
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #F7F4F3; /* Off-white input background */
+    color: #324E66;
+}
+
+.contact-form textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Floating Button Styling */
+#floating-contact-button {
+    position: fixed; /* Stays in place */
+    bottom: 30px; /* Position from bottom */
+    right: 30px; /* Position from right */
+    z-index: 1000; /* Ensure it's on top */
+}
+
+.floating-button {
+background-color: #5F7B94 !important; /* Deeper Blue/Gray for the fixed button */
+    color: #F7F4F3 !important;
+    border-radius: 50%; /* Make it circular */
+    width: 70px;
+    height: 70px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.floating-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Floating Contact Overlay Styling */
+.contact-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50, 78, 102, 0.95); /* Dark Blue/Gray with transparency */
+    color: #F7F4F3; /* Off-white text */
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Above the floating button */
+    overflow-y: auto; /* Allow scrolling if content is long */
+}
+
+.contact-overlay .overlay-content {
+    background-color: transparent; /* Content background will be handled by its own elements */
+    width: 90%;
+    max-width: 600px; /* Limit overlay width */
+    padding: 40px;
+    text-align: center;
+    position: relative; /* For positioning the close button */
+}
+
+.contact-overlay h3 {
+    color: #F7F4F3; /* Off-white heading */
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.contact-overlay .form-group {
+    margin-bottom: 25px;
+}
+
+.contact-overlay label {
+    color: #E8EFF4; /* Light Blue/Gray label */
+}
+
+.contact-overlay input[type="text"],
+.contact-overlay input[type="email"],
+.contact-overlay textarea {
+    background-color: #F7F4F3; /* Off-white input background */
+    border-color: #9DB6C9; /* Muted Blue/Gray border */
+    color: #324E66; /* Dark text in inputs */
+}
+
+.contact-overlay textarea {
+    min-height: 150px;
+}
+
+.contact-overlay .cta-button {
+    background-color: #9DB6C9; /* Muted Blue/Gray for submit button inside overlay */
+    color: #324E66 !important; /* Dark text for contrast */
+}
+
+.contact-overlay .cta-button:hover {
+    background-color: #5F7B94; /* Deeper Blue/Gray on hover */
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2em;
+    color: #F7F4F3; /* Off-white close button */
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: #E8EFF4; /* Lighter color on hover */
+}
+
+/* Footer */
+footer {
+    background-color: #324E66; /* Dark Blue/Gray */
+    color: #F7F4F3; /* Off-white text */
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px; /* Space above footer */
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+    .hero-content .title {
+        font-size: 1.2em;
+    }
+    .hero-image img {
+        width: 120px;
+        height: 120px;
+    }
+    .skills-content, .contact-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .technical-skills, .soft-skills, .contact-details, .contact-form {
+        width: 100%;
+        min-width: unset; /* Remove min-width on smaller screens */
+    }
+    .project-list {
+        grid-template-columns: 1fr; /* Stack projects on small screens */
+    }
+    #floating-contact-button {
+        bottom: 20px;
+        right: 20px;
+    }
+    .floating-button {
+        width: 60px;
+        height: 60px;
+        font-size: 1em;
+    }
+    .contact-overlay .overlay-content {
+        width: 95%;
+        padding: 30px;
+    }
+    .contact-overlay h3 {
+        font-size: 1.8em;
+    }
+    .close-button {
+        font-size: 1.8em;
+        top: 15px;
+        right: 20px;
+    }
+}
