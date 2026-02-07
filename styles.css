@@ -71,7 +71,6 @@ li {
 }
 
 .hero-content {
-    max-width: 700px;
     z-index: 2; /* Ensure content is above image */
 }
 
