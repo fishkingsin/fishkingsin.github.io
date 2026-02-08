@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio - ScrollMagic Parallax</title>
+    
+    <!-- CDN Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        
+        /* Parallax Section Base */
+        .parallax-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Parallax Layers */
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+        }
+        
+        .parallax-mid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+            z-index: 2;
+        }
+        
+        .parallax-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+            z-index: 3;
+        }
+        
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        #hero .parallax-bg {
+            background: radial-gradient(ellipse at center, rgba(94, 129, 172, 0.3) 0%, transparent 70%);
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #a8d8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+        
+        /* Floating Elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            will-change: transform;
+        }
+        
+        .shape-1 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: 20%;
+            left: 10%;
+        }
+        
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            top: 60%;
+            right: 15%;
+        }
+        
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            bottom: 20%;
+            left: 20%;
+        }
+        
+        /* About Section */
+        #about {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+        
+        .about-image-inner {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-image-inner::after {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        
+        .about-content {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        
+        .section-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #e94560;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .section-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Projects Section */
+        #projects {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .projects-container {
+            max-width: 1400px;
+            padding: 4rem 2rem;
+            width: 100%;
+        }
+        
+        .projects-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(100px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--gradient-start, #667eea) 0%, var(--gradient-end, #764ba2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .project-card:nth-child(1) {
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+        }
+        
+        .project-card:nth-child(2) {
+            --gradient-start: #f093fb;
+            --gradient-end: #f5576c;
+        }
+        
+        .project-card:nth-child(3) {
+            --gradient-start: #4facfe;
+            --gradient-end: #00f2fe;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        /* Skills Section */
+        #skills {
+            background: linear-gradient(180deg, #16213e 0%, #0f3460 100%);
+        }
+        
+        .skills-container {
+            max-width: 1200px;
+            padding: 4rem 2rem;
+            width: 100%;
+        }
+        
+        .skills-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .skill-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .skill-percent {
+            font-size: 1rem;
+            color: #e94560;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+        
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(180deg, #0f3460 0%, #1a1a2e 100%);
+            min-height: 100vh;
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .contact-header {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .form-group {
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .floating-shape {
+                display: none;
+            }
+        }
+        
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%);
+            z-index: 9999;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+    
+    <!-- Hero Section -->
+    <section id="hero" class="parallax-section">
+        <div class="parallax-bg"></div>
+        <div class="parallax-mid">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+        <div class="parallax-front">
+            <div class="hero-content">
+                <h1 class="hero-title">Creative Developer</h1>
+                <p class="hero-subtitle">Crafting Digital Experiences with Code & Design</p>
+                <a href="#projects" class="hero-cta">View My Work</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="parallax-section">
+        <div class="about-container">
+            <div class="about-image">
+                <div class="about-image-inner"></div>
+            </div>
+            <div class="about-content">
+                <span class="section-label">About Me</span>
+                <h2 class="section-title">Passionate About Creating Beautiful Digital Experiences</h2>
+                <p class="section-text">
+                    I'm a creative developer specializing in interactive web experiences. With expertise in modern 
+                    web technologies and a keen eye for design, I transform ideas into engaging digital solutions 
+                    that captivate users and drive results.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="parallax-section">
+        <div class="projects-container">
+            <div class="projects-header">
+                <span class="section-label">Portfolio</span>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🎨</div>
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">A modern shopping experience with real-time inventory and seamless checkout.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">📱</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Mobile Banking App</h3>
+                        <p class="project-description">Secure and intuitive banking solution with biometric authentication.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🚀</div>
+                    <div class="project-content">
+                        <h3 class="project-title">SaaS Dashboard</h3>
+                        <p class="project-description">Analytics dashboard with real-time data visualization and reporting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section id="skills" class="parallax-section">
+        <div class="skills-container">
+            <div class="skills-header">
+                <span class="section-label">Expertise</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">JavaScript/TypeScript</span>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="95"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">React/Next.js</span>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="90"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Node.js</span>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="85"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">CSS/Tailwind</span>
+                        <span class="skill-percent">92%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="92"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">UI/UX Design</span>
+                        <span class="skill-percent">88%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="88"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span class="skill-name">Animation/GSAP</span>
+                        <span class="skill-percent">87%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="87"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="parallax-section">
+        <div class="contact-container">
+            <div class="contact-header">
+                <span class="section-label">Get In Touch</span>
+                <h2 class="section-title">Let's Work Together</h2>
+                <p class="section-text">Have a project in mind? I'd love to hear about it.</p>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Creative Developer. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Check for mobile and reduced motion preferences
+        const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const shouldAnimate = !prefersReducedMotion;
+        
+        // Initialize ScrollMagic Controller
+        const controller = new ScrollMagic.Controller();
+        
+        // Scroll Progress Bar
+        const scrollProgress = document.querySelector('.scroll-progress');
+        
+        if (shouldAnimate) {
+            // Scroll progress animation
+            new ScrollMagic.Scene({
+                triggerElement: 'body',
+                triggerHook: 0,
+                duration: '100%'
+            })
+            .on('progress', function(e) {
+                scrollProgress.style.transform = `scaleX(${e.progress})`;
+            })
+            .addTo(controller);
+            
+            // Hero Section Parallax
+            const heroBg = document.querySelector('#hero .parallax-bg');
+            const heroMid = document.querySelector('#hero .parallax-mid');
+            const heroFront = document.querySelector('#hero .parallax-front');
+            
+            new ScrollMagic.Scene({
+                triggerElement: '#hero',
+                triggerHook: 0,
+                duration: '100%'
+            })
+            .setTween(gsap.to(heroBg, { y: '30%', ease: 'none' }))
+            .addTo(controller);
+            
+            new ScrollMagic.Scene({
+                triggerElement: '#hero',
+                triggerHook: 0,
+                duration: '100%'
+            })
+            .setTween(gsap.to(heroMid, { y: '15%', ease: 'none' }))
+            .addTo(controller);
+            
+            new ScrollMagic.Scene({
+                triggerElement: '#hero',
+                triggerHook: 0,
+                duration: '100%'
+            })
+            .setTween(gsap.to(heroFront, { y: '5%', ease: 'none' }))
+            .addTo(controller);
+            
+            // Hero Content Entrance Animation
+            const heroTimeline = gsap.timeline();
+            heroTimeline
+                .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+                .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
+                .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
+            
+            // Floating shapes animation
+            gsap.to('.shape-1', {
+                y: -50,
+                x: 30,
+                rotation: 360,
+                duration: 20,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+            
+            gsap.to('.shape-2', {
+                y: 40,
+                x: -20,
+                rotation: -360,
+                duration: 15,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+            
+            gsap.to('.shape-3', {
+                y: -30,
+                x: 40,
+                rotation: 180,
+                duration: 18,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+            
+            // About Section Animations
+            new ScrollMagic.Scene({
+                triggerElement: '#about',
+                triggerHook: 0.8
+            })
+            .setTween(gsap.to('.about-image', { 
+                opacity: 1, 
+                x: 0, 
+                duration: 1, 
+                ease: 'power3.out' 
+            }))
+            .addTo(controller);
+            
+            new ScrollMagic.Scene({
+                triggerElement: '#about',
+                triggerHook: 0.8
+            })
+            .setTween(gsap.to('.about-content', { 
+                opacity: 1, 
+                x: 0, 
+                duration: 1, 
+                ease: 'power3.out',
+                delay: 0.2
+            }))
+            .addTo(controller);
+            
+            // Projects Section Animations
+            new ScrollMagic.Scene({
+                triggerElement: '#projects',
+                triggerHook: 0.8
+            })
+            .setTween(gsap.to('.projects-header', { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: 'power3.out' 
+            }))
+            .addTo(controller);
+            
+            // Staggered project cards
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach((card, index) => {
+                new ScrollMagic.Scene({
+                    triggerElement: card,
+                    triggerHook: 0.9
+                })
+                .setTween(gsap.to(card, { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8, 
+                    ease: 'power3.out',
+                    delay: index * 0.1
+                }))
+                .addTo(controller);
+            });
+            
+            // Skills Section Animations
+            new ScrollMagic.Scene({
+                triggerElement: '#skills',
+                triggerHook: 0.8
+            })
+            .setTween(gsap.to('.skills-header', { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: 'power3.out' 
+            }))
+            .addTo(controller);
+            
+            // Skill items with progress bars
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                const progressBar = item.querySelector('.skill-progress');
+                const progress = progressBar.dataset.progress;
+                
+                new ScrollMagic.Scene({
+                    triggerElement: item,
+                    triggerHook: 0.9
+                })
+                .setTween(gsap.to(item, { 
+                    opacity: 1, 
+                    scale: 1, 
+                    duration: 0.6, 
+                    ease: 'back.out(1.7)',
+                    delay: index * 0.1,
+                    onComplete: () => {
+                        progressBar.style.width = progress + '%';
+                    }
+                }))
+                .addTo(controller);
+            });
+            
+            // Contact Section Animations
+            new ScrollMagic.Scene({
+                triggerElement: '#contact',
+                triggerHook: 0.8
+            })
+            .setTween(gsap.to('.contact-header', { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: 'power3.out' 
+            }))
+            .addTo(controller);
+            
+            new ScrollMagic.Scene({
+                triggerElement: '.contact-form',
+                triggerHook: 0.9
+            })
+            .setTween(gsap.to('.contact-form', { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: 'power3.out' 
+            }))
+            .addTo(controller);
+        } else {
+            // Fallback: Show all content without animations
+            document.querySelectorAll('.hero-title, .hero-subtitle, .hero-cta').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+            document.querySelectorAll('.about-image, .about-content').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+            document.querySelectorAll('.projects-header, .project-card').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+            document.querySelectorAll('.skills-header, .skill-item').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+            document.querySelectorAll('.skill-progress').forEach(bar => {
+                bar.style.width = bar.dataset.progress + '%';
+            });
+            document.querySelectorAll('.contact-header, .contact-form').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Form submission handler
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I\'ll get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
