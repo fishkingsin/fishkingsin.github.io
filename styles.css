@@ -504,3 +504,16 @@ footer p {
         right: 20px;
     }
 }
+
+section {
+  will-change: transform;
+  position: relative;
+  z-index: 1;
+}
+
+/* Disable parallax for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  section {
+    will-change: auto;
+  }
+}
