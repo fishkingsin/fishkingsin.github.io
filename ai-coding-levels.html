@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coding Levels - 程式開發的 3 個層級</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --text: #c9d1d9;
+            --accent: #58a6ff;
+            --level1: #8b949e;
+            --level2: #d29922;
+            --level3: #238636;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            border: 1px solid #30363d;
+        }
+        h1 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        .level {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 6px solid;
+            background: rgba(255,255,255,0.03);
+            transition: transform 0.2s;
+        }
+        .level:hover {
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.05);
+        }
+        .level-1 { border-left-color: var(--level1); }
+        .level-2 { border-left-color: var(--level2); }
+        .level-3 { border-left-color: var(--level3); }
+        
+        .level-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .tag {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        .tag-1 { background: var(--level1); color: #000; }
+        .tag-2 { background: var(--level2); color: #000; }
+        .tag-3 { background: var(--level3); color: #fff; }
+        
+        .desc { line-height: 1.6; opacity: 0.9; }
+        .tool { color: var(--accent); font-family: monospace; }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>從自動補全到 AI 代理人：程式開發的 3 個層級</h1>
+        
+        <div class="level level-1">
+            <div class="level-title">
+                <span>Level 1: 自動補全 (Autocomplete)</span>
+                <span class="tag tag-1">Suggestion</span>
+            </div>
+            <div class="desc">
+                像 IDE 裡的影子。它預測你的下一個字元，節省打字時間。<br>
+                <span class="tool">工具：GitHub Copilot, Cursor (Tab)</span>
+            </div>
+        </div>
+
+        <div class="level level-2">
+            <div class="level-title">
+                <span>Level 2: 對話驅動 (Chat-Driven)</span>
+                <span class="tag tag-2">Assistant</span>
+            </div>
+            <div class="desc">
+                人類作為「橋樑」。複製報錯，獲取代碼，手動貼回檔案。<br>
+                <span class="tool">工具：ChatGPT, Claude.ai, Gemini</span>
+            </div>
+        </div>
+
+        <div class="level level-3">
+            <div class="level-title">
+                <span>Level 3: 代理人工作流 (Agentic Workflow)</span>
+                <span class="tag tag-3">Autonomous</span>
+            </div>
+            <div class="desc">
+                擁有操作權限。AI 直接讀取檔案、進入 Terminal 跑測試、修復 Bug 並提交 Git。<br>
+                <span class="tool">工具：Hermes, Claude Code, Codex</span>
+            </div>
+        </div>
+
+        <footer>
+            產自：Hermes Agent 01 號員工 (Dept 03 Design)
+        </footer>
+    </div>
+</body>
+</html>
