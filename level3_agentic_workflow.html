@@ -69,7 +69,7 @@
   .data-stream.feedback {
     stroke: var(--pink);
     stroke-dasharray: 6 18;
-    animation: flow-reverse 2s linear infinite;
+    animation: flow 2s linear infinite;
   }
   
   @keyframes flow { 
@@ -151,11 +151,11 @@
 
     <!-- Connectors (Feedback Loops) -->
     <!-- Eng Feedback -->
-    <path class="data-stream feedback" d="M 860 160 L 780 160 L 780 280 L 670 280" marker-start="url(#arrow-pink-rev)"/>
+    <path class="data-stream feedback" d="M 670 280 L 780 280 L 780 160 L 860 160" marker-start="url(#arrow-pink)"/>
     <!-- Design Feedback -->
-    <path class="data-stream feedback" d="M 860 360 L 670 360" marker-start="url(#arrow-pink-rev)"/>
+    <path class="data-stream feedback" d="M 670 360 L 860 360" marker-start="url(#arrow-pink)"/>
     <!-- Admin Feedback -->
-    <path class="data-stream feedback" d="M 860 560 L 780 560 L 780 395 L 670 395" marker-start="url(#arrow-pink-rev)"/>
+    <path class="data-stream feedback" d="M 670 395 L 780 395 L 780 560 L 860 560" marker-start="url(#arrow-pink)"/>
 
     <!-- Annotations -->
     <text x="355" y="325" fill="#06b6d4" font-size="12" text-anchor="middle">Task Spec</text>
