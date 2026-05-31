@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baoyu AI Company - CTO Insights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #08090a;
+            --bg-panel: #0f1011;
+            --bg-surface: #191a1b;
+            --text-primary: #f7f8f8;
+            --text-secondary: #d0d6e0;
+            --text-tertiary: #8a8f98;
+            --accent: #5e6ad2;
+            --accent-hover: #7170ff;
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --border-standard: rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-feature-settings: "cv01", "ss03";
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            padding: 80px 24px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 510;
+            letter-spacing: -1.056px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-tertiary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 510;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-standard);
+            border-radius: 12px;
+            padding: 32px;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--border-subtle);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 590;
+            letter-spacing: -0.24px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .code-snippet {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            background: var(--bg-panel);
+            padding: 12px;
+            border-radius: 6px;
+            color: #828fff;
+            overflow-x: auto;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 24px;
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            main { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agent Architecture 2026</h1>
+        <p class="subtitle">Exploring the shift from heavy frameworks to Neutral Agent Operating Systems and Managed Infrastructures.</p>
+        <a href="https://fishkingsin.github.io" class="cta-button">Explore Wiki</a>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Neutral Agent OS</h2>
+            <p>The "Kernel" for AI agents. Focuses on scheduling, isolation, and resource management rather than simple reasoning.</p>
+            <div class="code-snippet">AgentOS.provision({ brain: "Claude-4.5", hands: "Sandbox-V8" })</div>
+        </section>
+
+        <section class="card">
+            <h2>Managed Agents</h2>
+            <p>Platform-hosted runtimes that decouple the brain from the hands, solving the stale harness problem via virtualization.</p>
+            <div class="code-snippet">POST /v1/managed-agents/wake { sessionId: "..." }</div>
+        </section>
+
+        <section class="card">
+            <h2>Pydantic AI</h2>
+            <p>The pragmatic choice for production. High verifiability, type-safety, and standard Python control flow.</p>
+            <div class="code-snippet">class AgentResult(BaseModel): status: str ...</div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 Baoyu AI Company. All insights derived from LLM Wiki synthesis.
+    </footer>
+</body>
+</html>
