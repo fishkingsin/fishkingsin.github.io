@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>The Asynchronous Agentic Workflow - Kingsin AI</title>
 <style>
     :root {
@@ -11,54 +11,50 @@
         --text-color: #e5e5e5;
         --accent-color: #f75c03; /* Kingsin warm accent */
         --muted-color: #888888;
-        --slide-width: 1920px;
-        --slide-height: 1080px;
     }
     body, html {
         margin: 0; padding: 0; width: 100%; height: 100%;
-        background-color: #000;
+        background-color: var(--bg-color);
         display: flex; justify-content: center; align-items: center;
         font-family: 'Inter', -apple-system, sans-serif;
         overflow: hidden;
         color: var(--text-color);
     }
     #deck-container {
-        width: var(--slide-width);
-        height: var(--slide-height);
-        background-color: var(--bg-color);
+        width: 100%;
+        height: 100%;
         position: relative;
-        transform-origin: center center;
-        box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        border: 1px solid #222;
-        background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-        background-size: 40px 40px;
     }
     .slide {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        padding: 120px 160px;
+        padding: 40px 20px 100px 20px;
         box-sizing: border-box;
         display: none;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        overflow-y: auto; /* Re-enable scrolling on mobile */
+        -webkit-overflow-scrolling: touch;
+    }
+    @media (min-width: 1024px) {
+        .slide { justify-content: center; padding: 120px 160px; }
     }
     .slide.active { display: flex; }
     
-    /* Typography */
-    h1 { font-size: 110px; line-height: 1.1; margin: 0 0 40px 0; font-weight: 700; letter-spacing: -0.03em; }
-    h2 { font-size: 80px; font-weight: 600; margin: 0 0 60px 0; color: var(--accent-color); }
-    h3 { font-size: 55px; margin: 40px 0 20px 0; color: #fff; }
-    p { font-size: 45px; line-height: 1.5; margin: 0 0 30px 0; color: #ccc; }
-    ul { font-size: 45px; line-height: 1.5; color: #ccc; padding-left: 50px; }
-    li { margin-bottom: 20px; }
+    /* Typography with clamp for responsive scaling */
+    h1 { font-size: clamp(36px, 6vw, 110px); line-height: 1.1; margin: 0 0 0.5em 0; font-weight: 700; letter-spacing: -0.03em; }
+    h2 { font-size: clamp(28px, 4vw, 80px); font-weight: 600; margin: 0 0 1em 0; color: var(--accent-color); }
+    h3 { font-size: clamp(22px, 3vw, 55px); margin: 1em 0 0.5em 0; color: #fff; }
+    p { font-size: clamp(18px, 2.5vw, 45px); line-height: 1.5; margin: 0 0 1em 0; color: #ccc; }
+    ul { font-size: clamp(18px, 2.5vw, 45px); line-height: 1.5; color: #ccc; padding-left: 1.5em; margin: 0 0 1em 0; }
+    li { margin-bottom: 0.5em; }
     strong { color: #fff; font-weight: 600; }
     
     .title-slide { text-align: left; }
-    .title-slide p { font-size: 50px; color: var(--muted-color); max-width: 1400px; }
+    .title-slide p { color: var(--muted-color); max-width: 1400px; }
     
     /* UI */
-    .progress { position: absolute; bottom: 40px; left: 160px; font-size: 24px; color: var(--muted-color); font-family: monospace; }
-    .brand { position: absolute; bottom: 40px; right: 160px; font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 2px; }
+    .progress { position: fixed; bottom: 20px; left: 20px; font-size: clamp(14px, 1.5vw, 24px); color: var(--muted-color); font-family: monospace; z-index: 100; pointer-events: none; }
+    .brand { position: fixed; bottom: 20px; right: 20px; font-size: clamp(14px, 1.5vw, 24px); font-weight: bold; color: var(--accent-color); letter-spacing: 2px; z-index: 100; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -97,47 +93,65 @@
 
 </div>
 
-<script>
-    const container = document.getElementById('deck-container');
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = parseInt(localStorage.getItem('kingsin-slide') || '0');
-    
-    function updateScale() {
-        const scaleX = window.innerWidth / 1920;
-        const scaleY = window.innerHeight / 1080;
-        const scale = Math.min(scaleX, scaleY) * 0.98;
-        container.style.transform = `scale(${scale})`;
-    }
-    
-    function showSlide(index) {
-        if (index < 0) index = 0;
-        if (index >= slides.length) index = slides.length - 1;
+    <script>
+        const container = document.getElementById('deck-container');
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = parseInt(localStorage.getItem('kingsin-slide') || '0');
         
-        slides.forEach(s => s.classList.remove('active'));
-        slides[index].classList.add('active');
-        currentSlide = index;
-        localStorage.setItem('kingsin-slide', currentSlide);
-    }
-    
-    window.addEventListener('resize', updateScale);
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
-            showSlide(currentSlide + 1);
-        } else if (e.key === 'ArrowLeft') {
-            showSlide(currentSlide - 1);
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= slides.length) index = slides.length - 1;
+            
+            slides.forEach(s => s.classList.remove('active'));
+            slides[index].classList.add('active');
+            slides[index].scrollTop = 0; // Reset scroll on mobile
+            currentSlide = index;
+            localStorage.setItem('kingsin-slide', currentSlide);
+            
+            document.querySelectorAll('.progress').forEach(p => {
+                p.innerText = `${currentSlide + 1} / ${slides.length}`;
+            });
         }
-    });
-    
-    container.addEventListener('click', (e) => {
-        if (e.clientX > window.innerWidth / 2) {
-            showSlide(currentSlide + 1);
-        } else {
-            showSlide(currentSlide - 1);
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
+                showSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+            }
+        });
+        
+        container.addEventListener('click', (e) => {
+            // allow selection and scrolling
+            if (window.getSelection().toString().length > 0) return;
+            
+            if (e.clientX > window.innerWidth * 0.85) {
+                showSlide(currentSlide + 1);
+            } else if (e.clientX < window.innerWidth * 0.15) {
+                showSlide(currentSlide - 1);
+            }
+        });
+        
+        // Touch navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeDist = touchEndX - touchStartX;
+            if (swipeDist < -50) showSlide(currentSlide + 1); // left
+            else if (swipeDist > 50) showSlide(currentSlide - 1); // right
         }
-    });
-    
-    updateScale();
-    showSlide(currentSlide);
-</script>
+        
+        showSlide(currentSlide);
+    </script>
 </body>
 </html>
