@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Never Full Studio — 物業充電管理平台</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+HK:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        nf: {
+          blue:   '#1a56db',
+          blueH:  '#1e40af',
+          blueL:  '#dbeafe',
+          blueLL: '#eff6ff',
+          green:  '#059669',
+          greenL: '#d1fae5',
+          red:    '#dc2626',
+          redL:   '#fee2e2',
+          amber:  '#d97706',
+          amberL: '#fef3c7',
+          purple: '#7c3aed',
+          gray50: '#f8fafc',
+          gray100:'#f1f5f9',
+          gray200:'#e2e8f0',
+          gray300:'#cbd5e1',
+          gray400:'#94a3b8',
+          gray500:'#64748b',
+          gray600:'#475569',
+          gray700:'#334155',
+          gray800:'#1e293b',
+          gray900:'#0f172a',
+          white: '#ffffff',
+          bg:    '#f8fafc',
+        }
+      },
+      fontFamily: {
+        sans: ['"Inter"', '"Noto Sans HK"', '"PingFang HK"', '"Microsoft JhengHei"', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"SF Mono"', 'ui-monospace', 'monospace'],
+        number: ['"Inter"', '"SF Pro Text"', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        'card':  '0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03)',
+        'cardH': '0 4px 12px -2px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.04)',
+        'elevated': '0 10px 25px -10px rgba(26,86,219,0.12), 0 4px 10px -6px rgba(0,0,0,0.08)',
+        'modal': '0 25px 50px -12px rgba(0,0,0,0.25)',
+        'nav': '0 -1px 3px 0 rgba(0,0,0,0.04), 0 -2px 6px -1px rgba(0,0,0,0.02)',
+      }
+    }
+  }
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    font-family: 'Inter', 'Noto Sans HK', 'PingFang HK', 'Microsoft JhengHei', system-ui, -apple-system, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.5;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark mode */
+  body.dark {
+    background: #0f1117;
+    color: #e2e8f0;
+  }
+  body.dark .card           { background: #1a1d27; border-color: #2a2d37; }
+  body.dark .header         { background: #1a1d27; border-color: #2a2d37; }
+  body.dark .tab-bar        { background: #1a1d27; border-color: #2a2d37; }
+  body.dark .bg-nf-bg       { background: #0f1117; }
+  body.dark .text-nf-gray900{ color: #e2e8f0; }
+  body.dark .text-nf-gray700{ color: #cbd5e1; }
+  body.dark .text-nf-gray600{ color: #94a3b8; }
+  body.dark .text-nf-gray500{ color: #64748b; }
+  body.dark .border-nf-gray200{ border-color: #2a2d37; }
+  body.dark .bg-nf-gray50   { background: #161820; }
+  body.dark .bg-nf-gray100  { background: #1a1d27; }
+  body.dark .recon thead th { border-color: #2a2d37; }
+  body.dark .recon td       { border-color: #1e2130; }
+  body.dark .charger-cell.online  { background: #0d2818; border-color: #14532d; }
+  body.dark .charger-cell.charging{ background: #0c1929; border-color: #1e3a5f; }
+  body.dark .charger-cell.offline { background: #1a1d27; border-color: #2a2d37; }
+  body.dark .alert-warn    { background: #2d2410; border-left-color: #d97706; }
+  body.dark .alert-critical{ background: #2d1010; border-left-color: #dc2626; }
+  body.dark .alert-info    { background: #0c1929; border-left-color: #1a56db; }
+  body.dark .link-box       { background: #0c1929; border-color: #1e3a5f; }
+  body.dark .pricing-row    { border-color: #2a2d37; }
+  body.dark .tenant-row     { border-color: #2a2d37; }
+  body.dark .btn-outline    { background: #1a1d27; border-color: #3a3d47; color: #cbd5e1; }
+  body.dark .btn-outline:hover { background: #2a2d37; }
+
+  /* Layout */
+  .app-container { max-width: 414px; margin: 0 auto; min-height: 100vh; position: relative; }
+  @media (min-width: 768px) {
+    .app-container { border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+    body.dark .app-container { border-color: #2a2d37; }
+  }
+
+  /* Header */
+  .header {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.3s ease;
+  }
+  .header .brand { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+  .header .brand-icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, #1a56db, #3b82f6);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 14px;
+  }
+  .header .location { font-size: 11px; color: #64748b; font-weight: 400; margin-top: 1px; }
+
+  /* Screens */
+  .screen { display: none; padding: 0 16px 96px; animation: fadeSlideIn 0.25s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cards */
+  .card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card-interactive { cursor: pointer; }
+  .card-interactive:hover {
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.04);
+    transform: translateY(-1px);
+  }
+  .card-interactive:active { transform: translateY(0); }
+
+  /* Section labels */
+  .section-title {
+    font-size: 11px; font-weight: 600; color: #64748b;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .section-title .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #1a56db;
+    flex-shrink: 0;
+  }
+
+  /* KPI */
+  .kpi-value {
+    font-family: 'Inter', 'SF Pro Text', system-ui, sans-serif;
+    font-size: 28px; font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-label { font-size: 11px; color: #64748b; margin-top: 2px; letter-spacing: 0.1px; }
+  .kpi-change { font-size: 11px; font-weight: 500; }
+  .kpi-change.up { color: #059669; }
+  .kpi-change.down { color: #dc2626; }
+
+  /* Badges */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 999px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1px;
+    white-space: nowrap; line-height: 1.6;
+  }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .badge-online   { background: #d1fae5; color: #059669; }
+  .badge-online .badge-dot { background: #059669; }
+  .badge-charging { background: #dbeafe; color: #1a56db; }
+  .badge-charging .badge-dot { background: #1a56db; animation: pulse 1.5s ease-in-out infinite; }
+  .badge-offline  { background: #f1f5f9; color: #94a3b8; }
+  .badge-offline .badge-dot { background: #94a3b8; }
+  .badge-fault    { background: #fee2e2; color: #dc2626; }
+  .badge-fault .badge-dot { background: #dc2626; }
+  .badge-warning  { background: #fef3c7; color: #d97706; }
+  .badge-warning .badge-dot { background: #d97706; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* Alert rows */
+  .alert-row {
+    padding: 12px; border-radius: 8px; margin-bottom: 8px;
+    font-size: 13px; display: flex; align-items: flex-start; gap: 10px;
+    border-left: 3px solid;
+    transition: box-shadow 0.2s ease;
+  }
+  .alert-row:hover { box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .alert-warn    { background: #fffbeb; border-left-color: #d97706; }
+  .alert-critical{ background: #fef2f2; border-left-color: #dc2626; }
+  .alert-info    { background: #eff6ff; border-left-color: #1a56db; }
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Charger grid */
+  .charger-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .charger-cell {
+    border-radius: 10px; padding: 10px 6px; text-align: center;
+    font-size: 11px; transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer; border: 1px solid;
+  }
+  .charger-cell:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.08); }
+  .charger-cell .name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 3px; letter-spacing: -0.2px; }
+  .charger-cell .status { font-size: 10px; font-weight: 500; }
+  .charger-cell.online   { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+  .charger-cell.charging { background: #eff6ff; border-color: #93c5fd; color: #1e40af; }
+  .charger-cell.offline  { background: #f8fafc; border-color: #e2e8f0; color: #94a3b8; }
+
+  /* Progress bar */
+  .progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: #1a56db; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  /* Table */
+  table.recon { width: 100%; font-size: 12.5px; border-collapse: collapse; }
+  table.recon thead th {
+    text-align: left; color: #94a3b8; font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 8px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  table.recon td { padding: 8px 8px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  table.recon tr:last-child td { border-bottom: none; }
+  table.recon tr:hover td { background: #f8fafc; }
+  table.recon .match    { color: #059669; font-weight: 600; }
+  table.recon .mismatch { color: #dc2626; font-weight: 600; }
+  table.recon .pending  { color: #d97706; font-weight: 600; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none; transition: all 0.15s ease;
+    letter-spacing: 0.1px; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: #1a56db; color: white; box-shadow: 0 1px 2px rgba(26,86,219,0.3); }
+  .btn-primary:hover { background: #1e40af; box-shadow: 0 2px 6px rgba(26,86,219,0.35); }
+  .btn-outline {
+    background: white; border: 1px solid #cbd5e1; color: #334155;
+  }
+  .btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+  .btn-sm { font-size: 11px; padding: 6px 12px; border-radius: 6px; }
+  .btn-xs { font-size: 10px; padding: 4px 8px; border-radius: 5px; }
+  .btn-full { width: 100%; }
+  .btn-danger { background: #dc2626; color: white; }
+  .btn-danger:hover { background: #b91c1c; }
+
+  /* Tenant avatar */
+  .tenant-avatar {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: white; flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .tenant-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 0; border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s ease;
+  }
+  .tenant-row:hover { background: #f8fafc; margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 8px; }
+
+  /* Pricing rows */
+  .pricing-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 0; border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s ease;
+  }
+  .pricing-row:last-child { border-bottom: none; }
+  .pricing-row .rate { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; color: #1a56db; }
+
+  /* Link box */
+  .link-box {
+    background: #eff6ff; border: 1px dashed #93c5fd; border-radius: 8px;
+    padding: 11px 14px; font-size: 12px; word-break: break-all;
+    color: #1a56db; margin-top: 8px; cursor: pointer; user-select: all;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    transition: background 0.15s ease;
+  }
+  .link-box:hover { background: #dbeafe; }
+
+  /* Split bar */
+  .split-bar { display: flex; height: 36px; border-radius: 8px; overflow: hidden; margin: 10px 0; }
+  .split-owner {
+    background: linear-gradient(135deg, #1a56db, #2563eb);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.2px;
+  }
+  .split-platform {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.2px;
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.88); backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-top: 1px solid #e2e8f0;
+    display: flex; z-index: 50;
+    padding: 4px 0 env(safe-area-inset-bottom, 8px);
+    box-shadow: 0 -1px 3px 0 rgba(0,0,0,0.04), 0 -2px 6px -1px rgba(0,0,0,0.02);
+  }
+  @media (min-width: 768px) {
+    .tab-bar { left: 50%; right: auto; transform: translateX(-50%); width: 414px; }
+  }
+  .tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6px 2px 4px; color: #94a3b8; font-size: 10px; font-weight: 500;
+    cursor: pointer; transition: color 0.2s ease; border: none; background: none;
+    gap: 3px; position: relative; letter-spacing: 0.2px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tab.active { color: #1a56db; }
+  .tab.active::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 24px; height: 2.5px; background: #1a56db; border-radius: 0 0 3px 3px;
+  }
+  .tab svg { width: 22px; height: 22px; transition: transform 0.15s ease; }
+  .tab:active svg { transform: scale(0.9); }
+
+  /* Toast */
+  .toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; }
+  .toast {
+    background: #0f172a; color: white; padding: 11px 20px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1px;
+    opacity: 0; transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.success { background: #059669; }
+
+  /* Skeleton loading */
+  .skeleton { background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; border-radius: 6px; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* Toggle switch */
+  .toggle-track {
+    width: 44px; height: 24px; border-radius: 12px;
+    background: #cbd5e1; position: relative; cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .toggle-track.active { background: #1a56db; }
+  .toggle-thumb {
+    width: 20px; height: 20px; border-radius: 50%; background: white;
+    position: absolute; top: 2px; left: 2px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .toggle-track.active .toggle-thumb { transform: translateX(20px); }
+
+  /* Modal bottom sheet */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(15,23,42,0.5);
+    z-index: 60; display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
+  .modal-sheet {
+    background: white; border-radius: 16px 16px 0 0;
+    width: 100%; max-width: 480px; padding: 24px 20px 36px;
+    max-height: 85vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .modal-overlay.show .modal-sheet { transform: translateY(0); }
+
+  /* Divider */
+  .divider { height: 1px; background: #e2e8f0; margin: 12px 0; }
+
+  /* Utility */
+  .text-mono { font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace; font-size: 12px; }
+  .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .gap-6 { gap: 6px; }
+  .gap-8 { gap: 8px; }
+  .gap-10 { gap: 10px; }
+  .gap-12 { gap: 12px; }
+  .mt-0 { margin-top: 0; }
+  .mt-12 { margin-top: 12px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .w-full { width: 100%; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 0px; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast-container"><div class="toast" id="toast"><span>✓</span><span id="toast-msg">已複製連結</span></div></div>
+
+<!-- Modal overlay for bottom sheets -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal-sheet" id="modal-sheet" onclick="event.stopPropagation()"></div>
+</div>
+
+<div class="app-container">
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div>
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <span>Never Full Studio</span>
+    </div>
+    <div class="location">九龍灣工業中心 · 業主管理平台</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <!-- Dark mode toggle -->
+    <div class="toggle-track" id="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-thumb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 1: 概覽 (DASHBOARD) ===== -->
+<div id="scr-dash" class="screen active">
+
+  <!-- KPI cards -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+    <div class="card card-interactive" style="padding:14px 16px;">
+      <div class="kpi-label">本月收入</div>
+      <div class="kpi-value" style="color:#059669" id="kpi-revenue">HK$0</div>
+      <div class="kpi-change up">↑ 12% vs 上月</div>
+    </div>
+    <div class="card card-interactive" style="padding:14px 16px;">
+      <div class="kpi-label">待結算</div>
+      <div class="kpi-value" style="color:#d97706" id="kpi-pending">HK$0</div>
+      <div class="kpi-change" style="color:#d97706">3 筆待處理</div>
+    </div>
+  </div>
+
+  <!-- Utilization -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>本月稼動率</div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+      <span style="font-size:22px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:-0.3px;" id="util-pct">0%</span>
+      <span style="font-size:11px;color:#64748b;">8 個充電樁 · <span id="util-sessions">1,284</span> 次充電</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="util-bar" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;color:#94a3b8;">
+      <span>B1-01 最繁忙 (94%)</span><span>G-04 最少用 (12%)</span>
+    </div>
+  </div>
+
+  <!-- Live Charger Grid -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>即時狀態</div>
+    <div class="charger-grid" id="charger-grid">
+      <div class="charger-cell charging" onclick="showChargerDetail('B1-01')"><div class="name">B1-01</div><div class="status">充電中</div></div>
+      <div class="charger-cell online" onclick="showChargerDetail('B1-02')"><div class="name">B1-02</div><div class="status">在線</div></div>
+      <div class="charger-cell charging" onclick="showChargerDetail('G-01')"><div class="name">G-01</div><div class="status">充電中</div></div>
+      <div class="charger-cell online" onclick="showChargerDetail('G-02')"><div class="name">G-02</div><div class="status">在線</div></div>
+      <div class="charger-cell online" onclick="showChargerDetail('G-03')"><div class="name">G-03</div><div class="status">在線</div></div>
+      <div class="charger-cell offline" onclick="showChargerDetail('G-04')"><div class="name">G-04</div><div class="status">離線</div></div>
+      <div class="charger-cell charging" onclick="showChargerDetail('P1-01')"><div class="name">P1-01</div><div class="status">充電中</div></div>
+      <div class="charger-cell online" onclick="showChargerDetail('P1-02')"><div class="name">P1-02</div><div class="status">在線</div></div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>關鍵警報</div>
+    <div class="alert-row alert-warn" onclick="switchScreenDirect('scr-chargers')">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <div style="font-weight:600;font-size:13px;">G-04 離線超過 2 小時</div>
+        <div style="font-size:11px;color:#64748b;margin-top:2px;">最後通訊：14:22 · 可能需要現場檢查</div>
+      </div>
+    </div>
+    <div class="alert-row alert-info">
+      <span class="alert-icon">ℹ️</span>
+      <div>
+        <div style="font-weight:600;font-size:13px;">支付閘口延遲</div>
+        <div style="font-size:11px;color:#64748b;margin-top:2px;">Stripe API 回應時間升至 2.3s（正常 &lt;1s）</div>
+      </div>
+    </div>
+    <div class="alert-row alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <div style="font-weight:600;font-size:13px;">B1-01 充電逾 6 小時</div>
+        <div style="font-size:11px;color:#64748b;margin-top:2px;">車牌 AB-1234 · 可能長時間佔用</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skeleton loading cards (hidden by default) -->
+  <div id="skeleton-dash" style="display:none;">
+    <div class="card"><div class="skeleton" style="height:60px;width:100%;margin-bottom:8px;"></div></div>
+    <div class="card"><div class="skeleton" style="height:80px;width:100%;margin-bottom:8px;"></div></div>
+    <div class="card"><div class="skeleton" style="height:120px;width:100%;"></div></div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 2: 充電樁 (CHARGERS) ===== -->
+<div id="scr-chargers" class="screen">
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>充電樁總覽</div>
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+      <span class="badge badge-charging"><span class="badge-dot"></span>3 充電中</span>
+      <span class="badge badge-online"><span class="badge-dot"></span>4 在線</span>
+      <span class="badge badge-offline"><span class="badge-dot"></span>1 離線</span>
+    </div>
+
+    <!-- B1-01 -->
+    <div class="card" style="box-shadow:none;border:1px solid #e2e8f0;margin-bottom:8px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:700;font-size:14px;font-family:'Inter',sans-serif;">B1-01</span>
+            <span class="badge badge-charging"><span class="badge-dot"></span>充電中</span>
+          </div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">地庫一樓 · 物流區</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:#64748b;margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;">
+        <span>⚡ 35.2 kWh</span><span>💰 HK$176.00</span><span>⏱ 4h 22m</span>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:6px;">
+        <button class="btn btn-outline btn-sm" onclick="showToastMsg('已發送遠程重啟指令')">🔄 遠程重啟</button>
+        <button class="btn btn-danger btn-sm" onclick="showToastMsg('已停止充電')">⏹ 停止充電</button>
+      </div>
+    </div>
+
+    <!-- G-04 -->
+    <div class="card" style="box-shadow:none;border:1px solid #e2e8f0;margin-bottom:8px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:700;font-size:14px;font-family:'Inter',sans-serif;">G-04</span>
+            <span class="badge badge-offline"><span class="badge-dot"></span>離線</span>
+          </div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">地下 · 訪客區</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:#dc2626;margin-top:10px;">最後通訊：14:22 · 離線 2h 15m · 可能電源故障</div>
+      <div style="margin-top:10px;">
+        <button class="btn btn-primary btn-sm" onclick="showToastMsg('維修單已建立')">📋 建立維修單</button>
+      </div>
+    </div>
+
+    <!-- G-01 -->
+    <div class="card" style="box-shadow:none;border:1px solid #e2e8f0;margin-bottom:8px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:700;font-size:14px;font-family:'Inter',sans-serif;">G-01</span>
+            <span class="badge badge-charging"><span class="badge-dot"></span>充電中</span>
+          </div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">地下 · 公眾區</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:#64748b;margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;">
+        <span>⚡ 12.8 kWh</span><span>💰 HK$64.00</span><span>⏱ 1h 08m</span><span>🏷 RFID_WH_001</span>
+      </div>
+    </div>
+
+    <!-- P1-01 -->
+    <div class="card" style="box-shadow:none;border:1px solid #e2e8f0;margin-bottom:8px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:700;font-size:14px;font-family:'Inter',sans-serif;">P1-01</span>
+            <span class="badge badge-charging"><span class="badge-dot"></span>充電中</span>
+          </div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px;">停車場一樓 · 公眾區</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:#64748b;margin-top:10px;display:flex;flex-wrap:wrap;gap:12px;">
+        <span>⚡ 8.1 kWh</span><span>💰 HK$40.50</span><span>⏱ 0h 42m</span><span>🏷 公眾用戶</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 3: 財務 (FINANCE) ===== -->
+<div id="scr-finance" class="screen">
+  <!-- Summary KPI -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>財務對帳 · 2026年6月</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;text-align:center;">
+      <div><div class="kpi-value" style="font-size:20px;color:#059669;">HK$12,450</div><div class="kpi-label">已結算</div></div>
+      <div><div class="kpi-value" style="font-size:20px;color:#d97706;">HK$2,180</div><div class="kpi-label">待結算</div></div>
+      <div><div class="kpi-value" style="font-size:20px;color:#dc2626;">HK$340</div><div class="kpi-label">異常</div></div>
+    </div>
+
+    <!-- Reconciliation table -->
+    <table class="recon">
+      <thead><tr><th>日期</th><th>充電樁</th><th>OCPP</th><th>Stripe</th><th>狀態</th></tr></thead>
+      <tbody>
+        <tr><td>06/14</td><td>B1-01</td><td>35.2 kWh</td><td>HK$176.00</td><td class="match">✓ 對齊</td></tr>
+        <tr><td>06/14</td><td>G-01</td><td>12.8 kWh</td><td>HK$64.00</td><td class="match">✓ 對齊</td></tr>
+        <tr><td>06/13</td><td>P1-02</td><td>18.4 kWh</td><td>HK$92.00</td><td class="match">✓ 對齊</td></tr>
+        <tr><td>06/13</td><td>B1-02</td><td>6.8 kWh</td><td>—</td><td class="mismatch">✗ 未付款</td></tr>
+        <tr><td>06/12</td><td>G-02</td><td>22.1 kWh</td><td>HK$110.50</td><td class="match">✓ 對齊</td></tr>
+        <tr><td>06/12</td><td>G-03</td><td>15.0 kWh</td><td>HK$68.71</td><td class="mismatch">✗ 金額不符</td></tr>
+      </tbody>
+    </table>
+
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn btn-primary btn-sm" style="flex:1;" onclick="showToastMsg('CSV 月結單已開始下載')">📥 匯出 CSV</button>
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="showToastMsg('PDF 報表已開始生成')">📄 PDF 報表</button>
+    </div>
+  </div>
+
+  <!-- Per-Tenant billing -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>各租戶用量 · 6月</div>
+    <table class="recon">
+      <thead><tr><th>租戶</th><th>充電次數</th><th>總用電</th><th>費用</th><th>狀態</th></tr></thead>
+      <tbody>
+        <tr><td>物流公司</td><td>486</td><td>2,140 kWh</td><td>HK$5,350</td><td class="match">✓ 已結算</td></tr>
+        <tr><td>倉庫中心</td><td>312</td><td>1,458 kWh</td><td>HK$3,645</td><td class="match">✓ 已結算</td></tr>
+        <tr><td>寫字樓</td><td>198</td><td>892 kWh</td><td>HK$4,460</td><td class="match">✓ 已結算</td></tr>
+        <tr><td>公眾訪客</td><td>288</td><td>980 kWh</td><td>HK$5,880</td><td class="pending">⏳ 待收款</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== SCREEN 4: 租戶 (TENANTS) ===== -->
+<div id="scr-tenants" class="screen">
+
+  <!-- Registration Portal -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>租戶自註冊門戶</div>
+    <div style="font-size:12.5px;color:#64748b;margin-bottom:12px;line-height:1.6;">
+      將以下連結發送給各租戶單位，他們可自行登記 RFID 卡號，無需物管人手處理。
+    </div>
+
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:11px;font-weight:600;color:#059669;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">公開註冊連結</div>
+      <div class="link-box" onclick="copyLink('https://neverfull.studio/r/kowloon-bay-industrial')">
+        https://neverfull.studio/r/kowloon-bay-industrial
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:8px;">
+        有效期：永久 · 已登記：<b>4 個租戶</b> · 最後註冊：2026-06-12
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="copyLink('https://neverfull.studio/r/kowloon-bay-industrial')">📋 複製連結</button>
+      <button class="btn btn-outline btn-sm" style="flex:1;" onclick="showToastMsg('已重新產生連結')">🔄 重新產生</button>
+    </div>
+  </div>
+
+  <!-- Registered Tenants -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>已登記租戶</div>
+
+    <div class="tenant-row" onclick="showTenantBilling('物流公司')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="tenant-avatar" style="background:linear-gradient(135deg,#1a56db,#3b82f6);">物</div>
+        <div>
+          <div style="font-weight:600;font-size:13.5px;">物流公司</div>
+          <div style="font-size:10.5px;color:#64748b;">單位 B1–B3 · 12 張 RFID 卡</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="badge badge-charging">特惠價 HK$2.50</span>
+        <span style="color:#94a3b8;font-size:14px;">›</span>
+      </div>
+    </div>
+
+    <div class="tenant-row" onclick="showTenantBilling('倉庫中心')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="tenant-avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b);">倉</div>
+        <div>
+          <div style="font-weight:600;font-size:13.5px;">倉庫中心</div>
+          <div style="font-size:10.5px;color:#64748b;">單位 G1–G4 · 8 張 RFID 卡</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="badge badge-charging">特惠價 HK$2.50</span>
+        <span style="color:#94a3b8;font-size:14px;">›</span>
+      </div>
+    </div>
+
+    <div class="tenant-row" onclick="showTenantBilling('寫字樓')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="tenant-avatar" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6);">寫</div>
+        <div>
+          <div style="font-weight:600;font-size:13.5px;">寫字樓</div>
+          <div style="font-size:10.5px;color:#64748b;">5–8 樓 · 6 張 RFID 卡</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="badge badge-online">標準價 HK$5.00</span>
+        <span style="color:#94a3b8;font-size:14px;">›</span>
+      </div>
+    </div>
+
+    <div class="tenant-row" style="border:none;cursor:pointer;" onclick="showToastMsg('新增租戶功能即將推出')">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="tenant-avatar" style="background:#e2e8f0;color:#94a3b8;">＋</div>
+        <div style="color:#94a3b8;font-size:13px;">新增租戶單位</div>
+      </div>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Billing Preview (物流公司) -->
+  <div class="card" id="tenant-billing-card">
+    <div class="section-title"><span class="dot"></span>租戶帳單預覽</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:12px;">
+      以下為 <b id="billing-tenant-name">物流公司</b> 6月份自動生成的帳單摘要：
+    </div>
+    <div style="background:#f8fafc;border-radius:10px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+        <span style="color:#64748b;">充電次數</span>
+        <span style="font-weight:600;" id="billing-sessions">486</span>
+        <span style="font-size:11px;color:#64748b;">次</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+        <span style="color:#64748b;">總用電量</span>
+        <span style="font-weight:600;" id="billing-kwh">2,140</span>
+        <span style="font-size:11px;color:#64748b;">kWh</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+        <span style="color:#64748b;">費率</span>
+        <span style="font-weight:600;" id="billing-rate">HK$2.50</span>
+        <span style="font-size:11px;color:#64748b;">/kWh</span>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-weight:700;font-size:14px;">本月應收</span>
+        <span style="font-weight:700;font-size:20px;color:#1a56db;font-family:'Inter',sans-serif;" id="billing-total">HK$5,350.00</span>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm btn-full mt-12" onclick="showToastMsg('帳單 PDF 已開始下載')">📥 下載帳單 PDF</button>
+  </div>
+</div>
+
+<!-- ===== SCREEN 5: 設定 (SETTINGS) ===== -->
+<div id="scr-settings" class="screen">
+
+  <!-- Pricing -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>費率設定</div>
+    <div style="font-size:12px;color:#64748b;margin-bottom:14px;">
+      目前方案：<b>階梯費率（尖峰/離峰）</b> · 服務費率 15%
+    </div>
+
+    <div class="pricing-row">
+      <div>
+        <div style="font-size:13px;font-weight:500;">🌅 尖峰時段</div>
+        <div style="font-size:10.5px;color:#94a3b8;">週一至五 08:00–22:00</div>
+      </div>
+      <div class="rate">HK$5.00<span style="font-size:10.5px;color:#94a3b8;"> /kWh</span></div>
+    </div>
+    <div class="pricing-row">
+      <div>
+        <div style="font-size:13px;font-weight:500;">🌙 離峰時段</div>
+        <div style="font-size:10.5px;color:#94a3b8;">週一至五 22:00–08:00 · 週末全日</div>
+      </div>
+      <div class="rate">HK$3.00<span style="font-size:10.5px;color:#94a3b8;"> /kWh</span></div>
+    </div>
+    <div class="pricing-row">
+      <div>
+        <div style="font-size:13px;font-weight:500;">🏢 租戶特惠</div>
+        <div style="font-size:10.5px;color:#94a3b8;">物流公司 · 倉庫中心</div>
+      </div>
+      <div class="rate" style="color:#059669;">HK$2.50<span style="font-size:10.5px;color:#94a3b8;"> /kWh</span></div>
+    </div>
+    <div class="pricing-row">
+      <div>
+        <div style="font-size:13px;font-weight:500;">🌐 公眾標準</div>
+        <div style="font-size:10.5px;color:#94a3b8;">訪客 · 外來車輛</div>
+      </div>
+      <div class="rate">HK$6.00<span style="font-size:10.5px;color:#94a3b8;"> /kWh</span></div>
+    </div>
+    <button class="btn btn-outline btn-sm btn-full mt-12">✏️ 編輯費率方案</button>
+  </div>
+
+  <!-- Revenue Split -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>分帳配置</div>
+    <div style="font-size:12px;color:#64748b;margin-bottom:4px;">設定每筆充電收入的分配比例</div>
+
+    <div style="margin-top:14px;">
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;color:#64748b;">
+        <span>🏢 業主收款帳戶：HSBC 123-456789-001</span>
+        <span style="font-weight:700;color:#0f172a;">85%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:8px;color:#64748b;">
+        <span>🔌 Never Full Studio 平台費</span>
+        <span style="font-weight:700;color:#0f172a;">15%</span>
+      </div>
+
+      <div class="split-bar">
+        <div class="split-owner" style="width:85%;">業主 85% · HK$10,582</div>
+        <div class="split-platform" style="width:15%;">平台 15% · HK$1,868</div>
+      </div>
+    </div>
+
+    <!-- Per-payment method split -->
+    <div style="margin-top:16px;">
+      <div style="font-size:11.5px;font-weight:600;color:#334155;margin-bottom:8px;">各支付方式分帳</div>
+      <table class="recon">
+        <thead><tr><th>支付方式</th><th>業主</th><th>平台</th></tr></thead>
+        <tbody>
+          <tr><td>租戶 RFID</td><td>90%</td><td>10%</td></tr>
+          <tr><td>公眾 Octopus</td><td>80%</td><td>20%</td></tr>
+          <tr><td>公眾信用卡</td><td>82%</td><td>18%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn btn-outline btn-sm btn-full mt-12">✏️ 修改分帳比例</button>
+  </div>
+
+  <!-- RFID Whitelist -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>RFID 白名單</div>
+    <table class="recon">
+      <thead><tr><th>卡號</th><th>所屬租戶</th><th>權限</th></tr></thead>
+      <tbody>
+        <tr><td><span class="text-mono">RFID_LOG_001</span></td><td>物流公司</td><td><span class="badge badge-charging">特惠價</span></td></tr>
+        <tr><td><span class="text-mono">RFID_LOG_002</span></td><td>物流公司</td><td><span class="badge badge-charging">特惠價</span></td></tr>
+        <tr><td><span class="text-mono">RFID_WH_001</span></td><td>倉庫中心</td><td><span class="badge badge-charging">特惠價</span></td></tr>
+        <tr><td><span class="text-mono">RFID_OF_001</span></td><td>寫字樓</td><td><span class="badge badge-online">標準價</span></td></tr>
+      </tbody>
+    </table>
+    <button class="btn btn-outline btn-sm btn-full mt-12">➕ 新增 RFID 卡</button>
+  </div>
+
+  <!-- Audit Trail -->
+  <div class="card">
+    <div class="section-title"><span class="dot"></span>操作記錄</div>
+    <table class="recon">
+      <thead><tr><th>時間</th><th>操作</th><th>操作人</th></tr></thead>
+      <tbody>
+        <tr><td>06/14 14:30</td><td>修改尖峰費率：HK$4.80 → HK$5.00</td><td>陳經理</td></tr>
+        <tr><td>06/14 09:15</td><td>遠程重啟 G-04 充電樁</td><td>陳經理</td></tr>
+        <tr><td>06/13 16:42</td><td>新增 RFID：RFID_OF_001 (寫字樓)</td><td>李小姐</td></tr>
+        <tr><td>06/12 11:00</td><td>匯出 5 月份對帳報表</td><td>陳經理</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== TAB BAR ===== -->
+<div class="tab-bar">
+  <button class="tab active" onclick="switchScreen('scr-dash',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+      <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    </svg>
+    概覽
+  </button>
+  <button class="tab" onclick="switchScreen('scr-chargers',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 4h10l2 6H5l2-6z"/>
+      <rect x="3" y="10" width="18" height="8" rx="1.5"/>
+      <line x1="12" y1="14" x2="12" y2="18"/>
+      <circle cx="12" cy="14" r="1" fill="currentColor"/>
+    </svg>
+    充電樁
+  </button>
+  <button class="tab" onclick="switchScreen('scr-finance',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+      <line x1="8" y1="14" x2="8" y2="18"/>
+      <line x1="12" y1="14" x2="12" y2="18"/>
+      <line x1="16" y1="14" x2="16" y2="18"/>
+    </svg>
+    財務
+  </button>
+  <button class="tab" onclick="switchScreen('scr-tenants',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="7" r="3"/>
+      <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+      <circle cx="17" cy="7" r="2"/>
+      <path d="M14 21v-1a3 3 0 013-3h1"/>
+    </svg>
+    租戶
+  </button>
+  <button class="tab" onclick="switchScreen('scr-settings',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    設定
+  </button>
+</div>
+
+</div><!-- .app-container -->
+
+<script>
+// ===== Screen switching =====
+function switchScreen(id, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  // Animate progress bars when dashboard loads
+  if (id === 'scr-dash') {
+    setTimeout(animateDashboard, 100);
+  }
+}
+
+function switchScreenDirect(id) {
+  const tabBtns = document.querySelectorAll('.tab');
+  const screenMap = { 'scr-dash':0, 'scr-chargers':1, 'scr-finance':2, 'scr-tenants':3, 'scr-settings':4 };
+  const idx = screenMap[id];
+  if (idx !== undefined && tabBtns[idx]) {
+    switchScreen(id, tabBtns[idx]);
+  }
+}
+
+// ===== Toast =====
+function showToast() {
+  showToastMsg('已複製註冊連結');
+}
+
+function showToastMsg(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ===== Copy link =====
+function copyLink(text) {
+  navigator.clipboard.writeText(text).then(() => showToast());
+}
+
+// ===== Modal (bottom sheet) =====
+function showModal(content) {
+  document.getElementById('modal-sheet').innerHTML = content;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+function showChargerDetail(name) {
+  const details = {
+    'B1-01': '<div style="font-size:15px;font-weight:700;margin-bottom:12px;">充電樁 B1-01</div><div style="font-size:13px;color:#64748b;">地庫一樓 · 物流區</div><div style="margin-top:12px;display:flex;gap:16px;"><div><span class="badge badge-charging"><span class="badge-dot"></span>充電中</span></div><div style="font-size:12px;color:#64748b;">35.2 kWh · HK$176.00</div></div>',
+    'G-04': '<div style="font-size:15px;font-weight:700;margin-bottom:12px;">充電樁 G-04</div><div style="font-size:13px;color:#64748b;">地下 · 訪客區</div><div style="margin-top:12px;"><span class="badge badge-offline"><span class="badge-dot"></span>離線</span><div style="font-size:12px;color:#dc2626;margin-top:8px;">離線 2h 15m · 可能需要現場檢查</div></div><button class="btn btn-primary btn-sm btn-full mt-12" onclick="closeModal();showToastMsg('維修單已建立')">📋 建立維修單</button>',
+  };
+  const content = details[name] || ('<div style="font-size:15px;font-weight:700;margin-bottom:12px;">充電樁 '+name+'</div><div style="font-size:13px;color:#64748b;">狀態正常</div>');
+  showModal(content);
+}
+
+// ===== Tenant billing =====
+function showTenantBilling(name) {
+  const data = {
+    '物流公司': { sessions: '486', kwh: '2,140', rate: 'HK$2.50', total: 'HK$5,350.00' },
+    '倉庫中心': { sessions: '312', kwh: '1,458', rate: 'HK$2.50', total: 'HK$3,645.00' },
+    '寫字樓':   { sessions: '198', kwh: '892',   rate: 'HK$5.00', total: 'HK$4,460.00' },
+  };
+  const d = data[name];
+  if (!d) return;
+  document.getElementById('billing-tenant-name').textContent = name;
+  document.getElementById('billing-sessions').textContent = d.sessions;
+  document.getElementById('billing-kwh').textContent = d.kwh;
+  document.getElementById('billing-rate').textContent = d.rate;
+  document.getElementById('billing-total').textContent = d.total;
+
+  // Pulse animation on the card
+  const card = document.getElementById('tenant-billing-card');
+  card.style.boxShadow = '0 0 0 3px rgba(26,86,219,0.2)';
+  card.style.borderColor = '#1a56db';
+  setTimeout(() => {
+    card.style.boxShadow = '0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.03)';
+    card.style.borderColor = '#e2e8f0';
+  }, 1200);
+
+  // Scroll to the billing card
+  document.getElementById('tenant-billing-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ===== Animate dashboard numbers =====
+function animateDashboard() {
+  animateNumber('kpi-revenue', 12450, 'HK$', '', 1200);
+  animateNumber('kpi-pending', 2180, 'HK$', '', 1000);
+
+  setTimeout(() => {
+    document.getElementById('util-bar').style.width = '73%';
+    animatePercentage('util-pct', 73, 1000);
+  }, 400);
+}
+
+function animateNumber(elId, target, prefix, suffix, duration) {
+  const el = document.getElementById(elId);
+  const start = performance.now();
+  function step(ts) {
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(eased * target);
+    el.textContent = prefix + val.toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function animatePercentage(elId, target, duration) {
+  const el = document.getElementById(elId);
+  const start = performance.now();
+  function step(ts) {
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target) + '%';
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ===== Dark mode toggle =====
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  const toggle = document.getElementById('theme-toggle');
+  toggle.classList.toggle('active');
+  localStorage.setItem('nf-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+}
+
+// Load saved theme
+(function() {
+  if (localStorage.getItem('nf-theme') === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('theme-toggle').classList.add('active');
+  }
+})();
+
+// ===== Live charger meter updates =====
+setInterval(() => {
+  const cells = document.querySelectorAll('#charger-grid .charger-cell.charging');
+  if (cells.length > 0) {
+    const c = cells[Math.floor(Math.random() * cells.length)];
+    const statusEl = c.querySelector('.status');
+    // Subtle pulse instead of text change
+    c.style.transform = 'scale(1.03)';
+    setTimeout(() => { c.style.transform = ''; }, 300);
+  }
+}, 8000);
+
+// ===== Initial animation on load =====
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(animateDashboard, 200);
+});
+</script>
+
+</body>
+</html>
