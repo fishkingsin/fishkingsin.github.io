@@ -386,46 +386,6 @@
     margin-top: 0.2rem;
   }
 
-  /* James tips */
-  .james-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--amber);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem 1.5rem;
-    margin: 2rem 0;
-  }
-
-  .james-box .label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--amber);
-    letter-spacing: 0.08em;
-    margin-bottom: 0.4rem;
-  }
-
-  .james-box p {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-
-  .james-box blockquote {
-    margin-top: 0.75rem;
-    padding: 0.75rem 1rem;
-    background: var(--amber-light);
-    border-radius: 8px;
-    font-size: 0.88rem;
-    color: var(--text);
-    line-height: 1.7;
-    font-style: normal;
-    border: none;
-  }
-
-  .james-box blockquote::before {
-    content: '💡 ';
-  }
-
   /* Footer */
   .footer {
     text-align: center;
@@ -478,7 +438,7 @@
   <div class="section">
     <div class="section-title">
       <span class="numeral" style="background:#fef0e6;color:#d9773e;">1</span>
-      無痛開機：3 分鐘設定你的「專屬 AI 助手」
+      無痛開機：3 分鐘上手　·　已安裝可直接跳 2:30
     </div>
 
     <div class="module module-1">
@@ -489,13 +449,16 @@
             <span class="module-label">單元一</span>
             <span class="module-duration">~3 min</span>
           </div>
-          <h3>下載即用，免去所有複雜安裝，讓 AI 開始認識你與你的家庭。</h3>
+          <h3>已用緊？直接跳去下一課。由零開始？我帶你行一次。</h3>
         </div>
+      </div>
+      <div style="margin-bottom:0.8rem;padding:0.5rem 0.8rem;background:#fef0e6;border-radius:8px;font-size:0.82rem;color:#b85a28;">
+        ⚡ <strong>快跳版：</strong>已安裝 Gemini 嘅話可以直接跳去 <strong>2:30</strong>（單元二），唔使等。
       </div>
       <ul class="module-items">
         <li>
           1.1 手機 / 電腦即裝即用
-          <span class="item-note">手把手教你下載與開啟 ChatGPT / Gemini，絕不涉及任何程式碼或複雜 API。</span>
+          <span class="item-note">手把手教你下載與開啟 Gemini，絕不涉及任何程式碼或複雜 API。</span>
         </li>
         <li>
           1.2 設定「個人偏好」
@@ -534,7 +497,7 @@
 
     <div class="section-title">
       <span class="numeral" style="background:#fce4ec;color:#c62828;">3</span>
-      家長神器：阿女 DSE 重點拆解與 Study Plan 😈
+      家長神器：阿女 DSE 重點拆解 × 實戰策略 🔥
     </div>
 
     <div class="module module-3">
@@ -545,23 +508,66 @@
             <span class="module-label">單元三</span>
             <span class="module-duration">~10 min</span>
           </div>
-          <h3>化身神級「家長神隊友」，用 AI 幫女兒備考倒數、輕鬆減壓。</h3>
+          <h3>唔係靠噏 — 呢課用真實 DSE 數據，教你用 AI 幫女兒精準備戰。</h3>
         </div>
       </div>
+
+      <!-- DSE 2026 速報 -->
+      <div style="margin-bottom:1rem;padding:0.7rem 1rem;background:#fce4ec;border-radius:10px;border:1px solid rgba(198,40,40,0.15);">
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem 1.2rem;font-size:0.78rem;">
+          <span>📅 <strong>筆試開考：</strong>2026年4月8日</span>
+          <span>👥 <strong>考生：</strong>58,576人（+5%）</span>
+          <span>🎯 <strong>大學門檻：</strong>332A（中英3 · 數2 · 公社達標）</span>
+          <span>🔥 <strong>最多人揀選修：</strong>化學 16,484 · 生物 16,398 · 經濟 14,372</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;">
+        <div style="background:#ffeef0;border-radius:10px;padding:0.8rem 1rem;font-size:0.82rem;">
+          <strong style="color:#c62828;">📖 中文科 4 卷攻略</strong><br>
+          <span style="color:#666;">卷一閱讀：文言文 200+ 詞庫<br>卷二寫作：3 個百搭框架<br>卷三聆聽綜合：格式係關鍵<br>卷四說話：時事例子庫</span>
+        </div>
+        <div style="background:#e8f5e9;border-radius:10px;padding:0.8rem 1rem;font-size:0.82rem;">
+          <strong style="color:#2e7d32;">📘 英文科 4 卷攻略</strong><br>
+          <span style="color:#666;">卷一閱讀：每日英文新聞<br>卷二寫作：10 分鐘擬大綱<br>卷三聆聽綜合：Part B 先睇資料<br>卷四說話：積極聆聽技巧</span>
+        </div>
+      </div>
+
       <ul class="module-items">
         <li>
-          3.1 拆解 DSE 科目高頻考點
-          <span class="item-note">把 DSE 某科（如 Chem、Bio、英文）的考核重點輸入，AI 秒出「必考高頻題目與 3 大常見陷阱」。</span>
+          3.1 核心科高頻考點拆解
+          <span class="item-note">叫 AI 分析 2020-2025 Past Paper，搵出中文、英文、數學嘅 <strong>最高頻考點 + 常見陷阱</strong>。唔使盲溫，對住靶心射。</span>
         </li>
         <li>
-          3.2 量身訂造「倒數溫習 Timetable」
-          <span class="item-note">根據女兒的強弱項與每日空檔，一鍵生成包含「溫習 + 做 Past Paper + 復盤」的時間塊計劃表。</span>
+          3.2 選修科精準定位（Chem / Bio / Econ / Phy）
+          <span class="item-note">根據 HKEAA 2026 報考數據（Chem 16,484人、Bio 16,398人），叫 AI 按你女兒揀嘅科出 <strong>比重分析 + 課題攻略</strong>。</span>
         </li>
         <li>
-          3.3 秒變出題名師
-          <span class="item-note">叫 AI 針對指定 Topic 出 5 條模擬題連詳細解答，隨時幫女兒測驗驗收。</span>
+          3.3 一鍵生成「倒數溫習 Timetable」（6個月/3個月/1個月）
+          <span class="item-note">輸入女兒嘅強弱項 + 每日空檔（如逢二四補習、週六做運動），AI 自動排出包含 <strong>溫習→Past Paper→復盤→休息</strong> 嘅時間塊計劃。</span>
+        </li>
+        <li>
+          3.4 出模擬題 + Marking Scheme
+          <span class="item-note">針對特定 Topic 出 5-8 條擬真模擬題，連 <strong>詳細解答 + 評分準則</strong>。仲可以叫 AI 模擬批改，話你知邊度扣分最多。</span>
+        </li>
+        <li>
+          3.5 驗證方法 — 唔怕 AI 亂作
+          <span class="item-note">教家長點樣 <strong>double check AI 答案</strong>：叫 AI 標註參考來源、要求引用 Marking Scheme 年份、將 AI 答案同 Past Paper 比對。<br>⚠️ 呢 part 係家長最安心嘅環節。</span>
         </li>
       </ul>
+
+      <!-- DSE 常見失分 -->
+      <div style="margin-top:1rem;padding:0.8rem 1rem;background:#fff8e1;border-radius:10px;border:1px solid rgba(255,193,7,0.3);font-size:0.82rem;">
+        <strong>⚠️ DSE 6 大失分陷阱 — AI 幫你避開</strong>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;margin-top:0.3rem;color:#666;">
+          <span>① 忽略考試技巧 → AI 教你答題框架</span>
+          <span>② 溫習太分散 → AI 分析高頻課題</span>
+          <span>③ 忽視聆聽綜合卷 → AI 特訓</span>
+          <span>④ 起步太遲 → AI 倒數時間表</span>
+          <span>⑤ 唔檢討錯誤 → AI 幫你出錯題本</span>
+          <span>⑥ 忽略身心健康 → AI 計埋作息時間</span>
+        </div>
+      </div>
     </div>
 
     <div class="section-title">
@@ -651,15 +657,6 @@
           <div class="prompt-desc">Voice Note 一錄，AI 自動化為待辦清單</div>
         </div>
       </div>
-    </div>
-
-    <!-- James Tips -->
-    <div class="james-box">
-      <div class="label">💡 占士（James）的課程優化建議</div>
-      <p>這個重新編排的大綱直接命中學員的 <strong>真實生活場景</strong>（特別是 <strong>「阿女 DSE」</strong> 這個極具吸引力的剛需賣點）。</p>
-      <blockquote>
-        不用學寫 Code、不用搞複雜設定！這門課教你用手機影相、說話，35 分鐘內把飲食、旅行、日常雜務，甚至阿女的 DSE 溫習計畫統統交給 AI！
-      </blockquote>
     </div>
 
   </div>
