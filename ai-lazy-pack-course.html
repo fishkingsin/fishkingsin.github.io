@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 分鐘 AI 懶人包・資料搜集與自動總結實戰班</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+HK:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans HK', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+      background: #0c0c0f;
+      color: #e4e4e7;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: #a78bfa; text-decoration: none; transition: color .2s; }
+    a:hover { color: #c4b5fd; }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(139,92,246,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(59,130,246,.06) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(236,72,153,.06) 0%, transparent 50%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.015) 2px, rgba(255,255,255,.015) 4px);
+      pointer-events: none;
+    }
+    .hero .content { position: relative; z-index: 1; max-width: 820px; }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: .35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #f0f0ff 0%, #a78bfa 40%, #f472b6 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.2rem;
+    }
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: #a1a1aa;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+    .hero .subtitle strong {
+      color: #c4b5fd;
+      font-weight: 600;
+      -webkit-text-fill-color: #c4b5fd;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: .9rem 2.2rem;
+      border-radius: 60px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(124,58,237,.35);
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 32px rgba(124,58,237,.5);
+      color: #fff;
+    }
+    .hero .scroll-indicator {
+      margin-top: 3.5rem;
+      animation: bob 2s ease-in-out infinite;
+    }
+    .hero .scroll-indicator svg { opacity: .35; }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ========== PAIN POINTS ========== */
+    .pain-points {
+      max-width: 780px;
+      margin: -2rem auto 0;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .pain-points .card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 20px;
+      padding: 2rem 2.2rem;
+    }
+    .pain-points h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f472b6;
+      margin-bottom: 1.2rem;
+    }
+    .pain-points ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+    }
+    .pain-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      font-size: .95rem;
+      color: #d4d4d8;
+    }
+    .pain-points li::before {
+      content: '😫';
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+    .pain-points .solution-bridge {
+      margin-top: 1.2rem;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(124,58,237,.12), rgba(236,72,153,.08));
+      border: 1px solid rgba(124,58,237,.2);
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: .95rem;
+      color: #c4b5fd;
+      text-align: center;
+    }
+
+    /* ========== HIGHLIGHTS ========== */
+    .highlights {
+      max-width: 780px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    .highlight-card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 16px;
+      padding: 1.6rem 1.4rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .highlight-card:hover {
+      border-color: #7c3aed;
+      transform: translateY(-3px);
+    }
+    .highlight-card .icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
+    .highlight-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+      color: #e4e4e7;
+    }
+    .highlight-card p {
+      font-size: .85rem;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+
+    /* ========== SECTION COMMON ========== */
+    .section {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      margin-bottom: .5rem;
+    }
+    .section-header h2 .highlight {
+      background: linear-gradient(135deg, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-header .meta {
+      font-size: .9rem;
+      color: #71717a;
+    }
+    .section-header .meta strong { color: #a1a1aa; }
+
+    /* ========== TIMELINE ========== */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #7c3aed, #27272a);
+    }
+    .timeline-group {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 70px;
+    }
+    .timeline-group:last-child { margin-bottom: 0; }
+
+    .group-badge {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .group-badge.prep { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+    .group-badge.practice { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+    .group-badge.final { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+    .group-header {
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+      margin-bottom: 1.2rem;
+    }
+    .group-header .time {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #a78bfa;
+    }
+    .group-header h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f0f0ff;
+    }
+    .group-header .goal {
+      font-size: .85rem;
+      color: #71717a;
+    }
+
+    .units { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
+    .unit-card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      transition: border-color .2s;
+    }
+    .unit-card:hover { border-color: rgba(167,139,250,.3); }
+    .unit-card .unit-title {
+      font-weight: 700;
+      color: #e4e4e7;
+      margin-bottom: .3rem;
+      font-size: .95rem;
+    }
+    .unit-card .unit-title .num {
+      color: #a78bfa;
+      margin-right: .4rem;
+    }
+    .unit-card .unit-desc {
+      font-size: .85rem;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+
+    /* ========== GIFT BOX ========== */
+    .gift-box {
+      background: linear-gradient(135deg, rgba(124,58,237,.08), rgba(236,72,153,.06));
+      border: 1px solid rgba(124,58,237,.25);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      margin-top: 3rem;
+    }
+    .gift-box h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: 1.2rem;
+    }
+    .gift-items { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .gift-items li {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      font-size: .92rem;
+      color: #d4d4d8;
+    }
+    .gift-items li strong { color: #f0f0ff; }
+    .gift-items li .gift-icon { flex-shrink: 0; font-size: 1.2rem; }
+
+    /* ========== TARGET AUDIENCE ========== */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .audience-card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 14px;
+      padding: 1.4rem;
+      text-align: center;
+      transition: transform .2s, border-color .2s;
+    }
+    .audience-card:hover { transform: translateY(-3px); border-color: rgba(167,139,250,.3); }
+    .audience-card .emoji { font-size: 2rem; display: block; margin-bottom: .6rem; }
+    .audience-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: .3rem; }
+    .audience-card p { font-size: .82rem; color: #a1a1aa; line-height: 1.5; }
+
+    /* ========== FINAL CTA ========== */
+    .final-cta {
+      text-align: center;
+      padding: 5rem 1.5rem;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(124,58,237,.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .final-cta .content { position: relative; z-index: 1; }
+    .final-cta h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      margin-bottom: .8rem;
+    }
+    .final-cta p {
+      color: #a1a1aa;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      color: #52525b;
+      font-size: .8rem;
+      border-top: 1px solid #18181b;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 640px) {
+      .hero { min-height: 70vh; padding: 4rem 1rem 3rem; }
+      .pain-points { margin-top: -1.5rem; }
+      .pain-points .card { padding: 1.5rem; }
+      .timeline::before { left: 20px; }
+      .timeline-group { padding-left: 52px; }
+      .group-badge { width: 40px; height: 40px; font-size: 1rem; }
+      .highlights { grid-template-columns: 1fr; }
+      .gift-box { padding: 1.8rem 1.2rem; }
+      .audience-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 1.6rem; }
+      .unit-card { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="content">
+    <span class="badge">🎯 No-Code・30 分鐘速成</span>
+    <h1>🚀 30 分鐘 AI 懶人包<br>資料搜集與自動總結實戰班</h1>
+    <p class="subtitle">
+      「別再服侍 AI！教你打造一個<strong>不失憶、自動幫你幹活</strong>的 AI 數位秘書。」
+    </p>
+    <a class="hero-cta" href="#signup">
+      🎫 立即報名／索取免費預覽版
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <div class="scroll-indicator">
+      <svg width="24" height="36" viewBox="0 0 24 36" fill="none" stroke="#a1a1aa" stroke-width="2"><rect x="1" y="1" width="22" height="34" rx="11"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAIN POINTS ============ -->
+<section class="pain-points">
+  <div class="card">
+    <h2>😤 你是否也常遇到這些狀況？</h2>
+    <ul>
+      <li>每天被大量的產業新聞、PDF 報告、長文章淹沒，<strong>看到眼睛發酸</strong>？</li>
+      <li>每次用 ChatGPT / Gemini，都要重複打字教它「<strong>我是誰、我要什麼格式</strong>」？</li>
+      <li>想用 AI 提升效率，但一看到要<strong>寫 Code、搞複雜設定</strong>就想放棄？</li>
+    </ul>
+    <div class="solution-bridge">
+      ✨ 這門課就是為你量身打造的解藥！跳過所有枯燥的技術理論，用 <strong>30 分鐘</strong> 手把手帶你上手。
+    </div>
+  </div>
+</section>
+
+<!-- ============ HIGHLIGHTS ============ -->
+<section class="highlights">
+  <div class="highlight-card">
+    <span class="icon">⚡</span>
+    <h3>零門檻・無痛上手</h3>
+    <p>100% 圖形化介面，完全不需要寫任何一行程式碼（No-Code）。</p>
+  </div>
+  <div class="highlight-card">
+    <span class="icon">💰</span>
+    <h3>零額外訂閱費</h3>
+    <p>帶你連結免費 AI 大腦，告別每個月昂貴的軟體訂閱帳單。</p>
+  </div>
+  <div class="highlight-card">
+    <span class="icon">🧠</span>
+    <h3>一勞永逸的「技能記憶」</h3>
+    <p>傳統 AI 每次開新對話就失憶；你的 AI 秘書會越用越聰明，一次設定終身套用！</p>
+  </div>
+</section>
+
+<!-- ============ COURSE OUTLINE ============ -->
+<section class="section" id="outline">
+  <div class="section-header">
+    <h2>📚 課程章節大綱</h2>
+    <p class="meta">總時長：約 <strong>30 分鐘</strong> ・ 繁體中文授課 ・ 實戰操作</p>
+  </div>
+
+  <div class="timeline">
+
+    <!-- GROUP 1 -->
+    <div class="timeline-group">
+      <div class="group-badge prep">1</div>
+      <div class="group-header">
+        <span class="time">⏱ 10 分鐘 ・ 光速開機</span>
+        <h3>恰到好處的準備</h3>
+        <div class="goal">掃除技術恐懼，零成本建立你的專屬 AI 秘書</div>
+      </div>
+      <ul class="units">
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 1</span>秘書登場：一鍵安裝 Hermes Desktop</div>
+          <div class="unit-desc">免搞定終端機，像安裝普通電腦軟體一樣輕鬆完成設定。</div>
+        </li>
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 2</span>免費 AI 大腦連結：3 步驟免信用卡開通</div>
+          <div class="unit-desc">手把手帶你取得免費 API 鑰匙（就像連 Wi-Fi 密碼一樣簡單），免去每月月費負擔。</div>
+        </li>
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 3</span>環境測試：第一次與數位秘書對話</div>
+          <div class="unit-desc">熟悉乾淨直覺的操作介面，確認 AI 正常運作。</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP 2 -->
+    <div class="timeline-group">
+      <div class="group-badge practice">2</div>
+      <div class="group-header">
+        <span class="time">⏱ 15 分鐘 ・ 核心實戰</span>
+        <h3>自動化搜集與總結</h3>
+        <div class="goal">解決最核心的文書痛點，親眼見證 AI 的主動執行力</div>
+      </div>
+      <ul class="units">
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 4</span>天眼搜集：讓 AI 自己上網爬梳最新資訊</div>
+          <div class="unit-desc">開啟 Web Search 功能，只需一句指令，AI 自動幫你瀏覽多個網站並整理精華。</div>
+        </li>
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 5</span>長文消化術：1 分鐘吞下 50 頁長文件與 PDF</div>
+          <div class="unit-desc">直接拖拽文件，搭配獨家「萬用總結模板」，瞬間產出重點、風險與行動建議。</div>
+        </li>
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 6</span>技能提取：打造專屬於你的「總結記憶」</div>
+          <div class="unit-desc">教你如何讓 AI 記住你的偏好（例如：列點式、廣東話 / 繁體中文、精簡風格），下次使用自動帶入！</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GROUP 3 -->
+    <div class="timeline-group">
+      <div class="group-badge final">3</div>
+      <div class="group-header">
+        <span class="time">⏱ 5 分鐘 ・ 終極省力</span>
+        <h3>解鎖全自動工作流</h3>
+        <div class="goal">體驗 AI 代理（Agent）與一般聊天機器人的降維打擊</div>
+      </div>
+      <ul class="units">
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 7</span>後台自動化：讓 AI 默默幫你收工</div>
+          <div class="unit-desc">設定簡單的自動化指令，讓 AI 在背景定時搜集資訊並儲存至指定資料夾。</div>
+        </li>
+        <li class="unit-card">
+          <div class="unit-title"><span class="num">單元 8</span>私隱與升級全攻略</div>
+          <div class="unit-desc">掌握資料安全主導權，了解如何隨時切換更強大或完全離線的本地模型。</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- GIFT BOX -->
+  <div class="gift-box">
+    <h3>🎁 學員專屬免費隨堂禮包</h3>
+    <p style="color:#a1a1aa;font-size:.88rem;margin-bottom:1.2rem;">報名即贈送以下「即拿即用」實用工具，讓你課後不必重新摸索：</p>
+    <ul class="gift-items">
+      <li>
+        <span class="gift-icon">📄</span>
+        <div><strong>《萬用 AI 總結 Prompt 懶人包》</strong> (PDF / Notion)<br>內含「競品分析」、「市場研調」、「長文摘錄」等 5 大情境範本。</div>
+      </li>
+      <li>
+        <span class="gift-icon">🗺️</span>
+        <div><strong>《3 步驟 API 免費設定圖解卡》</strong><br>高畫質截圖標註，照著點擊 3 分鐘搞定。</div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ TARGET AUDIENCE ============ -->
+<section class="section" id="audience">
+  <div class="section-header">
+    <h2>🎯 這門課非常適合<span class="highlight">這樣的你</span></h2>
+  </div>
+  <div class="audience-grid">
+    <div class="audience-card">
+      <span class="emoji">💼</span>
+      <h4>一人企業 / 自由職業者</h4>
+      <p>想極大化個人產出，把重複性文書工作外包給 AI 的人。</p>
+    </div>
+    <div class="audience-card">
+      <span class="emoji">📊</span>
+      <h4>行銷 / 企劃 / 研發人員</h4>
+      <p>每天需要處理大量資料、追蹤產業趨勢的知識工作者。</p>
+    </div>
+    <div class="audience-card">
+      <span class="emoji">🐢</span>
+      <h4>AI 軟體新手</h4>
+      <p>想要享受 AI Agent 帶來的高效，但極度討厭複雜安裝流程的人。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta" id="signup">
+  <div class="content">
+    <h2>準備好告別重複性文書了嗎？</h2>
+    <p>30 分鐘，給自己一個不再被文書淹沒的未來。</p>
+    <a class="hero-cta" href="#" style="display:inline-flex;">
+      🎫 立即報名課程
+    </a>
+    <p style="margin-top:1rem;font-size:.82rem;color:#52525b;">
+      或 <a href="#">索取免費預覽版</a> ・ 名額有限
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Hermes Desktop AI・All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
