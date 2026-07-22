@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商業分析 #001 總結</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #1a1a28;
+    --border: #1e1e30;
+    --border-active: #6c5ce7;
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888a0;
+    --text-muted: #55556a;
+    --accent: #6c5ce7;
+    --accent-glow: rgba(108, 92, 231, 0.15);
+    --accent-soft: #a29bfe;
+    --check-fill: #6c5ce7;
+    --check-bg: #1a1a2e;
+    --completed-text: #666680;
+    --progress-track: #1e1e30;
+    --progress-fill: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 50%, rgba(162, 155, 254, 0.03) 0%, transparent 60%);
+  }
+
+  .container {
+    max-width: 680px;
+    width: 100%;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    background: rgba(108, 92, 231, 0.1);
+    border: 1px solid rgba(108, 92, 231, 0.2);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .header .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .header .subtitle em {
+    font-style: normal;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* Progress */
+  .progress-section {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--progress-track);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--progress-fill);
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .progress-count {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 3.5rem;
+    text-align: right;
+  }
+
+  .progress-count span {
+    color: var(--text-primary);
+  }
+
+  /* Checklist */
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .checklist-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .checklist-item:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(108, 92, 231, 0.2);
+    transform: translateX(4px);
+  }
+
+  .checklist-item.checked {
+    border-color: rgba(108, 92, 231, 0.15);
+  }
+
+  .checklist-item.checked .item-text {
+    color: var(--completed-text);
+    text-decoration: line-through;
+    text-decoration-color: rgba(108, 92, 231, 0.3);
+  }
+
+  .checklist-item.checked .item-number {
+    color: var(--completed-text);
+  }
+
+  /* Custom checkbox */
+  .checkbox-wrap {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    position: relative;
+  }
+
+  .checkbox-wrap input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .check-visual {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--text-muted);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    background: transparent;
+  }
+
+  .check-visual svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .checklist-item.checked .check-visual {
+    background: var(--check-fill);
+    border-color: var(--check-fill);
+    box-shadow: 0 0 12px rgba(108, 92, 231, 0.3);
+  }
+
+  .checklist-item.checked .check-visual svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Item content */
+  .item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-number {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    transition: color 0.2s;
+  }
+
+  .item-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .footer a {
+    color: var(--accent-soft);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* Animation for items on load */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .checklist-item {
+    animation: fadeUp 0.4s ease backwards;
+  }
+
+  .checklist-item:nth-child(1) { animation-delay: 0.05s; }
+  .checklist-item:nth-child(2) { animation-delay: 0.10s; }
+  .checklist-item:nth-child(3) { animation-delay: 0.15s; }
+  .checklist-item:nth-child(4) { animation-delay: 0.20s; }
+  .checklist-item:nth-child(5) { animation-delay: 0.25s; }
+  .checklist-item:nth-child(6) { animation-delay: 0.30s; }
+  .checklist-item:nth-child(7) { animation-delay: 0.35s; }
+  .checklist-item:nth-child(8) { animation-delay: 0.40s; }
+  .checklist-item:nth-child(9) { animation-delay: 0.45s; }
+  .checklist-item:nth-child(10) { animation-delay: 0.50s; }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    body { padding: 1.25rem 1rem; }
+    .header h1 { font-size: 1.5rem; }
+    .checklist-item { padding: 0.85rem 1rem; }
+    .item-text { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="badge">商業分析框架 · #001</div>
+    <h1>護城河檢查清單</h1>
+    <p class="subtitle">
+      下次看到任何一家公司，或準備開始副業時 —— <br>
+      用這 <em>10 個問題</em> 檢驗它是否擁有真正的競爭壁壘
+    </p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-count" id="progressCount">0 / 10</div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist" id="checklist">
+
+    <div class="checklist-item" data-index="0">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q1</div>
+        <div class="item-text">擁有無法被複製的獨家數據嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="1">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q2</div>
+        <div class="item-text">深入客戶流程，讓客戶不敢拔掉嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="2">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q3</div>
+        <div class="item-text">擁有法規特許執照或門檻嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="3">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q4</div>
+        <div class="item-text">控制了消費者第一個打開的流量入口嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="4">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q5</div>
+        <div class="item-text">有第三方開發者在你的生態系上吃飯嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="5">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q6</div>
+        <div class="item-text">具備越多人用越強的網路效應嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="6">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q7</div>
+        <div class="item-text">擁有軟體複製不了的實體基礎建設嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="7">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q8</div>
+        <div class="item-text">規模大到產生壓倒性的成本優勢嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="8">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q9</div>
+        <div class="item-text">迭代速度快到讓對手看不懂嗎？</div>
+      </div>
+    </div>
+
+    <div class="checklist-item" data-index="9">
+      <div class="checkbox-wrap">
+        <input type="checkbox">
+        <div class="check-visual">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.5 6l2.5 2.5 4.5-5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="item-content">
+        <div class="item-number">Q10</div>
+        <div class="item-text">擁有無法被高薪挖走的頂級團隊嗎？</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    商業分析框架 #001 · 每一道護城河，都是一個競爭壁壘
+  </div>
+
+</div>
+
+<script>
+  const items = document.querySelectorAll('.checklist-item');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  function updateProgress() {
+    const checked = document.querySelectorAll('.checklist-item.checked').length;
+    const total = items.length;
+    const pct = (checked / total) * 100;
+    progressFill.style.width = pct + '%';
+    progressCount.innerHTML = '<span>' + checked + '</span> / ' + total;
+  }
+
+  items.forEach(item => {
+    const checkbox = item.querySelector('input[type="checkbox"]');
+
+    // Click on the whole row toggles
+    item.addEventListener('click', (e) => {
+      // Don't toggle if user clicked the input directly (handled natively)
+      if (e.target.tagName === 'INPUT') return;
+      checkbox.checked = !checkbox.checked;
+      item.classList.toggle('checked', checkbox.checked);
+      updateProgress();
+      saveState();
+    });
+
+    // Native checkbox change
+    checkbox.addEventListener('change', () => {
+      item.classList.toggle('checked', checkbox.checked);
+      updateProgress();
+      saveState();
+    });
+
+    // Restore from localStorage
+    const saved = localStorage.getItem('biz-checklist-001');
+    if (saved) {
+      const state = JSON.parse(saved);
+      if (state[item.dataset.index]) {
+        checkbox.checked = true;
+        item.classList.add('checked');
+      }
+    }
+  });
+
+  function saveState() {
+    const state = {};
+    items.forEach(item => {
+      state[item.dataset.index] = item.classList.contains('checked');
+    });
+    localStorage.setItem('biz-checklist-001', JSON.stringify(state));
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
