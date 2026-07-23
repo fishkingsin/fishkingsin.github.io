@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1｜無痛開機 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf8f5;
+    --bg-card: #ffffff;
+    --text: #2d2a24;
+    --text-secondary: #6b6258;
+    --text-muted: #a09888;
+    --accent: #d9773e;
+    --accent-dark: #b85a28;
+    --accent-light: #fef0e6;
+    --accent-soft: #f5c9b0;
+    --teal: #3d8b7a;
+    --teal-light: #e6f3ef;
+    --amber: #d4a24e;
+    --amber-light: #fcf2e0;
+    --border: #e8e0d8;
+    --border-light: #f0ebe5;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --red-light: #fce4ec;
+    --purple-light: #f3e5f5;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #2d2a24 0%, #3d3830 50%, #4a3f30 100%);
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 15% 80%, rgba(217, 119, 62, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--amber);
+    background: rgba(212, 162, 78, 0.12);
+    border: 1px solid rgba(212, 162, 78, 0.25);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 small {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #c8c0b6;
+    margin-top: 0.3rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .hero-stats .stat {
+    text-align: center;
+  }
+  .hero-stats .stat-num {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--amber);
+  }
+  .hero-stats .stat-label {
+    font-size: 0.7rem;
+    color: #90887e;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── Quick Info Bar ── */
+  .info-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow);
+  }
+  .info-bar .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .info-bar .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+  }
+  .badge-green { background: var(--teal-light); color: var(--teal); }
+  .badge-orange { background: var(--accent-light); color: var(--accent-dark); }
+
+  /* ── Skip Banner ── */
+  .skip-banner {
+    background: var(--accent-light);
+    border: 1px solid rgba(217, 119, 62, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--accent-dark);
+  }
+  .skip-banner strong {
+    font-weight: 700;
+  }
+
+  /* ── Section ── */
+  .section {
+    padding: 2rem 0;
+  }
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── Script Card ── */
+  .script-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .script-card .part-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .script-card .part-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .script-card .part-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .script-card .part-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .script-card .part-time {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--border-light);
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* Visual Cue */
+  .visual-cue {
+    background: #f5f0eb;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .visual-cue .label {
+    font-weight: 600;
+    color: var(--accent-dark);
+  }
+
+  /* Dialogue */
+  .dialogue {
+    padding-left: 1.2rem;
+    border-left: 3px solid var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .dialogue p {
+    position: relative;
+    padding-left: 0.8rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .dialogue p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 4px;
+    height: 4px;
+    background: var(--teal);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .dialogue .paren {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+  .dialogue .paren::before { display: none; }
+
+  /* ── Prompt Block ── */
+  .prompt-block {
+    background: #2d2a24;
+    color: #e8e0d8;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-family: 'Noto Sans SC', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    position: relative;
+  }
+  .prompt-block .copy-hint {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.65rem;
+    color: #90887e;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  /* ── Steps ── */
+  .steps-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 1rem 0;
+  }
+  .steps-list li {
+    counter-increment: step;
+    position: relative;
+    padding: 0.8rem 0 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .steps-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .steps-list li .step-note {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* ── Tips Grid ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .tip-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-card .tip-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .tip-card .tip-title { font-size: 0.85rem; font-weight: 600; }
+  .tip-card .tip-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+  /* ── Table ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 0.75rem 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  th {
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    font-weight: 600;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+  }
+  td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── Template Section ── */
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .template-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .template-card .template-head {
+    background: var(--accent-light);
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-dark);
+    border-bottom: 1px solid rgba(217, 119, 62, 0.15);
+  }
+  .template-card .template-body {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero-stats { gap: 1rem; }
+    .script-card { padding: 1.1rem; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .template-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-badge">📖 單元一 · 教材</div>
+  <h1>
+    無痛開機<br>
+    <small>3 分鐘上手，set 好你嘅專屬 AI 助手</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">⏱ ~3 min</div><div class="stat-label">影片長度</div></div>
+    <div class="stat"><div class="stat-num">🟢 L1</div><div class="stat-label">初哥適用</div></div>
+    <div class="stat"><div class="stat-num">⚡ 快跳</div><div class="stat-label">已裝可 skip</div></div>
+  </div>
+</section>
+
+<!-- ══════ CONTAINER ══════ -->
+<div class="container">
+
+  <!-- Info Bar -->
+  <div class="info-bar">
+    <span class="tag">🎯 <strong>學完做到咩：</strong>安裝好 Gemini，set 好個人偏好，以後唔使再自我介紹</span>
+    <span class="tag">🛠 <strong>工具：</strong>Gemini（免費）<span class="badge badge-green">Camera</span><span class="badge badge-green">廣東話</span></span>
+  </div>
+
+  <!-- Skip Banner -->
+  <div class="skip-banner">
+    ⚡ <strong>快跳版：</strong>已安裝 Gemini 嘅話可以撳 <a href="../ai-family-butler-course.html#module-2" style="color:var(--accent-dark);font-weight:600;">呢度跳去單元二</a>，唔使等。
+  </div>
+
+  <!-- ══════ SCRIPT ══════ -->
+  <div class="section">
+    <div class="section-title">🎬 影片逐字稿</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;padding:0.5rem 0.8rem;background:var(--border-light);border-radius:8px;">
+      長度約 3 分鐘 · 語氣輕鬆鼓勵 · 廣東話 · 手機 screen recording
+    </div>
+
+    <!-- Part 1 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--accent);">1</span>
+        <span class="part-label">開場</span>
+        <span class="part-time">0:00 – 0:20</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 主持 face cam + 手機畫面分屏</div>
+      <div class="dialogue">
+        <p>「你好！呢個係《AI 生活與家庭全能管家》嘅第一課 — 無痛開機。」</p>
+        <p>「如果你已經用緊 Gemini 或者 ChatGPT，恭喜你，你已經過關 🎉 可以飛去 2:30 直接睇單元二。」</p>
+        <p>「但如果係第一次接觸 AI，唔使驚 — 我帶你行一次，三分鐘搞掂。」</p>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">2</span>
+        <span class="part-label">下載安裝</span>
+        <span class="part-time">0:20 – 1:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 手機 screen recording，打開 App Store / Google Play</div>
+      <div class="dialogue">
+        <p>「第一步：打開你部電話嘅 App Store（iPhone）或者 Play 商店（Android）。」</p>
+        <p>「喺搜尋欄打兩個字：『Gemini』。」</p>
+        <p class="paren">（畫面 zoom in 搜尋結果）</p>
+        <p>「見到 Google 嗰個？有個四色箭嘴標誌嘅。撳『取得』或者『安裝』。」</p>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 等候安裝完成（可以加速 playback）</div>
+      <div class="dialogue">
+        <p>「安裝好之後，打開佢。」</p>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 打開 Gemini App，見到 welcome screen</div>
+      <div class="dialogue">
+        <p>「佢會問你 Login 用邊個 Google Account。揀你平時用開嗰個就得。如果冇 Google Account，撳『建立帳戶』，兩分鐘搞掂。」</p>
+        <p class="paren">（輕鬆語氣）「係，你本身就已經有㗎喇，只係未開出嚟用咋。」</p>
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--amber);">3</span>
+        <span class="part-label">設定個人偏好</span>
+        <span class="part-time">1:30 – 2:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App 主畫面，手指撳右上角個人頭像</div>
+      <div class="dialogue">
+        <p>「裝好之後，我哋做一個好重要嘅設定 — 就係話俾 AI 知你係邊個。咁以後就唔使每次重新自我介紹。」</p>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Settings → 個人化設定</div>
+      <div class="dialogue">
+        <p>「撳右上角嘅頭像 → 設定 → 個人化設定。」</p>
+        <p class="paren">（用手指係畫面圈出位置）</p>
+        <p>「喺呢度輸入你嘅語言偏好同角色。你直接 copy 下面呢句貼上去就得：」</p>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 打字示範，貼上以下文字</div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>我係一個香港家長，用繁體中文同廣東話溝通。
+以後同我講嘢請用口語化廣東話，
+需要認真嘅時候可以先 warning 我「認真mode」。</div>
+      <div class="dialogue">
+        <p>「就咁一句，以後你同 AI 講嘢，佢就識得用返你嘅語氣同語言。唔使每次自我介紹。」</p>
+      </div>
+    </div>
+
+    <!-- Part 4 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:#7b1fa2;">4</span>
+        <span class="part-label">試玩 + 收尾</span>
+        <span class="part-time">2:30 – 3:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 返到主畫面，打字輸入</div>
+      <div class="dialogue">
+        <p>「最後一步：試吓問佢一個問題，確保郁得到。」</p>
+        <p class="paren">（畫面打字）</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>你好，我係新用戶，可以同我打個招呼嗎？</div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> AI 回覆，用廣東話打招呼</div>
+      <div class="dialogue">
+        <p>「睇到佢用廣東話覆你？即係 set 啱咗。」</p>
+        <p>「搞掂！你而家有一個 ready 嘅 AI 助手。」</p>
+        <p class="paren">（face cam 回歸）「我哋下一課見 — 教你用佢嚟影相計卡路里。」</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════ STEPS ══════ -->
+  <div class="section">
+    <div class="section-title">📋 步驟懶人包</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--accent-dark);">步驟 1：下載 Gemini</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>手機類型</th><th>去邊度下載</th><th>搜尋咩</th></tr></thead>
+        <tbody>
+          <tr><td>iPhone</td><td>App Store</td><td>「Gemini」</td></tr>
+          <tr><td>Android / 華為</td><td>Google Play</td><td>「Gemini」</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin:1rem 0 0.5rem;color:var(--accent-dark);">步驟 2：登入 Google Account</div>
+    <ul style="padding-left:1.5rem;font-size:0.9rem;line-height:1.8;">
+      <li>用你平時嘅 Google Account（Gmail）</li>
+      <li>冇嘅話建立一個，好快</li>
+    </ul>
+
+    <div style="font-size:0.9rem;font-weight:600;margin:1rem 0 0.5rem;color:var(--accent-dark);">步驟 3：設定個人偏好</div>
+    <ol class="steps-list">
+      <li>撳右上角 <strong>頭像 icon</strong></li>
+      <li>撳 <strong>設定</strong></li>
+      <li>撳 <strong>個人化設定</strong></li>
+      <li>
+        Copy &amp; Paste 呢段：
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>我係一個香港家長，用繁體中文同廣東話溝通。
+以後同我講嘢請用口語化廣東話，
+需要認真嘅時候可以先 warning 我「認真mode」。</div>
+      </li>
+    </ol>
+
+    <div style="font-size:0.9rem;font-weight:600;margin:1rem 0 0.5rem;color:var(--accent-dark);">步驟 4：測試</div>
+    <ul style="padding-left:1.5rem;font-size:0.9rem;line-height:1.8;">
+      <li><strong>輸入：</strong><code style="background:var(--border-light);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">你好，我係新用戶，可以同我打個招呼嗎？</code></li>
+      <li><strong>預期：</strong>AI 用廣東話回應 ✅</li>
+    </ul>
+  </div>
+
+  <!-- ══════ TIPS ══════ -->
+  <div class="section">
+    <div class="section-title">💡 小貼士</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">📶</div>
+        <div class="tip-title">Download 用 Wi-Fi</div>
+        <div class="tip-desc">安裝檔唔大，但用 data 始終浪費</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">✅</div>
+        <div class="tip-title">只需要做一次</div>
+        <div class="tip-desc">呢啲設定做一次，以後永遠有效</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💻</div>
+        <div class="tip-title">電腦版都得</div>
+        <div class="tip-desc">去 <strong>gemini.google.com</strong> 用 Browser 開就得，唔使裝任何嘢</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-title">如果 Jam 咗</div>
+        <div class="tip-desc">刪 App 重新裝過，唔會冇咗設定（preferences 跟 Google Account）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TEMPLATES ══════ -->
+  <div class="section">
+    <div class="section-title">📎 即用範本</div>
+
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-head">📋 個人設定 Prompt</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>我係一個香港家長，用繁體中文同廣東話溝通。
+以後同我講嘢請用口語化廣東話，
+需要認真嘅時候可以先 warning 我「認真mode」。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">🤖 第一次測試 Prompt</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>你好，我係新用戶，可以同我打個招呼嗎？</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<div class="footer">
+  《AI 生活與家庭全能管家》· 單元一教材<br>
+  <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
+</div>
+
+</body>
+</html>
