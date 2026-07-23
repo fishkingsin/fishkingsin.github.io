@@ -512,5 +512,20 @@
   <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.prompt-block').forEach(function(block){
+    block.addEventListener('click', function(){
+      var text = this.innerText.replace('📋 Copy', '').trim();
+      var hint = this.querySelector('.copy-hint');
+      navigator.clipboard.writeText(text).then(function(){
+        if(hint){ var orig = hint.textContent; hint.textContent = '✅ Copied!'; setTimeout(function(){ hint.textContent = orig; }, 1500); }
+      }).catch(function(){
+        if(hint){ hint.textContent = '❌ Failed'; setTimeout(function(){ hint.textContent = '📋 Copy'; }, 1500); }
+      });
+    });
+  });
+});
+</script>
 </body>
 </html>
