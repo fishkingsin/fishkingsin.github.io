@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課程教案 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #faf8f5; --bg-card: #ffffff; --text: #2d2a24;
+  --text-secondary: #6b6258; --text-muted: #a09888;
+  --border: #e8e0d8; --border-light: #f0ebe5;
+  --shadow: 0 2px 16px rgba(0,0,0,0.06);
+  --radius: 14px; --radius-sm: 10px;
+  --accent: #d9773e; --accent-light: #fef0e6;
+  --teal: #3d8b7a; --teal-light: #e6f3ef;
+  --red: #c62828; --red-light: #fce4ec;
+  --blue: #1565c0; --blue-light: #e3f2fd;
+  --purple: #7b1fa2; --purple-light: #f3e5f5;
+  --green: #2e7d32; --green-light: #e8f5e9;
+}
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+.hero {
+  background: linear-gradient(135deg, #2d2a24 0%, #3d3830 50%, #4a3f30 100%);
+  color: #fff; padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 15% 80%, rgba(217, 119, 62, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; font-weight: 500; color: var(--accent);
+  background: rgba(217, 119, 62, 0.12); border: 1px solid rgba(217, 119, 62, 0.25);
+  padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: 'Noto Serif SC', serif; font-size: 2rem; font-weight: 900; line-height: 1.3;
+}
+.hero h1 small {
+  display: block; font-size: 0.85rem; font-weight: 400; color: #c8c0b6; margin-top: 0.3rem;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 2rem; margin-top: 1.25rem; flex-wrap: wrap;
+}
+.hero-stats .stat { text-align: center; }
+.hero-stats .stat-num { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+.hero-stats .stat-label { font-size: 0.7rem; color: #90887e; letter-spacing: 0.05em; }
+.container { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+.info-bar {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+  margin: 1.5rem 0; font-size: 0.85rem; box-shadow: var(--shadow);
+}
+.section { padding: 2rem 0; }
+.section-title {
+  font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700;
+  color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title-2 {
+  font-family: 'Noto Serif SC', serif; font-size: 1.1rem; font-weight: 700;
+  color: var(--text-secondary); margin: 1.5rem 0 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title-3 {
+  font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);
+  margin: 1.25rem 0 0.5rem;
+}
+.module-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.module-card.m1 { border-left: 4px solid var(--accent); }
+.module-card.m2 { border-left: 4px solid var(--teal); }
+.module-card.m3 { border-left: 4px solid var(--red); }
+.module-card.m4 { border-left: 4px solid var(--blue); }
+.module-card.m5 { border-left: 4px solid var(--purple); }
+.module-head {
+  display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem;
+}
+.module-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.module-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; }
+.module-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; color: var(--text); }
+.module-time {
+  margin-left: auto; font-size: 0.75rem; color: var(--text-muted);
+  background: var(--border-light); padding: 0.15rem 0.6rem; border-radius: 4px; white-space: nowrap;
+}
+table {
+  width: 100%; border-collapse: collapse; font-size: 0.85rem;
+  margin: 0.75rem 0; border-radius: var(--radius-sm); overflow: hidden;
+  box-shadow: var(--shadow);
+}
+th {
+  font-weight: 600; padding: 0.6rem 0.8rem; text-align: left;
+}
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border-light); }
+tr:last-child td { border-bottom: none; }
+.table-wrap { overflow-x: auto; margin: 0.75rem 0; }
+
+/* Module-specific table styles */
+.m1-table th { background: var(--accent-light); color: var(--accent); }
+.m2-table th { background: var(--teal-light); color: var(--teal); }
+.m3-table th { background: var(--red-light); color: var(--red); }
+.m4-table th { background: var(--blue-light); color: var(--blue); }
+.m5-table th { background: var(--purple-light); color: var(--purple); }
+.generic-table th { background: var(--border-light); color: var(--text-secondary); }
+
+.faq-list { list-style: none; margin: 0.75rem 0; }
+.faq-list li {
+  padding: 0.5rem 0; border-bottom: 1px solid var(--border-light);
+  font-size: 0.85rem; line-height: 1.6;
+}
+.faq-list li:last-child { border-bottom: none; }
+.faq-q { font-weight: 600; color: var(--text); }
+.faq-a { color: var(--text-secondary); margin-top: 0.1rem; }
+
+.prompt-block {
+  background: #2d2a24; color: #e8e0d8;
+  border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+  margin: 0.75rem 0; font-family: 'Noto Sans SC', monospace;
+  font-size: 0.82rem; line-height: 1.7; white-space: pre-wrap;
+  overflow-x: auto;
+}
+.prompt-block .label {
+  display: block; font-size: 0.65rem; color: #90887e;
+  font-family: 'Noto Sans SC', sans-serif; margin-bottom: 0.3rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.prompt-block .copy-hint {
+  float: right; font-size: 0.65rem; color: #90887e;
+  font-family: 'Noto Sans SC', sans-serif; cursor: pointer;
+}
+
+.pitfall-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: 0.75rem 0;
+}
+.pitfall-item {
+  background: #fff8e1; border: 1px solid rgba(255,193,7,0.3);
+  border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-size: 0.82rem;
+}
+.pitfall-item strong { color: var(--text); }
+.pitfall-item span { color: var(--text-muted); font-size: 0.78rem; }
+
+.objective-list, .step-list {
+  padding-left: 1.5rem; font-size: 0.88rem; line-height: 1.8;
+  margin: 0.5rem 0;
+}
+.note-box {
+  background: var(--accent-light); border: 1px solid rgba(217, 119, 62, 0.15);
+  border-radius: var(--radius-sm); padding: 0.8rem 1rem; margin: 0.75rem 0;
+  font-size: 0.85rem;
+}
+
+.footer {
+  text-align: center; padding: 2.5rem 1.5rem; font-size: 0.75rem;
+  color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem;
+}
+.footer a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 600px) {
+  .hero { padding: 2rem 1.25rem 1.75rem; }
+  .hero h1 { font-size: 1.4rem; }
+  .hero-stats { gap: 1rem; }
+  .pitfall-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">📋 導師專用 · 內部教案</div>
+  <h1>
+    AI 生活與家庭全能管家<br>
+    <small>完整課程教案 · v1.0</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">~35 min</div><div class="stat-label">總時長</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">單元</div></div>
+    <div class="stat"><div class="stat-num">🎯 L1-L2</div><div class="stat-label">難度</div></div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════ -->
+<!-- INFO BAR -->
+<!-- ════════════════════════════════════════ -->
+<div class="info-bar">
+  <span><strong>🎯 對象：</strong>香港家長，零技術背景</span>
+  <span><strong>🛠 工具：</strong>Gemini（免費 App）</span>
+  <span><strong>🗣 語言：</strong>廣東話口語</span>
+  <span><strong>📎 學生版：</strong><a href="ai-family-butler-course.html" style="color:var(--accent);">課程網站</a></span>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 課程總覽 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">📋 課程總覽</div>
+
+<p style="font-size:0.9rem;margin-bottom:1rem;">「唔係教你 AI 理論，係教你用 AI 搞掂生活嗰啲麻煩嘢。」</p>
+
+<table class="generic-table">
+<thead><tr>
+  <th>單元</th><th>主題</th><th>時長</th><th>難度</th><th>工具</th><th>核心技能</th>
+</tr></thead>
+<tbody>
+  <tr><td>M1</td><td>無痛開機</td><td>~3 min</td><td>🟢 L1</td><td>Gemini App</td><td>安裝、登入、個人偏好</td></tr>
+  <tr><td>M2</td><td>影相計卡路里</td><td>~5 min</td><td>🟢 L1</td><td>Gemini Camera</td><td>營養分析、飲食建議、餐單設計</td></tr>
+  <tr><td>M3</td><td>阿女 DSE 備戰</td><td>~10 min</td><td>🟡 L2</td><td>Gemini Chat</td><td>考點拆解、時間表、模擬題、驗證</td></tr>
+  <tr><td>M4</td><td>旅行神助手</td><td>~9 min</td><td>🟡 L2</td><td>Gemini + Search</td><td>行程規劃、Budget、格價</td></tr>
+  <tr><td>M5</td><td>日常清空術</td><td>~8 min</td><td>🟢 L1</td><td>Gemini Voice</td><td>Voice to-do、Summary</td></tr>
+  <tr style="font-weight:600;background:var(--border-light);"><td colspan="2"><strong>總計</strong></td><td><strong>~35 min</strong></td><td colspan="3">L1-L2 全面覆蓋</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">🎒 先備條件（學生）</div>
+<ul class="objective-list">
+  <li>一部智能手機（iPhone 或 Android）</li>
+  <li>一個 Google Account（Gmail）</li>
+  <li>識得打開 App Store / Google Play</li>
+  <li><strong>唔需要：</strong>寫 Code、知 API、學 Prompt Engineering</li>
+</ul>
+
+<div class="section-title-2">🎬 器材準備（導師）</div>
+<ul class="objective-list">
+  <li>手機 + 電腦雙畫面示範</li>
+  <li>Screen recording 軟件（手機內置即可）</li>
+  <li>Face cam（optional，增加親切感）</li>
+  <li>實物道具（飯盒、DSE Past Paper、旅行地圖等）</li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 模組排序邏輯 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">🧩 課程設計原理</div>
+
+<div class="section-title-3">模組排序邏輯</div>
+<p style="font-size:0.85rem;margin-bottom:0.5rem;">M1（3 min）→ M2（5 min）→ M3（10 min）→ M4（9 min）→ M5（8 min）</p>
+<ul class="objective-list">
+  <li><strong>M1：</strong>最低阻力開頭，回報即時（裝好就用得）</li>
+  <li><strong>M2：</strong>最易 show 到 AI 威力，相機即影即用</li>
+  <li><strong>M3：</strong>最深家長痛點，最長篇幅，課程核心賣點</li>
+  <li><strong>M4：</strong>生活娛樂場景，放鬆節奏</li>
+  <li><strong>M5：</strong>總結收尾，建立習慣，金句 ending</li>
+</ul>
+
+<div class="section-title-3">教學節奏控制</div>
+<ul class="objective-list">
+  <li><strong>3 分鐘黃金法則：</strong>每個 skill demo 唔超過 3 分鐘</li>
+  <li><strong>Before/After 對比：</strong>每次都 show「未用 AI」VS「用 AI」</li>
+  <li><strong>Copy &amp; Paste 為本：</strong>唔叫學生記，叫學生 copy</li>
+  <li><strong>即時挑戰：</strong>每課尾都有「課後挑戰」，學完即用</li>
+</ul>
+
+<div class="section-title-3">工具選擇理由</div>
+<table class="generic-table">
+<thead><tr><th>工具</th><th>點解揀佢？</th></tr></thead>
+<tbody>
+  <tr><td><strong>Gemini</strong>（免費）</td><td>香港用戶易 get、有 Camera / Voice、廣東話 OK</td></tr>
+  <tr><td><strong>ChatGPT</strong>（替代方案）</td><td>進階用戶可 upgrade，但初學用 Gemini 阻力最低</td></tr>
+  <tr><td><strong>NotebookLM</strong>（Bonus）</td><td>DSE 深度學習用，較進階</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- M1 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">🗺️ 單元教學流程</div>
+
+<div class="module-card m1">
+<div class="module-head">
+  <span class="module-num" style="background:var(--accent);">1</span>
+  <span class="module-label">單元一</span>
+  <span class="module-title">無痛開機</span>
+  <span class="module-time">~3 min</span>
+</div>
+
+<div class="section-title-2">🎯 學習目標</div>
+<ul class="objective-list">
+  <li>完成 Gemini App 安裝、登入、個人偏好設定</li>
+  <li>懂得「快跳」到後續單元（如已安裝）</li>
+</ul>
+
+<div class="section-title-2">⏱ 時間分配（影片）</div>
+<table class="m1-table">
+<thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+<tbody>
+  <tr><td>1</td><td>開場 + 快跳指引</td><td>0:00-0:20</td><td>Face cam + 手機分屏</td></tr>
+  <tr><td>2</td><td>下載安裝</td><td>0:20-1:30</td><td>Screen recording App Store / Play</td></tr>
+  <tr><td>3</td><td>設定個人偏好</td><td>1:30-2:30</td><td>Settings → 個人化設定</td></tr>
+  <tr><td>4</td><td>試玩 + 收尾</td><td>2:30-3:00</td><td>測試對話 → 下一課預告</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">📝 逐 Step 教案</div>
+
+<p><strong>Step 1 — 開場（20 秒）</strong></p>
+<ul class="objective-list">
+  <li>自我介紹 + 課程定位</li>
+  <li>快跳指引：已安裝者可跳至 2:30（M2）</li>
+</ul>
+
+<p><strong>Step 2 — 安裝引導（70 秒）</strong></p>
+<ul class="objective-list">
+  <li>iPhone：App Store → 搜尋「Gemini」→ 取得</li>
+  <li>Android：Google Play → 搜尋「Gemini」→ 安裝</li>
+  <li>登入 Google Account（無 Account 者引導建立）</li>
+</ul>
+
+<p><strong>Step 3 — 個人偏好設定（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>右上角頭像 → 設定 → 個人化設定</li>
+  <li>Copy &amp; Paste 設定 Prompt（見範本）</li>
+  <li>解釋：做一次，以後唔使再自我介紹</li>
+</ul>
+
+<p><strong>Step 4 — 測試 + 收尾（30 秒）</strong></p>
+<ul class="objective-list">
+  <li>測試對話（「同我打個招呼」）</li>
+  <li>確認 AI 用廣東話回覆 → 設定成功</li>
+  <li>預告 M2</li>
+</ul>
+
+<div class="section-title-2">📊 PPT Slide Outline</div>
+<div class="prompt-block">
+Slide 1: 課程封面 + 本課目標<br>
+Slide 2: 快跳指引（已安裝 VS 未安裝）<br>
+Slide 3: 下載方式（iPhone / Android 對照表）<br>
+Slide 4: 登入 Google Account 示意<br>
+Slide 5: 個人偏好設定 — Copy &amp; Paste Prompt<br>
+Slide 6: 測試步驟 + 成功標誌<br>
+Slide 7: Recap + 下一課預告
+</div>
+
+<div class="section-title-2">🔑 關鍵 Prompt</div>
+<div class="prompt-block"><span class="label">📋 個人設定 Prompt</span>我係一個香港家長，用繁體中文同廣東話溝通。
+以後同我講嘢請用口語化廣東話，
+需要認真嘅時候可以先 warning 我「認真mode」。</div>
+<div class="prompt-block"><span class="label">📋 測試 Prompt</span>你好，我係新用戶，可以同我打個招呼嗎？</div>
+
+<div class="section-title-2">💡 導師 FAQ</div>
+<ul class="faq-list">
+  <li><div class="faq-q">「咩係 Gemini？」</div><div class="faq-a">簡單解釋：Google 出嘅 AI 助手，免費，有 Camera 同 Voice</div></li>
+  <li><div class="faq-q">「冇 Google Account」</div><div class="faq-a">引導去 accounts.google.com 建立，約 2 分鐘</div></li>
+  <li><div class="faq-q">「點解我搵唔到個 App？」</div><div class="faq-a">確認手機地區 setting（香港區應該有）</div></li>
+  <li><div class="faq-q">「裝完之後好複雜」</div><div class="faq-a">強調「你只要識打字就得，其他嘢我哋逐課學」</div></li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- M2 -->
+<!-- ════════════════════════════════════════ -->
+<div class="module-card m2">
+<div class="module-head">
+  <span class="module-num" style="background:var(--teal);">2</span>
+  <span class="module-label">單元二</span>
+  <span class="module-title">影相計卡路里</span>
+  <span class="module-time">~5 min</span>
+</div>
+
+<div class="section-title-2">🎯 學習目標</div>
+<ul class="objective-list">
+  <li>用 Gemini Camera 影相分析營養成分</li>
+  <li>根據健康目標獲取個人化飲食建議</li>
+  <li>叫 AI 設計整週餐單並修改</li>
+</ul>
+
+<div class="section-title-2">⏱ 時間分配</div>
+<table class="m2-table">
+<thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+<tbody>
+  <tr><td>1</td><td>開場 + 場景引入</td><td>0:00-0:20</td><td>Face cam + 枱上飯盒</td></tr>
+  <tr><td>2</td><td>影相 + 營養分析</td><td>0:20-2:30</td><td>Gemini Camera → Prompt → AI 回覆</td></tr>
+  <tr><td>3</td><td>個人化飲食建議</td><td>2:30-3:30</td><td>追問晚餐建議</td></tr>
+  <tr><td>4</td><td>設計餐單</td><td>3:30-4:30</td><td>AI 出 5 日餐單 → 修改</td></tr>
+  <tr><td>5</td><td>收尾 + 挑戰</td><td>4:30-5:00</td><td>Recap → 課後挑戰</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">📝 逐 Step 教案</div>
+<p><strong>Step 1 — 場景引入（20 秒）</strong></p>
+<ul class="objective-list">
+  <li>日常痛點：「食完一餐唔知自己食咗幾多卡路里」</li>
+  <li>本課可以做到：「影張相就知」</li>
+</ul>
+<p><strong>Step 2 — 影相分析（130 秒）</strong></p>
+<ul class="objective-list">
+  <li>打開 Gemini → 撳相機 icon</li>
+  <li>影低食物（最好光線充足、食材可見）</li>
+  <li>輸入營養分析 Prompt</li>
+  <li>示範 AI 回覆：卡路里 + 營養表 + 建議</li>
+</ul>
+<p><strong>Step 3 — 個人化建議（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>喺同一個對話繼續問：「夜晚想食得輕盈啲，有冇好介紹？」</li>
+  <li>AI 會根據午餐內容 + 個人偏好推薦晚餐</li>
+  <li>關鍵：喺同一個 Thread 繼續問</li>
+</ul>
+<p><strong>Step 4 — 餐單設計（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>輸入目標 + 限制（卡路里、偏好、禁忌）</li>
+  <li>AI 出 5 日餐單（表格式）</li>
+  <li>示範點樣修改：「星期三午餐太多碳水」</li>
+</ul>
+<p><strong>Step 5 — Recap + 挑戰（30 秒）</strong></p>
+<ul class="objective-list">
+  <li>三個技能總結</li>
+  <li>課後挑戰：聽日 lunch 影相分析</li>
+</ul>
+
+<div class="section-title-2">📊 PPT Slide Outline</div>
+<div class="prompt-block">
+Slide 1: 本課目標 — 相機 = 營養分析儀<br>
+Slide 2: 步驟 1 — 開 Gemini → 撳相機<br>
+Slide 3: 步驟 2 — 影相 + Prompt → AI 分析<br>
+Slide 4: Demo — AI 回覆示例（營養表）<br>
+Slide 5: 步驟 3 — 追問晚餐建議<br>
+Slide 6: 步驟 4 — 叫 AI 出 5 日餐單<br>
+Slide 7: 修改方法：就咁講「改星期三」<br>
+Slide 8: Recap + 課後挑戰
+</div>
+
+<div class="section-title-2">🔑 關鍵 Prompt</div>
+<div class="prompt-block"><span class="label">🥗 營養分析（影相後用）</span>幫我分析呢餐嘅營養成分：
+每種食材嘅蛋白質、碳水化合物、脂肪分別係幾多，
+同埋總卡路里大約係幾多。
+用返繁體中文，列出一個表。</div>
+<div class="prompt-block"><span class="label">🍽️ 個人化建議</span>我今日 lunch 食咗上面呢餐，
+夜晚想食得輕盈啲，有冇好介紹？
+我鍾意食日本嘢，最好 30 分鐘內煮到。</div>
+<div class="prompt-block"><span class="label">📅 5 日餐單設計</span>我目標係減脂，每日大約食 1600 kcal。
+請幫我設計一個 5 日（星期一至五）嘅餐單：
+- 早餐要快（5 分鐘搞掂）
+- 唔食牛
+- 鍾意亞洲菜
+- 每日蛋白質不少於 100g</div>
+
+<div class="section-title-2">💡 導師 FAQ</div>
+<ul class="faq-list">
+  <li><div class="faq-q">「AI 估卡路里準唔準？」</div><div class="faq-a">強調係「大約估算」，用嚟參考飲食習慣，唔係醫學級</div></li>
+  <li><div class="faq-q">「要逐餐影好麻煩」</div><div class="faq-a">示範「一星期影一次做回顧」嘅用法</div></li>
+  <li><div class="faq-q">「AI 認唔到我食嘅嘢」</div><div class="faq-a">教補充描述：「呢碟係咖喱牛腩飯，大概一碗飯」</div></li>
+  <li><div class="faq-q">「餐單唔啱口味」</div><div class="faq-a">教修改：「太油膩，轉清淡啲」</div></li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- M3 IMPORTANT -->
+<!-- ════════════════════════════════════════ -->
+<div class="module-card m3">
+<div class="module-head">
+  <span class="module-num" style="background:var(--red);">3</span>
+  <span class="module-label">單元三 · ⭐ 最重要</span>
+  <span class="module-title">阿女 DSE 備戰</span>
+  <span class="module-time">~10 min</span>
+</div>
+
+<div class="note-box">⚠️ 家長痛點最深，時長最長（10 min）。分 5 個技能 + 1 個驗證環節。</div>
+
+<div class="section-title-2">🎯 學習目標</div>
+<ul class="objective-list">
+  <li>用 AI 拆解 DSE Past Paper 高頻考點</li>
+  <li>針對選修科出比重分析 + 溫習優先級</li>
+  <li>一鍵生成個人化倒數溫習時間表</li>
+  <li>出模擬題連 Marking Scheme</li>
+  <li>識得驗證 AI 答案（解決 Hallucination 問題）</li>
+</ul>
+
+<div class="section-title-2">⏱ 時間分配</div>
+<table class="m3-table">
+<thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+<tbody>
+  <tr><td>0</td><td>DSE 2026 速報</td><td>0:00-0:15</td><td>數據 Overlay</td></tr>
+  <tr><td>1</td><td>開場 + DSE 形勢</td><td>0:15-1:00</td><td>Face cam + 數據</td></tr>
+  <tr><td>2</td><td>核心科高頻考點拆解</td><td>1:00-2:30</td><td>Gemini Prompt → AI 分析表</td></tr>
+  <tr><td>3</td><td>選修科精準定位</td><td>2:30-3:30</td><td>Chem / Bio 範例</td></tr>
+  <tr><td>4</td><td>倒數溫習 Timetable</td><td>3:30-5:00</td><td>強弱項 + 行程 → AI 時間表</td></tr>
+  <tr><td>5</td><td>出模擬題 + Marking Scheme</td><td>5:00-6:30</td><td>AI 出題 + 批改示範</td></tr>
+  <tr><td>6</td><td>驗證方法 🛡️</td><td>6:30-8:00</td><td>3 個驗證步驟</td></tr>
+  <tr><td>7</td><td>總結 + 6 大失分陷阱</td><td>8:00-10:00</td><td>Recap + 陷阱列表</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">📝 逐 Step 教案</div>
+<p><strong>Step 1 — DSE 速報 + 開場（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>真實數據增加說服力：58,576 考生、332A 門檻</li>
+  <li>定位：「你嘅角色唔係幫佢溫書，係幫佢慳時間」</li>
+</ul>
+<p><strong>Step 2 — 高頻考點（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>叫 AI 分析 2020-2025 Past Paper</li>
+  <li>Prompt 結構：科目 + 卷別 + 題型分類 + 表格式輸出</li>
+  <li>示範用英文科做例（Paper 1-3 都 cover）</li>
+</ul>
+<p><strong>Step 3 — 選修科定位（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>Prompt 要求：比重排名 + 溫習優先級（高/中/低）</li>
+  <li>用 Chemistry 做示範（最多人揀嘅選修）</li>
+</ul>
+<p><strong>Step 4 — 倒數時間表（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>呢個係家長最有感覺嘅功能</li>
+  <li>Prompt 必須包含：考試日期、強弱項、每日可用時間、固定行程</li>
+  <li>可修改：「星期三夜晚改做 Bio」</li>
+</ul>
+<p><strong>Step 5 — 模擬題 + MS（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>針對弱項課題出題（如 Chem Organic）</li>
+  <li>Prompt 要求：題型似 DSE、有 MS、有常見錯誤列表</li>
+  <li>進階：將阿女答案貼上去叫 AI 模擬批改</li>
+</ul>
+<p><strong>Step 6 — 驗證方法（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>呢 part 係家長最擔心嘅環節，必須講清楚</li>
+  <li>三個方法：① 叫 AI 俾 Source ② 對照 Marking Scheme ③ Cross-check</li>
+  <li>最簡單：「請喺每個考點後面標註 Past Paper 年份同題號」</li>
+</ul>
+<p><strong>Step 7 — 總結（120 秒）</strong></p>
+<ul class="objective-list">
+  <li>5 個技能 Recap</li>
+  <li>DSE 6 大失分陷阱</li>
+  <li>金句：「AI 係你嘅工具，唔係你嘅老師」</li>
+</ul>
+
+<div class="section-title-2">📊 PPT Slide Outline</div>
+<div class="prompt-block">
+Slide 1: 2026 DSE 速報（數據圖）<br>
+Slide 2: 本課 5 個技能一覽<br>
+Slide 3: 技能 1 — 高頻考點拆解（Prompt + Demo）<br>
+Slide 4: 技能 2 — 選修科定位（比重 + 優先級）<br>
+Slide 5: 技能 3 — 倒數時間表（Prompt 結構）<br>
+Slide 6: Demo — AI 時間表示例<br>
+Slide 7: 技能 4 — 出模擬題 + MS<br>
+Slide 8: 技能 5 — 驗證方法 🛡️（3 步）<br>
+Slide 9: DSE 6 大失分陷阱<br>
+Slide 10: Recap + 課後挑戰
+</div>
+
+<div class="section-title-2">🔑 關鍵 Prompt</div>
+<div class="prompt-block"><span class="label">🎯 高頻考點拆解</span>請分析 DSE [科目] 2020-2025 Past Paper：
+1. 列出最常出現嘅 5 種題型/課題
+2. 每年必出嘅重點
+3. 考生常見失分位
+用表列出，加「溫習優先級」（高/中/低）。</div>
+<div class="prompt-block"><span class="label">📅 倒數時間表</span>DSE 倒數時間表：
+考試日：[日期]
+強項：[科目]
+弱項：[科目]
+可用時間：[平日/週末]
+固定行程：[補習/活動]
+分 3 階段：基礎→衝刺→最後溫習</div>
+<div class="prompt-block"><span class="label">📝 模擬題 + MS</span>根據 DSE 程度出 5 條 [課題] 模擬題。
+題型似 DSE Paper [卷號]。
+連答案 + Marking Scheme + 常見錯誤。</div>
+<div class="prompt-block"><span class="label">🛡️ 驗證指令</span>請喺以上每個考點/答案後面
+標註對應嘅 HKEAA Past Paper 年份同題號。
+如果冇確實來源，請標明「推測」。</div>
+
+<div class="section-title-2">⚠️ DSE 6 大失分陷阱</div>
+<div class="pitfall-grid">
+  <div class="pitfall-item"><strong>① 忽略考試技巧</strong><br><span>→ AI 教你答題框架</span></div>
+  <div class="pitfall-item"><strong>② 溫習太分散</strong><br><span>→ AI 分析高頻課題</span></div>
+  <div class="pitfall-item"><strong>③ 忽視聆聽綜合卷</strong><br><span>→ AI 特訓</span></div>
+  <div class="pitfall-item"><strong>④ 起步太遲</strong><br><span>→ AI 倒數時間表</span></div>
+  <div class="pitfall-item"><strong>⑤ 唔檢討錯誤</strong><br><span>→ AI 幫你出錯題本</span></div>
+  <div class="pitfall-item"><strong>⑥ 忽略身心健康</strong><br><span>→ AI 計埋作息時間</span></div>
+</div>
+
+<div class="section-title-2">💡 導師 FAQ</div>
+<ul class="faq-list">
+  <li><div class="faq-q">「AI 會唔會亂作？」</div><div class="faq-a">教科驗證方法（呢 part 係課程重點之一）</div></li>
+  <li><div class="faq-q">「我唔識 DSE，點知 AI 啱唔啱？」</div><div class="faq-a">叫 AI 標 Source，然後對 HKEAA Marking Scheme</div></li>
+  <li><div class="faq-q">「阿女唔肯用 AI」</div><div class="faq-a">教引導方法：「一齊開嚟睇下 AI 點分析 Past Paper」</div></li>
+  <li><div class="faq-q">「要逐科逐個 prompt 好煩」</div><div class="faq-a">教一個通用 prompt 改 [科目] 就得</div></li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- M4 -->
+<!-- ════════════════════════════════════════ -->
+<div class="module-card m4">
+<div class="module-head">
+  <span class="module-num" style="background:var(--blue);">4</span>
+  <span class="module-label">單元四</span>
+  <span class="module-title">旅行神助手</span>
+  <span class="module-time">~9 min</span>
+</div>
+
+<div class="section-title-2">🎯 學習目標</div>
+<ul class="objective-list">
+  <li>用 AI 生成地理順路行程（含景點、交通、時間）</li>
+  <li>自動計算 Budget 拆解</li>
+  <li>用 Gemini Web Search 格價機票酒店</li>
+</ul>
+
+<div class="section-title-2">⏱ 時間分配</div>
+<table class="m4-table">
+<thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+<tbody>
+  <tr><td>1</td><td>開場（20 個分頁 gag）</td><td>0:00-0:30</td><td>Face cam + 瀏覽器分頁</td></tr>
+  <tr><td>2</td><td>地理順路行程</td><td>0:30-3:30</td><td>東京 5 日4 夜 Prompt → AI 行程</td></tr>
+  <tr><td>3</td><td>Budget 自動計算</td><td>3:30-5:30</td><td>總預算 $45,000 → AI 拆解</td></tr>
+  <tr><td>4</td><td>酒店/機票格價</td><td>5:30-7:00</td><td>Web Search 比較表</td></tr>
+  <tr><td>5</td><td>總結 + 懶人包</td><td>7:00-9:00</td><td>一條龍 Prompt + 修改方法</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">📝 逐 Step 教案</div>
+<p><strong>Step 1 — 場景引入（30 秒）</strong></p>
+<ul class="objective-list">
+  <li>開 20 個分頁嘅痛點</li>
+  <li>承諾：「一個對話搞掂晒」</li>
+</ul>
+<p><strong>Step 2 — 行程規劃（180 秒）</strong></p>
+<ul class="objective-list">
+  <li>Prompt 關鍵要夠 detail：地點、成員年齡、步數限制、特別日子</li>
+  <li>用東京 5 日4 夜家庭旅行做示範</li>
+  <li>示範 AI 識得 season match、免費景點、生日驚喜</li>
+</ul>
+<p><strong>Step 3 — Budget 計算（120 秒）</strong></p>
+<ul class="objective-list">
+  <li>喺同一個對話繼續 — 唔使重新開</li>
+  <li>俾總預算，叫 AI 拆解每日細分</li>
+  <li>AI 會自動俾慳錢建議</li>
+</ul>
+<p><strong>Step 4 — 格價策略（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>Gemini 嘅 Web Search 功能</li>
+  <li>叫 AI 比較各航空公司/酒店平台價格</li>
+  <li>可以追問：「如果改早一日出發會平幾多？」</li>
+</ul>
+<p><strong>Step 5 — 總結（120 秒）</strong></p>
+<ul class="objective-list">
+  <li>一條龍 Prompt（行程 + Budget 一次過出）</li>
+  <li>重點：「AI 出嘅係初稿，可以不斷修改」</li>
+</ul>
+
+<div class="section-title-2">📊 PPT Slide Outline</div>
+<div class="prompt-block">
+Slide 1: 本課目標 — 告別 20 個分頁<br>
+Slide 2: Prompt 結構 — 細節愈多愈好<br>
+Slide 3: Demo — 東京 5 日4 夜行程<br>
+Slide 4: Budget 自動拆解 + 慳錢建議<br>
+Slide 5: Web Search 格價策略<br>
+Slide 6: 一條龍 Prompt 懶人包<br>
+Slide 7: 修改方法 + Recap
+</div>
+
+<div class="section-title-2">🔑 關鍵 Prompt</div>
+<div class="prompt-block"><span class="label">✈️ 行程 + Budget 一條龍</span>請幫我規劃一個 [地點] [日數] 旅行。
+成員：[人數]
+日子：[日期]
+住宿：[地區/未book]
+想去：[景點列表]
+偏好：[步數限制、餐飲要求、特別日子]
+總預算：[金額]
+請一齊出行程表 + Budget 細分 + 慳錢建議。</div>
+<div class="prompt-block"><span class="label">💸 格價 Prompt</span>幫我搜尋 [日期] 香港來回[目的地]嘅機票：
+- [人數]
+- 比較 [航空公司]
+- 列出總價（連稅）、行李限額、航班時間
+- 標明邊個最抵</div>
+
+<div class="section-title-2">💡 導師 FAQ</div>
+<ul class="faq-list">
+  <li><div class="faq-q">「AI 行程現實嗎？」</div><div class="faq-a">強調係初稿，需要用人腦 check 交通時間</div></li>
+  <li><div class="faq-q">「格價 data 係咪最 update？」</div><div class="faq-a">Gemini Web Search 係 real-time，但建議 double check 官網</div></li>
+  <li><div class="faq-q">「唔去日本，去其他地方得唔得？」</div><div class="faq-a">同一個 prompt 改地點就 work</div></li>
+  <li><div class="faq-q">「要逐日計 budget 好煩」</div><div class="faq-a">AI 會幫你拆，你只需要俾總數</div></li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- M5 -->
+<!-- ════════════════════════════════════════ -->
+<div class="module-card m5">
+<div class="module-head">
+  <span class="module-num" style="background:var(--purple);">5</span>
+  <span class="module-label">單元五</span>
+  <span class="module-title">日常清空術</span>
+  <span class="module-time">~8 min</span>
+</div>
+
+<div class="section-title-2">🎯 學習目標</div>
+<ul class="objective-list">
+  <li>用 Voice Mode 語音記事 → 自動變 To-do List</li>
+  <li>長文章 / WhatsApp 對話一鍵 Summary</li>
+  <li>建立日常 AI Workflow</li>
+</ul>
+
+<div class="section-title-2">⏱ 時間分配</div>
+<table class="m5-table">
+<thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+<tbody>
+  <tr><td>1</td><td>開場 — 腦袋雜訊痛點</td><td>0:00-0:30</td><td>Face cam + Voice Mode 畫面</td></tr>
+  <tr><td>2</td><td>Voice Mode 實戰</td><td>0:30-3:30</td><td>錄音 → Prompt → AI To-do List</td></tr>
+  <tr><td>3</td><td>進階 Voice 用法</td><td>3:30-5:00</td><td>Idea Capture、旅行準備</td></tr>
+  <tr><td>4</td><td>Long Text Summary</td><td>5:00-7:00</td><td>WhatsApp 60+ → 3 個重點</td></tr>
+  <tr><td>5</td><td>總結 + 課程完結</td><td>7:00-8:00</td><td>Workflow + 金句 + 🎉</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">📝 逐 Step 教案</div>
+<p><strong>Step 1 — 開場（30 秒）</strong></p>
+<ul class="objective-list">
+  <li>痛點：行行吓諗起要做嘢 → 冇手打字 → 最後唔記得</li>
+  <li>解決：Voice Mode — 就咁講就得</li>
+</ul>
+<p><strong>Step 2 — Voice Mode 實戰（180 秒）</strong></p>
+<ul class="objective-list">
+  <li>打開 Gemini → 撳 mic icon</li>
+  <li>示範錄音：「聽日要交水費、約星期五下晝三點洗牙…」</li>
+  <li>講完之後輸入整理 Prompt → AI 出有顏色 priority 嘅 To-do List</li>
+</ul>
+<p><strong>Step 3 — 進階 Voice（90 秒）</strong></p>
+<ul class="objective-list">
+  <li>Idea Capture：煮飯/湊仔時突然有 idea → 講低 → AI 自動整理 Notes</li>
+  <li>強調：唔使打字、唔使開 App、唔使開燈（瞓前用）</li>
+</ul>
+<p><strong>Step 4 — Summary（120 秒）</strong></p>
+<ul class="objective-list">
+  <li>School group WhatsApp 99+ messages 嘅痛點</li>
+  <li>複製 → 貼上 → Prompt</li>
+  <li>AI Output：5 個重點 + Action Items 獨立列出</li>
+</ul>
+<p><strong>Step 5 — 總結 + 課程完結（60 秒）</strong></p>
+<ul class="objective-list">
+  <li>建立日常 Workflow：朝早 Voice 記事 → AI 整理 To-do → 跟住做</li>
+  <li>課程 5 個單元 Recap</li>
+  <li>金句：「AI 係你嘅員工，唔係你嘅老細」</li>
+  <li>🎉 課程完成</li>
+</ul>
+
+<div class="section-title-2">📊 PPT Slide Outline</div>
+<div class="prompt-block">
+Slide 1: 本課目標 — 腦袋清空術<br>
+Slide 2: Voice Mode 開啓方法（mic icon）<br>
+Slide 3: Demo — 語音 → AI To-do List<br>
+Slide 4: Voice 進階用法（Idea Capture）<br>
+Slide 5: Long Text Summary（Before/After）<br>
+Slide 6: 建立日常 Workflow<br>
+Slide 7: 🎉 課程完成 + Recap<br>
+Slide 8: 金句 + 下一步建議
+</div>
+
+<div class="section-title-2">🔑 關鍵 Prompt</div>
+<div class="prompt-block"><span class="label">🗣️ Voice → To-do List</span>幫我將以上嘅嘢整理成 To-do List，
+按優先次序排好，
+urgent 標紅色，標埋建議日期同時間。</div>
+<div class="prompt-block"><span class="label">📝 Long Text Summary</span>請總結以下訊息嘅重點：
+- 最多 5 個重點
+- 每個重點一句講晒
+- Action items 獨立列出
+用繁體中文</div>
+<div class="prompt-block"><span class="label">📊 Weekly Recap</span>回顧我過去一星期嘅 To-do List：
+- 完成率幾多 %？
+- 有咩 recurring task 可以自動化？
+- 下星期可以點樣改善時間分配？</div>
+
+<div class="section-title-2">💡 導師 FAQ</div>
+<ul class="faq-list">
+  <li><div class="faq-q">「Voice Mode 唔識聽廣東話」</div><div class="faq-a">Gemini 廣東話辨識度 OK，但要講得清楚啲</div></li>
+  <li><div class="faq-q">「錄音好怕人聽到」</div><div class="faq-a">教用耳機 / 喺屋企先錄</div></li>
+  <li><div class="faq-q">「整理出嚟嘅 To-do 唔啱 priority」</div><div class="faq-a">直接改：「呢個應該排第二」</div></li>
+  <li><div class="faq-q">「Summary 漏咗重點」</div><div class="faq-a">追問：「仲有冇其他 action items？」</div></li>
+</ul>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 評估與跟進 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">📈 評估與跟進</div>
+
+<div class="section-title-2">課間評估（導師觀察）</div>
+<table class="generic-table">
+<thead><tr><th>評估點</th><th>觀察什麼</th></tr></thead>
+<tbody>
+  <tr><td>M1 示範後</td><td>學生能否自己打開 Gemini 並測試</td></tr>
+  <tr><td>M2 示範後</td><td>學生能否獨立完成「影相 → Prompt → 分析」</td></tr>
+  <tr><td>M3 示範後</td><td>學生能否修改 Prompt 中的 [科目]</td></tr>
+  <tr><td>M4 示範後</td><td>學生能否俾到夠 detail 嘅旅行資料</td></tr>
+  <tr><td>M5 示範後</td><td>學生能否用 Voice Mode 錄音</td></tr>
+</tbody>
+</table>
+
+<div class="section-title-2">課後跟進</div>
+<ul class="objective-list">
+  <li><strong>M1：</strong>確認已安裝 Gemini 並設定偏好</li>
+  <li><strong>M2：</strong>影低一餐 → 分享營養分析</li>
+  <li><strong>M3：</strong>叫 AI 分析一科 DSE Past Paper → 同阿女一齊睇</li>
+  <li><strong>M4：</strong>用 AI 規劃一次旅行（本地一日遊都得）</li>
+  <li><strong>M5：</strong>用 Voice Mode 代替打字一星期</li>
+</ul>
+
+<div class="section-title-2">常見學生分層</div>
+<table class="generic-table">
+<thead><tr><th>學生類型</th><th>特徵</th><th>教學調整</th></tr></thead>
+<tbody>
+  <tr><td>🟢 完全初哥</td><td>未用過 AI</td><td>慢速示範，每一步停低等</td></tr>
+  <tr><td>🟡 用過 ChatGPT</td><td>對 AI 有基本概念</td><td>重點講 Gemini 獨有功能（Camera、Voice）</td></tr>
+  <tr><td>🔴 科技家長</td><td>用過多款 AI</td><td>可以跳 M1，直接 M2/M3 學 advanced prompt</td></tr>
+  <tr><td>⚫ DSE 家長</td><td>主要關心 M3</td><td>可以先跳去 M3，然後再睇其他</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- Prompt 懶人包 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">📎 附錄 A：完整 Prompt 懶人包</div>
+
+<table class="generic-table">
+<thead><tr><th>場景</th><th>Prompt 開頭</th><th>長度</th></tr></thead>
+<tbody>
+  <tr><td>個人設定</td><td>「我係一個香港家長，用繁體中文同廣東話溝通…」</td><td>短</td></tr>
+  <tr><td>營養分析</td><td>「幫我分析呢餐嘅營養成分…」</td><td>中</td></tr>
+  <tr><td>餐單設計</td><td>「我目標係減脂，每日大約食 1600 kcal…」</td><td>長</td></tr>
+  <tr><td>DSE 考點</td><td>「請分析 DSE [科目] 2020-2025 Past Paper…」</td><td>長</td></tr>
+  <tr><td>DSE 時間表</td><td>「請幫我設計一個 DSE 倒數溫習時間表…」</td><td>長</td></tr>
+  <tr><td>旅行行程</td><td>「請幫我規劃一個 [地點] [日數] 旅行…」</td><td>長</td></tr>
+  <tr><td>格價</td><td>「幫我搜尋 [日期] 香港來回[目的地] 嘅機票…」</td><td>中</td></tr>
+  <tr><td>Voice To-do</td><td>「幫我將以上嘅嘢整理成 To-do List…」</td><td>短</td></tr>
+  <tr><td>Summary</td><td>「請總結以下訊息嘅重點…」</td><td>短</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- 附錄 -->
+<!-- ════════════════════════════════════════ -->
+<div class="section">
+<div class="section-title">📎 附錄 B：參考資源</div>
+<ul class="objective-list">
+  <li><strong>HKEAA 考評局：</strong><a href="https://www.hkeaa.edu.hk/" style="color:var(--accent);">hkeaa.edu.hk</a>（Past Paper + Marking Scheme）</li>
+  <li><strong>Google Gemini：</strong><a href="https://gemini.google.com/" style="color:var(--accent);">gemini.google.com</a></li>
+  <li><strong>NotebookLM：</strong><a href="https://notebooklm.google.com/" style="color:var(--accent);">notebooklm.google.com</a></li>
+  <li><strong>課程網站：</strong><a href="https://fishkingsin.github.io/ai-family-butler-course.html" style="color:var(--accent);">fishkingsin.github.io</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer">
+  《AI 生活與家庭全能管家》· 完整課程教案 · v1.0<br>
+  導師內部使用 · <a href="ai-family-butler-course.html">← 返去課程網站</a>
+</div>
+
+</body>
+</html>
