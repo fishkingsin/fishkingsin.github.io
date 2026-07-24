@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 4｜旅行神助手 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #faf8f5; --bg-card: #ffffff; --text: #2d2a24;
+    --text-secondary: #6b6258; --text-muted: #a09888;
+    --accent: #d9773e; --accent-dark: #b85a28; --accent-light: #fef0e6;
+    --blue: #1565c0; --blue-light: #e3f2fd; --blue-soft: #e8eef6;
+    --teal: #3d8b7a; --teal-light: #e6f3ef;
+    --amber: #d4a24e; --amber-light: #fcf2e0;
+    --border: #e8e0d8; --border-light: #f0ebe5;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 14px; --radius-sm: 10px;
+  }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0d2538 0%, #1a3a5c 50%, #1e5080 100%);
+    color: #fff; padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 85% 20%, rgba(21,101,192,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 500; color: #90caf9;
+    background: rgba(21,101,192,0.2); border: 1px solid rgba(21,101,192,0.35);
+    padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem; letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif; font-size: 2rem; font-weight: 900; line-height: 1.3; margin-bottom: 0.5rem;
+  }
+  .hero h1 small {
+    display: block; font-size: 0.85rem; font-weight: 400; color: #90caf9; margin-top: 0.3rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .hero-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .hero-stats .stat { text-align: center; }
+  .hero-stats .stat-num { font-size: 1.2rem; font-weight: 700; color: #90caf9; }
+  .hero-stats .stat-label { font-size: 0.7rem; color: #6dabdb; letter-spacing: 0.05em; }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+  .info-bar {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+    margin: 1.5rem 0; font-size: 0.85rem; box-shadow: var(--shadow);
+  }
+  .badge-blue { background: var(--blue-light); color: var(--blue); display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 0.1rem 0.5rem; border-radius: 4px; margin-left: 0.3rem; }
+  .section { padding: 2rem 0; }
+  .section-title {
+    font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem;
+  }
+  .script-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    margin-bottom: 1.25rem; box-shadow: var(--shadow);
+  }
+  .script-card .part-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+  .script-card .part-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .script-card .part-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; }
+  .script-card .part-time {
+    margin-left: auto; font-size: 0.75rem; color: var(--text-muted);
+    background: var(--border-light); padding: 0.15rem 0.6rem; border-radius: 4px; white-space: nowrap;
+  }
+  .visual-cue {
+    background: #f5f0eb; border-left: 3px solid var(--blue);
+    border-radius: 0 6px 6px 0; padding: 0.6rem 1rem; margin-bottom: 0.8rem;
+    font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .visual-cue .label { font-weight: 600; color: var(--blue); }
+  .dialogue {
+    padding-left: 1.2rem; border-left: 3px solid var(--blue); margin-bottom: 0.5rem;
+  }
+  .dialogue p {
+    position: relative; padding-left: 0.8rem; margin-bottom: 0.4rem;
+    font-size: 0.92rem; line-height: 1.7; color: var(--text);
+  }
+  .dialogue p::before {
+    content: ''; position: absolute; left: 0; top: 0.75rem;
+    width: 4px; height: 4px; background: var(--blue); border-radius: 50%; opacity: 0.4;
+  }
+  .dialogue .paren { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+  .dialogue .paren::before { display: none; }
+  .prompt-block {
+    background: #2d2a24; color: #e8e0d8; border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem; margin: 0.75rem 0;
+    font-family: 'Noto Sans SC', monospace; font-size: 0.85rem;
+    line-height: 1.7; white-space: pre-wrap; overflow-x: auto; position: relative;
+  }
+  .prompt-block .copy-hint {
+    position: absolute; top: 0.5rem; right: 0.75rem;
+    font-size: 0.65rem; color: #90887e; font-family: 'Noto Sans SC', sans-serif;
+  }
+  .demo-box {
+    background: var(--blue-soft); border: 1px solid rgba(21,101,192,0.15);
+    border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin: 0.75rem 0; font-size: 0.88rem;
+  }
+  .demo-box .demo-label {
+    font-size: 0.7rem; font-weight: 600; color: var(--blue);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem;
+  }
+  .demo-box .demo-ai {
+    background: rgba(255,255,255,0.6); border-radius: 6px;
+    padding: 0.6rem 0.8rem; margin-top: 0.4rem; font-size: 0.82rem; color: var(--text-secondary);
+  }
+  .split-demo {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0;
+  }
+  .split-demo .side {
+    border-radius: var(--radius-sm); padding: 0.8rem 1rem; font-size: 0.8rem;
+  }
+  .steps-list {
+    list-style: none; counter-reset: step; margin: 1rem 0;
+  }
+  .steps-list li {
+    counter-increment: step; position: relative;
+    padding: 0.8rem 0 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border-light); font-size: 0.92rem; line-height: 1.6;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .steps-list li::before {
+    content: counter(step); position: absolute; left: 0; top: 0.8rem;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--blue); color: #fff; font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+  .tip-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.1rem; transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-card .tip-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .tip-card .tip-title { font-size: 0.85rem; font-weight: 600; }
+  .tip-card .tip-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .template-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  }
+  .template-card .template-head {
+    background: var(--blue-light); padding: 0.7rem 1rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--blue);
+    border-bottom: 1px solid rgba(21,101,192,0.15);
+  }
+  .template-card .template-body { padding: 0.75rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .table-wrap { overflow-x: auto; margin: 0.75rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; border-radius: var(--radius-sm); overflow: hidden; }
+  th { background: var(--blue-light); color: var(--blue); font-weight: 600; padding: 0.6rem 0.8rem; text-align: left; }
+  td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border-light); }
+  .challenge-box {
+    background: var(--blue-light); border: 1px solid rgba(21,101,192,0.2);
+    border-radius: var(--radius); padding: 1.5rem; text-align: center;
+  }
+  .footer {
+    text-align: center; padding: 2.5rem 1.5rem; font-size: 0.75rem;
+    color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem;
+  }
+  .footer a { color: var(--blue); text-decoration: none; }
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero-stats { gap: 1rem; }
+    .script-card { padding: 1.1rem; }
+    .tips-grid, .template-grid, .split-demo { grid-template-columns: 1fr; }
+    .container { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">📖 單元四 · 教材</div>
+  <h1>
+    旅行神助手：5 分鐘排行程兼算帳<br>
+    <small>告別 20 個分頁開開關關，AI 幫你一條龍搞掂</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">⏱ ~9 min</div><div class="stat-label">影片長度</div></div>
+    <div class="stat"><div class="stat-num">🗺️ 行程</div><div class="stat-label">地理順路</div></div>
+    <div class="stat"><div class="stat-num">💰 Budget</div><div class="stat-label">自動計數</div></div>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="info-bar">
+    <span class="tag">🎯 <strong>學完做到咩：</strong>用 AI 生成地理順路行程 + 自動拆 Budget + 酒店機票格價策略</span>
+    <span class="tag">🛠 <strong>工具：</strong>Gemini <span class="badge-blue">長 context</span><span class="badge-blue">Search</span></span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🎬 影片逐字稿</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;padding:0.5rem 0.8rem;background:var(--border-light);border-radius:8px;">
+      長度約 9 分鐘 · 手機 + 電腦雙畫面示範 · 廣東話
+    </div>
+
+    <!-- Part 1 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--blue);">1</span>
+        <span class="part-label">開場</span>
+        <span class="part-time">0:00 – 0:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 瀏覽器 20 個分頁（誇張效果）</div>
+      <div class="dialogue">
+        <p>「 планировать 旅行，以前要開 20 個分頁：Google Map、Agoda、Trip.com、小紅書、Klook……」</p>
+        <p>「呢課我用 AI 幫你濃縮成一個對話 — 行程、Budget、格價，全部一條龍搞掂。」</p>
+        <p>「我哋用一個東京 5 日4 夜家庭旅行做示範。」</p>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--blue);">2</span>
+        <span class="part-label">地理順路行程規劃</span>
+        <span class="part-time">0:30 – 3:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，打字輸入</div>
+      <div class="dialogue">
+        <p>「第一步：叫 AI 幫你排行程。關鍵係要俾夠 detail — 地點、日數、偏好、限制。」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>請幫我規劃一個東京 5 日4 夜家庭旅行行程。
+
+成員：兩大兩細（小朋友 8 歲同 5 歲）
+日子：2026 年 3 月 20-24 日
+住宿：新宿（已訂）
+
+想去嘅地方：
+- Day 1：下午到達成田 — 新宿附近行下
+- 一定要去：迪士尼海洋（全日）、浅草、晴空塔、渋谷、秋葉原
+- 有興趣：築地市場、台場、上野動物園
+
+偏好：
+- 每日移動唔好太頻密（有細路）
+- 盡量順路，唔好一日東一日西
+- 每日安排一個「主打景點」，其他係周邊順路
+- 每餐預 1 小時，唔好太趕
+- 每日行路唔好超過 10,000 步（有細路）
+- Day 3 係阿女生日，想安排一個驚喜環節</div>
+      <div class="dialogue">
+        <p>「你睇下呢個 prompt — 我連小朋友歲數、每日步數限制、生日驚喜都講埋。AI 知得愈多，出嘅行程愈貼身。」</p>
+      </div>
+      <div class="demo-box">
+        <div class="demo-label">🗺️ AI 行程示範（Day 1 & Day 3）</div>
+        <div style="font-size:0.8rem;">
+          <strong>Day 1（3/20 五）— 新宿周邊探索</strong><br>
+          <span>14:30 到達成田 → Skyliner 出新宿（1hr）<br>
+          16:30 Check-in 酒店<br>
+          17:30 🎯 主打：新宿御苑（賞梅季節）<br>
+          19:00 晚餐：思出橫町（燒肉/串燒 — 大人啱細路都啱）<br>
+          20:30 東京都廳展望台（免費！睇夜景）</span>
+        </div>
+        <div class="demo-ai" style="margin-top:0.4rem;">
+          🎂 <strong>Day 3（3/22）— 阿女生日</strong><br>
+          08:30 🎯 主打：築地市場（早餐+壽司體驗）<br>
+          10:30 台場（Decks 商場有樂高樂園、遊戲機中心）<br>
+          13:00 🎉 驚喜：預約 TeamLab  Borderless 麻布台（大人細路都鍾意）<br>
+          18:00 生日晚餐：東京鐵塔附近嘅主題餐廳
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「見到佢識得 season match（賞梅）、免費景點（都廳）、生日驚喜安排？AI 唔係就咁列景點，係會諗。」</p>
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--blue);">3</span>
+        <span class="part-label">Budget 自動計算</span>
+        <span class="part-time">3:30 – 5:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 接住上一個對話，繼續問</div>
+      <div class="dialogue">
+        <p>「行程出咗之後，唔使重新開一個對話 — 直接喺同一個 chat 繼續問 Budget。」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>好詳細，唔該晒！跟住幫我計 budget：
+
+總預算：HKD $45,000（已包機票）
+使費分類建議：
+- 住宿：已 book（$5,500）
+- 交通（市內）：需計算
+- 餐飲：每日三餐
+- 入場費/活動
+- 購物/紀念品
+- 應急錢
+
+請幫我：
+1. 每日一個細分表
+2. 總數對比預算
+3. 標明邊日使費最高
+4. 俾 3 個慳錢建議</div>
+      <div class="dialogue">
+        <p>「呢個 prompt 嘅重點係『俾個總預算佢，叫佢幫你拆』— 你唔使自己諗邊樣使幾多。」</p>
+      </div>
+      <div class="split-demo">
+        <div class="side" style="background:#e8f5e9;">
+          <strong style="color:#2e7d32;">💰 Day 1 預算例</strong><br>
+          <span style="font-size:0.78rem;">
+            交通：¥3,200（Skyliner）<br>
+            餐飲：¥8,000（晚餐+輕食）<br>
+            活動：¥0（免費展望台）<br>
+            購物：¥3,000<br>
+            <strong>小計：¥14,200</strong>
+          </span>
+        </div>
+        <div class="side" style="background:#fff8e1;">
+          <strong style="color:#f57f17;">💡 慳錢建議</strong><br>
+          <span style="font-size:0.78rem;">
+            ① 買 Tokyo Subway Ticket（72hr）<br>
+            ② 築地早餐 vs 酒店早餐<br>
+            ③ 迪士尼門票提早網上買
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Part 4 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--blue);">4</span>
+        <span class="part-label">酒店/機票格價策略</span>
+        <span class="part-time">5:30 – 7:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini 開 Web Search</div>
+      <div class="dialogue">
+        <p>「如果你未 book 機票酒店，可以叫 AI 幫你格價。Gemini 有 Web Search 功能 — 可以直接上網搵資料。」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>幫我搜尋 2026年3月20-24日 
+香港來回東京（成田）嘅機票：
+
+要求：
+- 兩大兩細（8歲+5歲）
+- 廉航或者傳統航空都可以
+- 比較香港快運、國泰、ANA、全日空
+- 列出每間航空公司嘅：
+  總價（連稅）、行李限額、航班時間
+- 標明邊個最抵</div>
+      <div class="dialogue">
+        <p>「佢會上網幫你搜尋即時價格。你可以再追問：『呢個價包唔包行李？』、『如果改早一日出發會平幾多？』」</p>
+        <p class="paren">（畫面示範：AI 出咗比較表，有齊各航空公司價格同航班時間）</p>
+        <p>「酒店格價都係同一道理：話俾佢聽日期、地點、要求（例如要三人房、有早餐），叫佢比較 Agoda、Booking.com、Trip.com。」</p>
+      </div>
+    </div>
+
+    <!-- Part 5 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--blue);">5</span>
+        <span class="part-label">總結 + 旅行 checklist</span>
+        <span class="part-time">7:00 – 9:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 旅行 checklist overlay</div>
+      <div class="dialogue">
+        <p>「今課 recap 三個技能：」</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0 1rem;">
+        <span style="background:var(--blue-light);color:var(--blue);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">① 地理順路行程</span>
+        <span style="background:var(--blue-light);color:var(--blue);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">② Budget 自動拆解</span>
+        <span style="background:var(--blue-light);color:var(--blue);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">③ 機票酒店格價</span>
+      </div>
+      <div class="dialogue">
+        <p>「最後送你一個 AI 旅行 prompt 懶人包 — 一次過出齊行程 + Budget：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>請幫我規劃一個 [地點] [日數] 旅行。
+成員：[人數]
+日子：[日期]
+住宿：[地區/未book]
+想去：[景點列表]
+偏好：[每日步數限制、餐飲要求、特別日子]
+總預算：[金額]
+請一齊出行程表 + Budget 細分 + 慳錢建議。</div>
+      <div class="dialogue">
+        <p>「記得：AI 出嘅行程係初稿，你可以不斷修改 — 『第三日太迫，幫我鬆動啲』、『第二餐想食拉麵』。」</p>
+        <p>「下一課我哋講 — 日常清空術：語音記事、整理雜務與行程。」</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="section">
+    <div class="section-title">📋 步驟懶人包</div>
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--blue);">👉 出行程 + Budget（一條龍 prompt）</div>
+    <ol class="steps-list">
+      <li>俾 AI 背景資料：地點、日數、成員、想去的景點</li>
+      <li>俾偏好：步數限制、餐飲要求、特別日子
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>請幫我規劃 [地點] [日數] 旅行⋯⋯
+總預算 [金額]，請一齊出行程 + Budget。</div>
+      </li>
+      <li>逐日修改：「Day 3 想加多個 TeamLab」、「第二餐想轉食拉麵」</li>
+    </ol>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section">
+    <div class="section-title">💡 小貼士</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🗺️</div>
+        <div class="tip-title">講清楚「順路」</div>
+        <div class="tip-desc">AI 唔熟地理。同佢講「呢啲景點邊啲喺同一區」或者「幫我按地區分組」。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💰</div>
+        <div class="tip-title">Budget 要俾總數</div>
+        <div class="tip-desc">唔好逐項問。俾個總預算佢，叫佢自己拆 — 佢識得按比例分配。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔍</div>
+        <div class="tip-title">Web Search 要開</div>
+        <div class="tip-desc">Gemini 有 Search 功能。問機票酒店前確保佢聯網 — 唔係靠記憶。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-title">同一個對話做晒</div>
+        <div class="tip-desc">行程、Budget、格價全部喺同一個 chat 搞掂。AI 會記住前文後理。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATES -->
+  <div class="section">
+    <div class="section-title">📎 即用範本</div>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Copy & Paste，改 [地點] [日期] 就得。</p>
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-head">🗺️ 行程 + Budget 一條龍</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>請幫我規劃 [地點] [日數] 旅行。
+成員：[人數年齡]
+日子：[日期]
+想去：[景點]
+偏好：[步數/飲食/特別日]
+總預算：[金額]
+請一齊出行程表 + Budget 細分 + 慳錢建議。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">✈️ 機票格價</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>幫我比較 [日期] [地點] 來回機票。
+[人數]
+比較 [航空公司A/B/C]
+列出總價（連稅）、行李、航班時間。
+標明最抵選擇。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">🏨 酒店格價</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>搜尋 [地區] [日期] 住宿。
+要求：[房型/設施/早餐]
+比較 Agoda / Booking.com / Trip.com
+列出價格、位置、評價分數。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📋 旅行 Checklist</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>幫我出一份 [月份] 去 [地點]
+嘅旅行 packing checklist + 出發前準備清單。
+成員包括 [人數年齡]。
+分 5 類：證件、衣物、藥品、電子產品、其他。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGE -->
+  <div class="section">
+    <div class="section-title">🎯 課後挑戰</div>
+    <div class="challenge-box">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">✈️</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--blue);margin-bottom:0.5rem;">用 AI 規劃你嘅下一個旅行目的地</div>
+      <div style="font-size:0.85rem;color:var(--text-secondary);max-width:400px;margin:0 auto;">
+        唔使真係去。就當練習 — 揀一個你想去嘅地方，用今日學嘅 prompt 出一次行程 + Budget。你會發現 planning 快咗 10 倍。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  《AI 生活與家庭全能管家》· 單元四教材<br>
+  <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.prompt-block').forEach(function(block){
+    block.addEventListener('click', function(){
+      var text = this.innerText.replace('📋 Copy', '').trim();
+      var hint = this.querySelector('.copy-hint');
+      navigator.clipboard.writeText(text).then(function(){
+        if(hint){ var orig = hint.textContent; hint.textContent = '✅ Copied!'; setTimeout(function(){ hint.textContent = orig; }, 1500); }
+      }).catch(function(){
+        if(hint){ hint.textContent = '❌ Failed'; setTimeout(function(){ hint.textContent = '📋 Copy'; }, 1500); }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

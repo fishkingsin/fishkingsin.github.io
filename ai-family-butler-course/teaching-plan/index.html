@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 生活與家庭全能管家 — 課程教案 Slideshow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: clamp(14px, 2.2vw, 22px); }
+
+/* ── Theme Colors ── */
+:root {
+  --text: #2d2a24;
+  --text-secondary: #6b6258;
+  --text-muted: #a09888;
+  --accent: #d9773e;
+  --teal: #3d8b7a;
+  --red: #c62828;
+  --blue: #1565c0;
+  --purple: #7b1fa2;
+  --green: #2e7d32;
+  --bg-light: #faf8f5;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: #1a1918;
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Slide Container ── */
+.slides {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 4rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  overflow-y: auto;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+.slide-content {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Slide Backgrounds ── */
+.slide-dark {
+  background: linear-gradient(135deg, #2d2a24 0%, #3d3830 50%, #4a3f30 100%);
+  color: #fff;
+}
+.slide-m1 { background: linear-gradient(135deg, #fef0e6 0%, #fff 100%); }
+.slide-m2 { background: linear-gradient(135deg, #e6f3ef 0%, #fff 100%); }
+.slide-m3 { background: linear-gradient(135deg, #fce4ec 0%, #fff 100%); }
+.slide-m4 { background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); }
+.slide-m5 { background: linear-gradient(135deg, #f3e5f5 0%, #fff 100%); }
+.slide-light { background: var(--bg-light); }
+
+/* ── Typography ── */
+h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+}
+h1 small {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-secondary);
+}
+p, li { font-size: 1rem; line-height: 1.7; }
+p { margin-bottom: 0.5rem; }
+
+/* ── Stats / Badges ── */
+.stats {
+  display: flex; gap: 2rem; justify-content: center;
+  margin-top: 1.5rem; flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 1.4rem; font-weight: 700; }
+.stat-label { font-size: 0.65rem; opacity: 0.6; letter-spacing: 0.05em; }
+.slide-dark .stat-num { color: var(--accent); }
+.badge {
+  display: inline-block;
+  font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem;
+  border-radius: 4px; margin: 0 0.2rem;
+}
+.badge-m1 { background: var(--accent); color: #fff; }
+.badge-m2 { background: var(--teal); color: #fff; }
+.badge-m3 { background: var(--red); color: #fff; }
+.badge-m4 { background: var(--blue); color: #fff; }
+.badge-m5 { background: var(--purple); color: #fff; }
+
+/* ── Module Grid ── */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.module-card {
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.module-card .m-num { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; }
+.module-card .m-title { font-weight: 700; font-size: 0.95rem; margin: 0.2rem 0 0.3rem; }
+.module-card .m-desc { font-size: 0.75rem; opacity: 0.7; }
+.card-m1 { background: #fef0e6; border-left: 4px solid var(--accent); }
+.card-m2 { background: #e6f3ef; border-left: 4px solid var(--teal); }
+.card-m3 { background: #fce4ec; border-left: 4px solid var(--red); }
+.card-m4 { background: #e3f2fd; border-left: 4px solid var(--blue); }
+.card-m5 { background: #f3e5f5; border-left: 4px solid var(--purple); }
+
+/* ── Tables ── */
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.85rem; margin: 0.8rem 0;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+th { font-weight: 600; padding: 0.5rem 0.7rem; text-align: left; }
+td { padding: 0.4rem 0.7rem; border-bottom: 1px solid #eee; }
+tr:last-child td { border-bottom: none; }
+.table-m1 th { background: #fef0e6; color: var(--accent); }
+.table-m3 th { background: #fce4ec; color: var(--red); }
+.table-generic th { background: #f0ebe5; color: var(--text-secondary); }
+
+/* ── Lists ── */
+ul.clean { list-style: none; padding: 0; }
+ul.clean li { padding: 0.2rem 0; padding-left: 1.2rem; position: relative; }
+ul.clean li::before {
+  content: '•'; position: absolute; left: 0.3rem; color: var(--accent); font-weight: 700;
+}
+ul.grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 1.5rem; list-style: none; padding: 0;
+}
+ul.grid-2 li { padding: 0.3rem 0 0.3rem 1.2rem; position: relative; font-size: 0.9rem; }
+ul.grid-2 li::before {
+  content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+
+/* ── Pitfall Grid ── */
+.pitfalls {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.8rem 0;
+}
+.pitfall-item {
+  background: #fff8e1; border: 1px solid rgba(255,193,7,0.3);
+  border-radius: 8px; padding: 0.5rem 0.8rem; font-size: 0.8rem;
+}
+.pitfall-item strong { display: block; color: var(--text); margin-bottom: 0.1rem; }
+.pitfall-item span { color: var(--text-muted); font-size: 0.75rem; }
+
+/* ── Timeline ── */
+.timeline {
+  position: relative; padding: 0.5rem 0 0.5rem 1.5rem;
+  border-left: 3px solid var(--accent); margin: 0.8rem 0;
+}
+.timeline li { list-style: none; margin-bottom: 0.5rem; position: relative; font-size: 0.9rem; }
+.timeline li::before {
+  content: ''; position: absolute; left: -1.65rem; top: 0.5rem;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+}
+.timeline .time { font-size: 0.75rem; color: var(--text-muted); }
+.timeline .label { font-weight: 600; }
+
+/* ── Prompt Block ── */
+.prompt-block {
+  background: #2d2a24; color: #e8e0d8;
+  border-radius: 8px; padding: 0.8rem 1rem;
+  font-family: monospace; font-size: 0.8rem;
+  line-height: 1.6; white-space: pre-wrap;
+  margin: 0.6rem 0;
+}
+.prompt-block .label {
+  display: block; font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.6rem; color: #90887e; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 0.2rem;
+}
+
+/* ── Navigation ── */
+.nav {
+  position: fixed;
+  bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 10;
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+  padding: 0.5rem 1.2rem; border-radius: 30px;
+  color: #fff; font-size: 0.8rem;
+}
+.nav button {
+  background: none; border: none; color: #fff;
+  font-size: 1.2rem; cursor: pointer; padding: 0.2rem 0.4rem;
+  opacity: 0.7; transition: opacity 0.2s;
+}
+.nav button:hover { opacity: 1; }
+.nav .counter { min-width: 4rem; text-align: center; }
+.nav .counter .total { opacity: 0.5; }
+
+/* ── Progress Bar ── */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--accent); z-index: 20;
+  transition: width 0.4s ease;
+}
+
+/* ── Footer tips ── */
+.footer-hint {
+  position: fixed; bottom: 4.5rem; right: 1.5rem;
+  font-size: 0.65rem; color: rgba(255,255,255,0.3);
+  z-index: 5;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .slide { padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.4rem; }
+  .module-grid { grid-template-columns: 1fr; }
+  ul.grid-2 { grid-template-columns: 1fr; }
+  .pitfalls { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" style="width:0%"></div>
+
+<div class="slides" id="slides">
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 1: Title -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-dark active" data-index="0">
+  <div class="slide-content" style="text-align:center;">
+    <div style="font-size:0.75rem;font-weight:500;color:var(--accent);border:1px solid rgba(217,119,62,0.3);display:inline-block;padding:0.3rem 1rem;border-radius:100px;letter-spacing:0.05em;margin-bottom:1rem;">📋 導師專用 · 內部教案</div>
+    <h1>
+      AI 生活與家庭全能管家
+      <small>完整課程教案 · v1.0 · ~35 分鐘</small>
+    </h1>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">單元</div></div>
+      <div class="stat"><div class="stat-num">~35 min</div><div class="stat-label">總時長</div></div>
+      <div class="stat"><div class="stat-num">🎯 L1-L2</div><div class="stat-label">難度</div></div>
+      <div class="stat"><div class="stat-num">Gemini</div><div class="stat-label">工具</div></div>
+    </div>
+    <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.7;">「唔係教你 AI 理論，係教你用 AI 搞掂生活嗰啲麻煩嘢。」</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 2: Course Overview -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-light" data-index="1">
+  <div class="slide-content">
+    <h2>📋 課程總覽</h2>
+    <div class="module-grid">
+      <div class="module-card card-m1">
+        <div class="m-num badge-m1" style="display:inline-block;">M1 · ~3min</div>
+        <div class="m-title">無痛開機</div>
+        <div class="m-desc">安裝、登入、個人偏好設定<br>🟢 L1 · Gemini App</div>
+      </div>
+      <div class="module-card card-m2">
+        <div class="m-num badge-m2" style="display:inline-block;">M2 · ~5min</div>
+        <div class="m-title">影相計卡路里</div>
+        <div class="m-desc">營養分析、飲食建議、餐單設計<br>🟢 L1 · Gemini Camera</div>
+      </div>
+      <div class="module-card card-m3">
+        <div class="m-num badge-m3" style="display:inline-block;">⭐ M3 · ~10min</div>
+        <div class="m-title">阿女 DSE 備戰</div>
+        <div class="m-desc">考點拆解、時間表、模擬題、驗證<br>🟡 L2 · Gemini Chat</div>
+      </div>
+      <div class="module-card card-m4">
+        <div class="m-num badge-m4" style="display:inline-block;">M4 · ~9min</div>
+        <div class="m-title">旅行神助手</div>
+        <div class="m-desc">行程規劃、Budget、格價<br>🟡 L2 · Gemini + Search</div>
+      </div>
+      <div class="module-card card-m5">
+        <div class="m-num badge-m5" style="display:inline-block;">M5 · ~8min</div>
+        <div class="m-title">日常清空術</div>
+        <div class="m-desc">Voice to-do、長文 Summary<br>🟢 L1 · Gemini Voice</div>
+      </div>
+    </div>
+    <h3 style="margin-top:0.8rem;font-size:0.9rem;">🎒 先備條件</h3>
+    <ul class="clean" style="font-size:0.85rem;">
+      <li>智能手機 + Google Account</li>
+      <li>❌ 唔需要寫 Code / 知 API / 學 Prompt Engineering</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 3: M1 — 無痛開機 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m1" data-index="2">
+  <div class="slide-content">
+    <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.8rem;">
+      <span class="badge badge-m1" style="font-size:0.8rem;padding:0.2rem 0.8rem;">單元一 · ~3 min</span>
+    </div>
+    <h2 style="color:var(--accent);">無痛開機</h2>
+    <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.8rem;">🎯 完成後：裝好 Gemini，set 好個人偏好，以後唔使再自我介紹</p>
+
+    <table class="table-m1">
+      <thead><tr><th>Part</th><th>內容</th><th>時間</th><th>畫面</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>開場 + 快跳指引</td><td>0:00-0:20</td><td>Face cam + 手機分屏</td></tr>
+        <tr><td>2</td><td>下載安裝</td><td>0:20-1:30</td><td>App Store / Play 搜尋「Gemini」</td></tr>
+        <tr><td>3</td><td>設定個人偏好</td><td>1:30-2:30</td><td>Settings → 個人化設定</td></tr>
+        <tr><td>4</td><td>試玩 + 收尾</td><td>2:30-3:00</td><td>測試對話 → 預告 M2</td></tr>
+      </tbody>
+    </table>
+
+    <ul class="grid-2">
+      <li><strong>iPhone：</strong>App Store → 搜尋「Gemini」</li>
+      <li><strong>Android：</strong>Google Play → 搜尋「Gemini」</li>
+      <li><strong>設定：</strong>右上角頭像 → 設定 → 個人化</li>
+      <li><strong>測試：</strong>「同我打個招呼」→ 廣東話回覆 ✅</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 4: M2 — 影相計卡路里 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m2" data-index="3">
+  <div class="slide-content">
+    <span class="badge badge-m2" style="font-size:0.8rem;padding:0.2rem 0.8rem;">單元二 · ~5 min</span>
+    <h2 style="color:var(--teal);margin-top:0.4rem;">影相計卡路里</h2>
+    <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.6rem;">🎯 影張相就知卡路里、蛋白質、碳水、脂肪</p>
+    <div class="module-grid" style="grid-template-columns:1fr 1fr;">
+      <div style="font-size:0.85rem;">
+        <strong>📸 影相分析</strong>
+        <ul class="clean" style="font-size:0.82rem;">
+          <li>開 Gemini → 撳相機 icon</li>
+          <li>影低食物 → 貼 prompt</li>
+          <li>AI 出營養表 + 建議</li>
+        </ul>
+      </div>
+      <div style="font-size:0.85rem;">
+        <strong>🍽️ 個人化建議</strong>
+        <ul class="clean" style="font-size:0.82rem;">
+          <li>同一個對話繼續問</li>
+          <li>「夜晚想食得輕盈啲」</li>
+          <li>AI 記住午餐內容推薦晚餐</li>
+        </ul>
+      </div>
+    </div>
+    <div class="prompt-block"><span class="label">📋 Copy &amp; Paste</span>幫我分析呢餐嘅營養成分：
+每種食材嘅蛋白質、碳水化合物、脂肪分別係幾多，
+同埋總卡路里大約係幾多。
+用返繁體中文，列出一個表。</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 5: M3 — DSE 備戰 Overview -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m3" data-index="4">
+  <div class="slide-content">
+    <span class="badge badge-m3" style="font-size:0.8rem;padding:0.2rem 0.8rem;">⭐ 單元三 · ~10 min · 最重要</span>
+    <h2 style="color:var(--red);margin-top:0.4rem;">阿女 DSE 備戰</h2>
+    <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.6rem;">🎯 5 個技能 + 驗證方法，用 AI 幫女兒慳時間</p>
+
+    <div class="timeline">
+      <li><span class="label">① 高頻考點拆解</span><br><span class="time">分析 2020-2025 Past Paper → 表格式 output</span></li>
+      <li><span class="label">② 選修科定位</span><br><span class="time">比重排名 + 溫習優先級（高/中/低）</span></li>
+      <li><span class="label">③ 倒數時間表</span><br><span class="time">考試日 + 強弱項 + 每日可用時間 → AI 排程</span></li>
+      <li><span class="label">④ 模擬題 + Marking Scheme</span><br><span class="time">針對 weak topic 出 5 題 + MS + 常見錯誤</span></li>
+      <li><span style="color:var(--red);font-weight:600;">⑤ 🛡️ 驗證方法</span><br><span class="time">叫 AI 標 Source → 對照 HKEAA MS → Cross-check</span></li>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 6: M3 — DSE 6 大失分陷阱 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m3" data-index="5">
+  <div class="slide-content">
+    <h2 style="color:var(--red);">⚠️ DSE 6 大失分陷阱</h2>
+    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.8rem;">AI 幫你一一避開</p>
+    <div class="pitfalls">
+      <div class="pitfall-item"><strong>① 忽略考試技巧</strong><span>→ AI 教你答題框架</span></div>
+      <div class="pitfall-item"><strong>② 溫習太分散</strong><span>→ AI 分析高頻課題</span></div>
+      <div class="pitfall-item"><strong>③ 忽視聆聽綜合卷</strong><span>→ AI 特訓</span></div>
+      <div class="pitfall-item"><strong>④ 起步太遲</strong><span>→ AI 倒數時間表</span></div>
+      <div class="pitfall-item"><strong>⑤ 唔檢討錯誤</strong><span>→ AI 錯題本</span></div>
+      <div class="pitfall-item"><strong>⑥ 忽略身心健康</strong><span>→ AI 計埋作息</span></div>
+    </div>
+    <div class="prompt-block" style="margin-top:0.5rem;"><span class="label">🛡️ 驗證 Prompt</span>請喺以上每個考點/答案後面
+標註對應嘅 HKEAA Past Paper 年份同題號。
+如果冇確實來源，請標明「推測」。</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 7: M4 — 旅行神助手 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m4" data-index="6">
+  <div class="slide-content">
+    <span class="badge badge-m4" style="font-size:0.8rem;padding:0.2rem 0.8rem;">單元四 · ~9 min</span>
+    <h2 style="color:var(--blue);margin-top:0.4rem;">旅行神助手</h2>
+    <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.6rem;">🎯 一個對話搞掂行程 + Budget + 格價</p>
+    <div class="module-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <div style="font-size:0.82rem;">
+        <strong>🗺️ 行程規劃</strong>
+        <p style="font-size:0.78rem;color:var(--text-muted);">地點、成員、步數限制、特別日子 → AI 出順路行程</p>
+      </div>
+      <div style="font-size:0.82rem;">
+        <strong>💰 Budget 拆解</strong>
+        <p style="font-size:0.78rem;color:var(--text-muted);">俾總預算 → AI 自動分機票/酒店/餐飲/購物</p>
+      </div>
+      <div style="font-size:0.82rem;">
+        <strong>🔍 格價策略</strong>
+        <p style="font-size:0.78rem;color:var(--text-muted);">Web Search 比較各航空公司 / 酒店平台</p>
+      </div>
+    </div>
+    <div class="prompt-block"><span class="label">📋 一條龍 Prompt</span>請幫我規劃一個 [地點] [日數] 旅行。
+成員：[人數]  日子：[日期]  住宿：[地區]
+想去：[景點]  偏好：[步數限制、餐飲要求、特別日子]
+總預算：[金額]
+請一齊出行程表 + Budget 細分 + 慳錢建議。</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 8: M5 — 日常清空術 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-m5" data-index="7">
+  <div class="slide-content">
+    <span class="badge badge-m5" style="font-size:0.8rem;padding:0.2rem 0.8rem;">單元五 · ~8 min</span>
+    <h2 style="color:var(--purple);margin-top:0.4rem;">日常清空術</h2>
+    <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:0.6rem;">🎯 Voice 記事 → To-do List · WhatsApp → 3 個重點</p>
+    <div class="module-grid" style="grid-template-columns:1fr 1fr;">
+      <div style="font-size:0.85rem;">
+        <strong>🗣️ Voice → To-do</strong>
+        <ul class="clean" style="font-size:0.82rem;">
+          <li>撳 mic icon → 就咁講雜務</li>
+          <li>「幫我整理成 To-do List」</li>
+          <li>AI 分 urgent / 本週 / 排程中</li>
+        </ul>
+      </div>
+      <div style="font-size:0.85rem;">
+        <strong>📝 Long Text Summary</strong>
+        <ul class="clean" style="font-size:0.82rem;">
+          <li>School group 99+ msgs</li>
+          <li>複製 → 貼上 → Prompt</li>
+          <li>5 個重點 + Action Items</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:0.5rem;padding:0.6rem 0.8rem;background:var(--purple-light);border-radius:8px;font-size:0.78rem;text-align:center;color:var(--purple);font-weight:600;">
+      🌅 朝早 Voice 記 → AI 整理 To-do → ✅ 跟住做
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 9: Design Principles -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-light" data-index="8">
+  <div class="slide-content">
+    <h2>🧩 課程設計原理</h2>
+    <table class="table-generic">
+      <thead><tr><th>原則</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><td>⏱ 3 分鐘黃金法則</td><td>每個 skill demo 唔超過 3 分鐘</td></tr>
+        <tr><td>🔄 Before/After</td><td>每次都 show「未用 AI」VS「用 AI」</td></tr>
+        <tr><td>📋 Copy &amp; Paste 為本</td><td>唔叫學生記，叫學生 copy</td></tr>
+        <tr><td>🎯 即時挑戰</td><td>每課尾都有「課後挑戰」</td></tr>
+        <tr><td>🆓 先免費後升級</td><td>用住 Gemini 免費版先，有用先 upgrade</td></tr>
+      </tbody>
+    </table>
+    <table class="table-generic" style="margin-top:0.8rem;">
+      <thead><tr><th>工具</th><th>點解揀佢？</th></tr></thead>
+      <tbody>
+        <tr><td>Gemini（免費）</td><td>香港易 get、有 Camera/Voice、廣東話 OK</td></tr>
+        <tr><td>ChatGPT（替代）</td><td>進階用戶可 upgrade</td></tr>
+        <tr><td>NotebookLM（Bonus）</td><td>DSE 深度學習用</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 10: Assessment -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-light" data-index="9">
+  <div class="slide-content">
+    <h2>📈 評估與跟進</h2>
+    <div class="module-grid" style="grid-template-columns:1fr 1fr;">
+      <div style="font-size:0.82rem;">
+        <strong>👀 課間觀察</strong>
+        <ul class="clean" style="font-size:0.8rem;">
+          <li>M1：能否自己打開 Gemini？</li>
+          <li>M2：能否獨立完成「影相→分析」？</li>
+          <li>M3：能否改 [科目] 做其他科？</li>
+          <li>M4：能否俾夠 detail 嘅資料？</li>
+          <li>M5：能否用 Voice Mode 錄音？</li>
+        </ul>
+      </div>
+      <div style="font-size:0.82rem;">
+        <strong>🎯 課後挑戰</strong>
+        <ul class="clean" style="font-size:0.8rem;">
+          <li>M2：影一餐 → 分析營養</li>
+          <li>M3：叫 AI 分析一科 DSE PP</li>
+          <li>M4：用 AI 規劃一次旅行</li>
+          <li>M5：用 Voice 代替打字一週</li>
+        </ul>
+      </div>
+    </div>
+    <h3 style="font-size:0.85rem;margin-top:0.5rem;">常見學生分層</h3>
+    <table class="table-generic" style="font-size:0.75rem;">
+      <thead><tr><th>類型</th><th>特徵</th><th>調整</th></tr></thead>
+      <tbody>
+        <tr><td>🟢 初哥</td><td>未用過 AI</td><td>慢速，逐 step 停</td></tr>
+        <tr><td>🟡 用家</td><td>用過 ChatGPT</td><td>重點講 Gemini 特有功能</td></tr>
+        <tr><td>🔴 科技家長</td><td>用過多款 AI</td><td>跳 M1，直去 M2/M3</td></tr>
+        <tr><td>⚫ DSE 家長</td><td>只關心 M3</td><td>先跳 M3 再睇其他</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 11: Prompt 懶人包 -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-dark" data-index="10">
+  <div class="slide-content" style="text-align:center;">
+    <h2>📎 6 條 Prompt 搞掂晒</h2>
+    <table style="background:#3d3830;color:#e8e0d8;">
+      <thead><tr style="color:var(--accent);"><th>場景</th><th>Prompt 開頭</th></tr></thead>
+      <tbody>
+        <tr><td>🙋 個人設定</td><td>「我係一個香港家長，用繁體中文…」</td></tr>
+        <tr><td>🥗 營養分析</td><td>「幫我分析呢餐嘅營養成分…」</td></tr>
+        <tr><td>📅 餐單設計</td><td>「我目標係減脂，每日 1600 kcal…」</td></tr>
+        <tr><td>🎓 DSE 考點</td><td>「請分析 DSE [科] 2020-2025 Past Paper…」</td></tr>
+        <tr><td>✈️ 旅行規劃</td><td>「幫我規劃 [地點] [日數] 旅行…」</td></tr>
+        <tr><td>🗣️ Voice To-do</td><td>「幫我整理成 To-do List…」</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;font-size:0.85rem;opacity:0.7;">全部 Copy &amp; Paste 就用得，改 [ ] 入面就得</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ -->
+<!-- SLIDE 12: 金句 + End -->
+<!-- ════════════════════════════════════ -->
+<section class="slide slide-dark" data-index="11">
+  <div class="slide-content" style="text-align:center;">
+    <div style="font-size:4rem;margin-bottom:1rem;">🎯</div>
+    <p style="font-size:1.4rem;font-weight:300;line-height:1.5;max-width:600px;margin:0 auto;font-style:italic;">
+      「AI 係你嘅員工，<br>唔係你嘅老細。」
+    </p>
+    <p style="margin-top:0.5rem;font-size:0.9rem;opacity:0.6;">你唔應該服侍佢，係佢服侍你。</p>
+    <div style="margin-top:2rem;font-size:0.75rem;opacity:0.4;">
+      AI 生活與家庭全能管家 · 完整課程教案 v1.0
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ══════ Navigation ══════ -->
+<div class="nav">
+  <button onclick="prevSlide()" title="上一頁（←）">◀</button>
+  <span class="counter"><span id="current">1</span><span class="total"> / <span id="total">12</span></span></span>
+  <button onclick="nextSlide()" title="下一頁（→）">▶</button>
+</div>
+
+<div class="footer-hint">← → 方向鍵 · Space · Esc</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+document.getElementById('total').textContent = total;
+let current = 0;
+
+function showSlide(idx) {
+  slides.forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  current = idx;
+  document.getElementById('current').textContent = idx + 1;
+  document.getElementById('progress').style.width = ((idx + 1) / total * 100) + '%';
+}
+
+function nextSlide() { showSlide(Math.min(current + 1, total - 1)); }
+function prevSlide() { showSlide(Math.max(current - 1, 0)); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'ArrowDown') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') { showSlide(0); }
+  if (e.key === 'End') { showSlide(total - 1); }
+});
+
+// Touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) nextSlide();
+    else prevSlide();
+  }
+});
+</script>
+
+</body>
+</html>

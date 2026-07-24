@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 3｜阿女 DSE 備戰 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf8f5;
+    --bg-card: #ffffff;
+    --text: #2d2a24;
+    --text-secondary: #6b6258;
+    --text-muted: #a09888;
+    --accent: #d9773e;
+    --accent-dark: #b85a28;
+    --accent-light: #fef0e6;
+    --teal: #3d8b7a;
+    --teal-light: #e6f3ef;
+    --teal-dark: #2d6b5d;
+    --amber: #d4a24e;
+    --amber-light: #fcf2e0;
+    --red: #c62828;
+    --red-light: #fce4ec;
+    --red-soft: #ffebee;
+    --border: #e8e0d8;
+    --border-light: #f0ebe5;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #2c1010 0%, #4a1a1a 50%, #6b2020 100%);
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 15% 80%, rgba(198, 40, 40, 0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #ef9a9a;
+    background: rgba(198, 40, 40, 0.2);
+    border: 1px solid rgba(198, 40, 40, 0.35);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 small {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #efb0b0;
+    margin-top: 0.3rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .hero-stats .stat { text-align: center; }
+  .hero-stats .stat-num { font-size: 1.2rem; font-weight: 700; color: #ef9a9a; }
+  .hero-stats .stat-label { font-size: 0.7rem; color: #d48080; letter-spacing: 0.05em; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .info-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow);
+  }
+  .info-bar .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+  }
+  .badge-red { background: var(--red-light); color: var(--red); }
+
+  .section { padding: 2rem 0; }
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .script-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .script-card .part-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .script-card .part-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .script-card .part-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; }
+  .script-card .part-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; color: var(--text); }
+  .script-card .part-time {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--border-light);
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .visual-cue {
+    background: #f5f0eb;
+    border-left: 3px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .visual-cue .label { font-weight: 600; color: var(--red); }
+
+  .dialogue {
+    padding-left: 1.2rem;
+    border-left: 3px solid var(--red);
+    margin-bottom: 0.5rem;
+  }
+  .dialogue p {
+    position: relative;
+    padding-left: 0.8rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .dialogue p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 4px;
+    height: 4px;
+    background: var(--red);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .dialogue .paren { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+  .dialogue .paren::before { display: none; }
+
+  .prompt-block {
+    background: #2d2a24;
+    color: #e8e0d8;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-family: 'Noto Sans SC', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    position: relative;
+  }
+  .prompt-block .copy-hint {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.65rem;
+    color: #90887e;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  .steps-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 1rem 0;
+  }
+  .steps-list li {
+    counter-increment: step;
+    position: relative;
+    padding: 0.8rem 0 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .steps-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .tip-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-card .tip-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .tip-card .tip-title { font-size: 0.85rem; font-weight: 600; }
+  .tip-card .tip-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .template-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .template-card .template-head {
+    background: var(--red-light);
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--red);
+    border-bottom: 1px solid rgba(198,40,40,0.15);
+  }
+  .template-card .template-body { padding: 0.75rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+
+  .demo-box {
+    background: var(--red-soft);
+    border: 1px solid rgba(198,40,40,0.15);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+  }
+  .demo-box .demo-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .demo-box .demo-ai {
+    background: rgba(255,255,255,0.6);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .data-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+    background: var(--red-light);
+    border: 1px solid rgba(198,40,40,0.15);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1rem;
+    font-size: 0.78rem;
+    margin-bottom: 1rem;
+  }
+
+  .dual-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .subject-card {
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    font-size: 0.82rem;
+  }
+  .subject-card strong { display: block; margin-bottom: 0.3rem; }
+  .subject-card span { color: var(--text-secondary); }
+
+  .pitfall-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+  .pitfall-item {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    padding: 0.3rem 0;
+  }
+  .pitfall-item .arrow { color: var(--red); font-weight: 600; }
+
+  .verify-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .verify-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1rem;
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    font-size: 0.82rem;
+  }
+  .verify-step .v-num {
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .challenge-box {
+    background: var(--red-light);
+    border: 1px solid rgba(198,40,40,0.2);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  .footer a { color: var(--red); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero-stats { gap: 1rem; }
+    .script-card { padding: 1.1rem; }
+    .tips-grid, .template-grid, .dual-card, .pitfall-grid { grid-template-columns: 1fr; }
+    .verify-steps { flex-direction: column; }
+    .container { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-badge">📖 單元三 · 教材</div>
+  <h1>
+    阿女 DSE 重點拆解 × 實戰策略<br>
+    <small>10 分鐘學識用 AI 幫女兒精準備戰 · 唔靠噏，靠數據</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">⏱ ~10 min</div><div class="stat-label">影片長度</div></div>
+    <div class="stat"><div class="stat-num">🎓 DSE</div><div class="stat-label">2026 數據</div></div>
+    <div class="stat"><div class="stat-num">🔐 驗證</div><div class="stat-label">唔怕 AI 亂作</div></div>
+  </div>
+</section>
+
+<!-- ══════ CONTAINER ══════ -->
+<div class="container">
+
+  <!-- Info Bar -->
+  <div class="info-bar">
+    <span class="tag">🎯 <strong>學完做到咩：</strong>幫女兒拆高頻考點、出倒數時間表、出模擬題、仲識得驗證 AI 答案</span>
+    <span class="tag">🛠 <strong>工具：</strong>Gemini <span class="badge badge-red">長 context</span><span class="badge badge-red">分析力強</span></span>
+  </div>
+
+  <!-- ══════ SCRIPT ══════ -->
+  <div class="section">
+    <div class="section-title">🎬 影片逐字稿</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;padding:0.5rem 0.8rem;background:var(--border-light);border-radius:8px;">
+      長度約 10 分鐘 · 全實戰示範 · 廣東話
+    </div>
+
+    <!-- DSE 2026 速報 -->
+    <div class="data-strip">
+      <span>📅 <strong>筆試：</strong>2026年4月8日</span>
+      <span>👥 <strong>考生：</strong>58,576人（+5%）</span>
+      <span>🎯 <strong>大學門檻：</strong>332A（個別學科或有更高要求）</span>
+      <span>🔥 <strong>最熱選修：</strong>Chem 16,484 · Bio 16,398 · Econ 14,372</span>
+    </div>
+
+    <!-- Part 1 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">1</span>
+        <span class="part-label">開場 + DSE 形勢</span>
+        <span class="part-time">0:00 – 1:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + DSE 2026 數據 overlay</div>
+      <div class="dialogue">
+        <p>「2026 年 DSE，58,576 人考，比上年多 5%。筆試 4 月 8 日開考。」</p>
+        <p>「如果你屋企有個 DSE 考生，你嘅角色唔係幫佢溫書 — 你係幫佢搵啱方向、慳時間。」</p>
+        <p>「呢課我會教大家用 AI 做五件事：拆高頻考點、選修科定位、出倒數時間表、出模擬題、最重要嘅 — 驗證 AI 答案。」</p>
+        <p>「全部唔使靠估，用 HKEAA 官方數據同 Past Paper 做基礎。」</p>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">2</span>
+        <span class="part-label">核心科高頻考點拆解</span>
+        <span class="part-time">1:00 – 2:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，打字輸入</div>
+      <div class="dialogue">
+        <p>「第一步：叫 AI 分析過去幾年嘅 Past Paper，搵出最高頻嘅考點。」</p>
+        <p>「我哋用英文科做示範。你可以叫佢分析 2020 至 2025 年嘅卷，睇下邊啲題型最常出：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>請分析 DSE 英文科 2020-2025 Past Paper：
+1. 列出 Paper 1 閱讀理解最常出現嘅 5 種題型
+2. Paper 2 寫作最常出嘅文體（邊種文體出現過幾次）
+3. Paper 3 聆聽綜合最易失分嘅常見陷阱
+4. 每年必出嘅 Grammar 或者 Vocab 重點
+
+格式：用表列出年份、題型、出現次數</div>
+      <div class="dialogue">
+        <p>「呢個 prompt 唔係靠 AI 記憶 — 你係叫佢 pattern match。Gemini 嘅長 context 可以 handle 到呢種分析。」</p>
+      </div>
+      <div class="demo-box">
+        <div class="demo-label">📊 AI 分析示範（英文科）</div>
+        <div style="font-size:0.8rem;">
+          <strong>Paper 1 最高頻 5 種題型：</strong>
+          <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin:0.3rem 0;">
+            <span>1. 主旨題（6年全出）</span>
+            <span>2. 推論題（5/6年）</span>
+            <span>3. 詞彙題（5/6年）</span>
+            <span>4. 細節題（6年全出）</span>
+            <span>5. 語氣/態度題（4/6年）</span>
+          </div>
+          <div class="demo-ai" style="margin-top:0.3rem;">
+            💡 Paper 2 最常出：Argumentative Essay（4次）&gt; Speech（3次）&gt; Letter to Editor（2次）
+          </div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「你見到佢唔係就咁吹水 — 佢係根據真嘅 Past Paper 模式俾出嚟。你可以照樣用喺中文、數學或者任何選修科。」</p>
+      </div>
+    </div>
+
+    <!-- 4 卷攻略 -->
+    <div class="dual-card">
+      <div class="subject-card" style="background:#ffebee;">
+        <strong style="color:var(--red);">📖 中文科 4 卷</strong>
+        <span>卷一閱讀：文言文 200+ 詞庫<br>卷二寫作：3 個百搭框架<br>卷三聆聽：格式係關鍵<br>卷四說話：時事例子庫</span>
+      </div>
+      <div class="subject-card" style="background:#e8f5e9;">
+        <strong style="color:#2e7d32;">📘 英文科 4 卷</strong>
+        <span>卷一閱讀：每日英文新聞<br>卷二寫作：10 分鐘擬大綱<br>卷三聆聽：Part B 先睇資料<br>卷四說話：積極聆聽技巧</span>
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">3</span>
+        <span class="part-label">選修科精準定位</span>
+        <span class="part-time">2:30 – 3:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，輸入選修科資料</div>
+      <div class="dialogue">
+        <p>「第二步：針對選修科。HKEAA 數據顯示最多人揀 Chem、Bio、Econ、Phy。」</p>
+        <p>「你可以咁樣 prompt 佢 — 呢次用化學科做例：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>我個女考 DSE Chemistry（英文卷）。
+根據 HKEAA Syllabus 同 Past Paper 2019-2025：
+1. 邊 5 個課題喺卷二（Elective）出現頻率最高？
+2. 每個課題平均佔幾分？
+3. 邊 3 個係最常見嘅「高分但易錯」題型？
+4. Organic Chemistry 每年必出嘅 reaction type 係咩？
+
+請用表列出，每項加一個「溫習優先級」（高/中/低）。</div>
+      <div class="dialogue">
+        <p>「呢個 prompt 嘅重點係要佢俾『溫習優先級』 — 咁你就可以 focus 喺最高回報嘅課題。」</p>
+      </div>
+    </div>
+
+    <!-- Part 4 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">4</span>
+        <span class="part-label">倒數溫習 Timetable</span>
+        <span class="part-time">3:30 – 5:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，輸入時間表資料</div>
+      <div class="dialogue">
+        <p>「第三步：呢個係家長最有感覺嘅 — 倒數溫習時間表。」</p>
+        <p>「關鍵係要俾 AI 知道阿女嘅真實 schedule：幾時要補習、幾時有課外活動、邊科強邊科弱。」</p>
+        <p>「咁樣 prompt：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>請幫我設計一個 DSE 倒數溫習時間表。
+
+背景資料：
+- 考試日期：2026年4月8日
+- 而家日期：[今日日期]
+- 報考科目：中文、英文、數學、Chem、Bio
+- 強項：數學、Bio（穩定攞 4-5）
+- 弱項：中文卷二寫作、Chem 有機化學
+- 每日可用時間：平日 7pm-10pm，週末 10am-6pm
+- 固定行程：逢二四補習（8pm-9:30pm）、週六下午運動
+
+要求：
+1. 分 3 個階段：基礎鞏固（而家-2月）→ Past Paper衝刺（3月）→ 最後溫習（4月）
+2. 每星期用表列出
+3. 紅色標記弱項溫習時間
+4. 每星期預留一日「休息/執漏」</div>
+      <div class="dialogue">
+        <p>「呢個 prompt 夠 detail，AI 先出到真係用得着嘅時間表。唔好就咁同佢講『出個 time table畀我』— 咁太空泛。」</p>
+        <p class="paren">（畫面示範：AI 出咗成個時間表，紅色 highlight 咗 Chem 同中文寫作嘅溫習時段）</p>
+        <p>「如果你唔滿意某個部分，就咁同佢講：『星期三夜晚改做 Bio 溫習，Chem 調去星期四』— 佢會即刻改。」</p>
+      </div>
+    </div>
+
+    <!-- Part 5 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">5</span>
+        <span class="part-label">出模擬題 + Marking Scheme</span>
+        <span class="part-time">5:00 – 6:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，打字出題</div>
+      <div class="dialogue">
+        <p>「第四步：叫 AI 就住阿女最弱嘅 Topic 出模擬題。」</p>
+        <p>「呢個功能最啱用喺考試前一個星期，針對唔熟嘅課題做特訓。」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>我個女 DSE Chem 嘅 Organic Chemistry 較弱。
+請根據 DSE 程度出 5 條模擬題：
+
+要求：
+1. 題型似 DSE Paper 1B 同 Paper 2
+2. 每題附完整答案 + 評分準則（Marking Scheme）
+3. 標明每題係邊個課題（如：Alkene、Alcohol、Carboxylic acid）
+4. 最後加一個「常見錯誤」列表
+
+用繁體中文出題（Chemical terms 保留英文）。</div>
+      <div class="dialogue">
+        <p>「出完之後可以叫佢模擬批改 — 將阿女嘅答案貼上去，問佢『呢題佢會攞幾多分？扣分位係邊？』」</p>
+      </div>
+    </div>
+
+    <!-- Part 6 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">6</span>
+        <span class="part-label">驗證方法 — 🛡️ 唔怕 AI 亂作</span>
+        <span class="part-time">6:30 – 8:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam，認真 mode</div>
+      <div class="dialogue">
+        <p>「呢 part 好重要。好多家長會擔心 — 如果 AI 亂作點算？」</p>
+        <p>「係，AI 有時會『老作』，我哋叫呢樣嘢 hallucination。但係你識得驗證就冇問題。」</p>
+        <p>「我教大家三個驗證方法：」</p>
+      </div>
+      <div class="verify-steps">
+        <div class="verify-step">
+          <div class="v-num">1</div>
+          <strong style="font-size:0.82rem;">叫 AI 俾 Source</strong>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">「請標註每個考點嘅 HKEAA Past Paper 年份同題號」</div>
+        </div>
+        <div class="verify-step">
+          <div class="v-num">2</div>
+          <strong style="font-size:0.82rem;">對照 Marking Scheme</strong>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">「呢題嘅答案同 2022 Paper 1B Q8 嘅 MS 係咪一致？」</div>
+        </div>
+        <div class="verify-step">
+          <div class="v-num">3</div>
+          <strong style="font-size:0.82rem;">Cross-check 另一科</strong>
+          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">用另一個 AI（如 ChatGPT Free）問同一條問題</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「具體啲講，你喺 prompt 後面加多句就得：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>（接上一個 prompt 嘅尾巴）
+請喺每個考點後面標註對應嘅 HKEAA Past Paper
+年份同題號。例如：「Nucleophilic substitution —
+常喺 Paper 2 Q3 同 Q9 出現（2021, 2023, 2024）」。</div>
+      <div class="dialogue">
+        <p>「如果 AI 標唔到出處，即係佢亂嗡。咁你就要再搵資料 confirm。」</p>
+        <p>「穩陣起見：AI 出嘅模擬題答案，對一次真嘅 Marking Scheme。HKEAA 網站有 Past Paper 嘅 MS 免費 download。」</p>
+      </div>
+    </div>
+
+    <!-- Part 7 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--red);">7</span>
+        <span class="part-label">總結 + DSE 失分陷阱</span>
+        <span class="part-time">8:00 – 10:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 6 大陷阱 overlay</div>
+      <div class="dialogue">
+        <p>「我哋快速 recap 今課學咗嘅 5 個技能：」</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0 1rem;">
+        <span style="background:var(--red-light);color:var(--red);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">① 高頻考點拆解</span>
+        <span style="background:var(--red-light);color:var(--red);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">② 選修科定位</span>
+        <span style="background:var(--red-light);color:var(--red);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">③ 倒數時間表</span>
+        <span style="background:var(--red-light);color:var(--red);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">④ 模擬題+MS</span>
+        <span style="background:var(--red);color:#fff;padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">⑤ 驗證方法 🛡️</span>
+      </div>
+      <div class="dialogue">
+        <p>「最後送你一個 DSE 6 大失分陷阱 — 用 AI 幫你一一避開：」</p>
+      </div>
+      <div style="background:#fff8e1;border:1px solid rgba(255,193,7,0.3);border-radius:var(--radius-sm);padding:0.8rem 1rem;">
+        <strong style="font-size:0.85rem;">⚠️ DSE 6 大失分陷阱 — AI 幫你避開</strong>
+        <div class="pitfall-grid">
+          <div class="pitfall-item">① 忽略考試技巧 <span class="arrow">→</span> AI 教你答題框架</div>
+          <div class="pitfall-item">② 溫習太分散 <span class="arrow">→</span> AI 分析高頻課題</div>
+          <div class="pitfall-item">③ 忽視聆聽綜合卷 <span class="arrow">→</span> AI 特訓</div>
+          <div class="pitfall-item">④ 起步太遲 <span class="arrow">→</span> AI 倒數時間表</div>
+          <div class="pitfall-item">⑤ 唔檢討錯誤 <span class="arrow">→</span> AI 幫你出錯題本</div>
+          <div class="pitfall-item">⑥ 忽略身心健康 <span class="arrow">→</span> AI 計埋作息時間</div>
+        </div>
+      </div>
+      <div class="dialogue" style="margin-top:0.8rem;">
+        <p>「記住：AI 係你嘅工具，唔係你嘅老師。你唔使識啲題目，你只需要識得點樣 prompt。」</p>
+        <p>「下一課我哋會講 — 旅行神助手：5 分鐘排行程兼算帳。」</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════ STEPS ══════ -->
+  <div class="section">
+    <div class="section-title">📋 步驟懶人包</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--red);">① 拆解高頻考點</div>
+    <div class="prompt-block" style="margin-bottom:1rem;">
+      <span class="copy-hint">📋 Copy</span>請分析 DSE [科目] 2020-2025 Past Paper
+最常出現嘅 5 種題型/課題，用表列出</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--red);">② 選修科定位</div>
+    <div class="prompt-block" style="margin-bottom:1rem;">
+      <span class="copy-hint">📋 Copy</span>根據 HKEAA Syllabus 分析 [科目]：
+出課題比重排名 + 溫習優先級（高/中/低）</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--red);">③ 倒數時間表</div>
+    <div class="prompt-block" style="margin-bottom:1rem;">
+      <span class="copy-hint">📋 Copy</span>幫我設計 DSE 倒數溫習時間表：
+[考試日期] [強弱項] [每日可用時間] [固定行程]
+分 3 階段：基礎 → 衝刺 → 最後溫習</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--red);">④ 出模擬題 + MS</div>
+    <div class="prompt-block" style="margin-bottom:1rem;">
+      <span class="copy-hint">📋 Copy</span>請根據 DSE 程度出 5 條 [科目/課題] 模擬題，
+連答案 + Marking Scheme + 常見錯誤列表</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--red);">⑤ 驗證</div>
+    <div class="prompt-block" style="margin-bottom:1rem;">
+      <span class="copy-hint">📋 Copy</span>請喺每個考點標註對應嘅 Past Paper 年份同題號</div>
+  </div>
+
+  <!-- ══════ TIPS ══════ -->
+  <div class="section">
+    <div class="section-title">💡 小貼士</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">📎</div>
+        <div class="tip-title">HKEAA 免費資源</div>
+        <div class="tip-desc">考評局網站有 Past Paper 同 Marking Scheme 免費 download。用嚟 cross-check AI 答案。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-title">唔滿意？改到啱</div>
+        <div class="tip-desc">AI 出嘅時間表/題目可以不斷修改。同佢講「改星期三做 Bio」、「加多條MC」就得。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">👨‍👩‍👧</div>
+        <div class="tip-title">同阿女一齊用</div>
+        <div class="tip-desc">開住個電話一齊睇 AI 出嘅分析，等佢知道呢個係幫佢慳時間嘅工具，唔係監控。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-title">集中火力</div>
+        <div class="tip-desc">唔好一次過問晒所有科。逐科逐個課題問，AI 嘅分析會準確好多。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TEMPLATES ══════ -->
+  <div class="section">
+    <div class="section-title">📎 即用範本</div>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Copy & Paste 就用得，只需要改 [科目] 同 [課題]。</p>
+
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-head">🎯 考點分析（任何科通用）</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>請分析 DSE [科目] 2020-2025 Past Paper：
+1. 最常見 5 種題型 + 出現頻率
+2. 每年必出嘅重點課題
+3. 考生常見失分位
+用表列出，加「溫習優先級」。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📅 倒數時間表</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>DSE 倒數時間表：
+考試日：[日期]
+強項：[科目]
+弱項：[科目]
+可用時間：[平日/週末]
+固定行程：[補習/活動]
+分 3 階段：基礎→衝刺→最後溫習</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📝 模擬題 + MS</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>根據 DSE 程度出 5 條 [課題] 模擬題。
+題型似 DSE Paper [卷號]。
+連答案 + Marking Scheme + 常見錯誤。
+用繁體中文出題（terms 保留英文）。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">🛡️ 驗證指令</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>請喺以上每個考點/答案後面
+標註對應嘅 HKEAA Past Paper
+年份同題號。
+如果冇確實來源，請標明「推測」。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ CHALLENGE ══════ -->
+  <div class="section">
+    <div class="section-title">🎯 課後挑戰</div>
+    <div class="challenge-box">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🎓</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--red);margin-bottom:0.5rem;">今個星期叫 AI 分析一科 DSE Past Paper</div>
+      <div style="font-size:0.85rem;color:var(--text-secondary);max-width:400px;margin:0 auto;">
+        揀阿女最擔心嗰科，用上面嘅 prompt 叫 AI 分析高頻考點。<br>
+        然後同阿女一齊睇結果 — 你會發現佢即刻安心咗。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<div class="footer">
+  《AI 生活與家庭全能管家》· 單元三教材<br>
+  <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.prompt-block').forEach(function(block){
+    block.addEventListener('click', function(){
+      var text = this.innerText.replace('📋 Copy', '').trim();
+      var hint = this.querySelector('.copy-hint');
+      navigator.clipboard.writeText(text).then(function(){
+        if(hint){ var orig = hint.textContent; hint.textContent = '✅ Copied!'; setTimeout(function(){ hint.textContent = orig; }, 1500); }
+      }).catch(function(){
+        if(hint){ hint.textContent = '❌ Failed'; setTimeout(function(){ hint.textContent = '📋 Copy'; }, 1500); }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

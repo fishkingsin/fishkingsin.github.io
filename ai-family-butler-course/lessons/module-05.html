@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 5｜日常清空術 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #faf8f5; --bg-card: #ffffff; --text: #2d2a24;
+    --text-secondary: #6b6258; --text-muted: #a09888;
+    --purple: #7b1fa2; --purple-dark: #5a0e7a; --purple-light: #f3e5f5; --purple-soft: #f0e6f2;
+    --red: #c62828;
+    --teal: #3d8b7a; --teal-light: #e6f3ef;
+    --amber: #d4a24e; --amber-light: #fcf2e0;
+    --accent: #d9773e; --accent-light: #fef0e6;
+    --border: #e8e0d8; --border-light: #f0ebe5;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 14px; --radius-sm: 10px;
+  }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+  }
+  .hero {
+    background: linear-gradient(135deg, #2a0a3a 0%, #4a1570 50%, #6a2090 100%);
+    color: #fff; padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 85% 20%, rgba(123,31,162,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 500; color: #ce93d8;
+    background: rgba(123,31,162,0.2); border: 1px solid rgba(123,31,162,0.35);
+    padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem; letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif; font-size: 2rem; font-weight: 900; line-height: 1.3; margin-bottom: 0.5rem;
+  }
+  .hero h1 small {
+    display: block; font-size: 0.85rem; font-weight: 400; color: #ce93d8; margin-top: 0.3rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .hero-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .hero-stats .stat { text-align: center; }
+  .hero-stats .stat-num { font-size: 1.2rem; font-weight: 700; color: #ce93d8; }
+  .hero-stats .stat-label { font-size: 0.7rem; color: #ab7bc4; letter-spacing: 0.05em; }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+  .info-bar {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+    margin: 1.5rem 0; font-size: 0.85rem; box-shadow: var(--shadow);
+  }
+  .badge-purple { background: var(--purple-light); color: var(--purple); display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 0.1rem 0.5rem; border-radius: 4px; margin-left: 0.3rem; }
+  .section { padding: 2rem 0; }
+  .section-title {
+    font-family: 'Noto Serif SC', serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 0.5rem;
+  }
+  .script-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    margin-bottom: 1.25rem; box-shadow: var(--shadow);
+  }
+  .script-card .part-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+  .script-card .part-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .script-card .part-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; }
+  .script-card .part-time {
+    margin-left: auto; font-size: 0.75rem; color: var(--text-muted);
+    background: var(--border-light); padding: 0.15rem 0.6rem; border-radius: 4px; white-space: nowrap;
+  }
+  .visual-cue {
+    background: #f5f0eb; border-left: 3px solid var(--purple);
+    border-radius: 0 6px 6px 0; padding: 0.6rem 1rem; margin-bottom: 0.8rem;
+    font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .visual-cue .label { font-weight: 600; color: var(--purple); }
+  .dialogue {
+    padding-left: 1.2rem; border-left: 3px solid var(--purple); margin-bottom: 0.5rem;
+  }
+  .dialogue p {
+    position: relative; padding-left: 0.8rem; margin-bottom: 0.4rem;
+    font-size: 0.92rem; line-height: 1.7; color: var(--text);
+  }
+  .dialogue p::before {
+    content: ''; position: absolute; left: 0; top: 0.75rem;
+    width: 4px; height: 4px; background: var(--purple); border-radius: 50%; opacity: 0.4;
+  }
+  .dialogue .paren { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+  .dialogue .paren::before { display: none; }
+  .prompt-block {
+    background: #2d2a24; color: #e8e0d8; border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem; margin: 0.75rem 0;
+    font-family: 'Noto Sans SC', monospace; font-size: 0.85rem;
+    line-height: 1.7; white-space: pre-wrap; overflow-x: auto; position: relative;
+  }
+  .prompt-block .copy-hint {
+    position: absolute; top: 0.5rem; right: 0.75rem;
+    font-size: 0.65rem; color: #90887e; font-family: 'Noto Sans SC', sans-serif;
+  }
+  .demo-box {
+    background: var(--purple-soft); border: 1px solid rgba(123,31,162,0.15);
+    border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin: 0.75rem 0; font-size: 0.88rem;
+  }
+  .demo-box .demo-label {
+    font-size: 0.7rem; font-weight: 600; color: var(--purple);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem;
+  }
+  .voice-wave {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: #2d2a24; border-radius: 30px; padding: 0.6rem 1rem; margin: 0.5rem 0; color: #e8e0d8;
+  }
+  .voice-wave .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--purple); animation: pulse 1.2s infinite;
+  }
+  .voice-wave .dot:nth-child(2) { animation-delay: 0.2s; }
+  .voice-wave .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .voice-wave .text { font-size: 0.8rem; font-style: italic; color: #c0b8ae; }
+  .summarize-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0;
+  }
+  .summarize-compare .side {
+    border-radius: var(--radius-sm); padding: 0.8rem 1rem; font-size: 0.78rem;
+  }
+  .summarize-compare .side .head { font-weight: 600; margin-bottom: 0.3rem; }
+  .steps-list {
+    list-style: none; counter-reset: step; margin: 1rem 0;
+  }
+  .steps-list li {
+    counter-increment: step; position: relative;
+    padding: 0.8rem 0 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border-light); font-size: 0.92rem; line-height: 1.6;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .steps-list li::before {
+    content: counter(step); position: absolute; left: 0; top: 0.8rem;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--purple); color: #fff; font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+  .tip-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.1rem; transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-card .tip-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .tip-card .tip-title { font-size: 0.85rem; font-weight: 600; }
+  .tip-card .tip-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .template-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  }
+  .template-card .template-head {
+    background: var(--purple-light); padding: 0.7rem 1rem;
+    font-size: 0.85rem; font-weight: 600; color: var(--purple);
+    border-bottom: 1px solid rgba(123,31,162,0.15);
+  }
+  .template-card .template-body { padding: 0.75rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .challenge-box {
+    background: var(--purple-light); border: 1px solid rgba(123,31,162,0.2);
+    border-radius: var(--radius); padding: 1.5rem; text-align: center;
+  }
+  .footer {
+    text-align: center; padding: 2.5rem 1.5rem; font-size: 0.75rem;
+    color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 1rem;
+  }
+  .footer a { color: var(--purple); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero-stats { gap: 1rem; }
+    .script-card { padding: 1.1rem; }
+    .tips-grid, .template-grid, .summarize-compare { grid-template-columns: 1fr; }
+    .container { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">📖 單元五 · 教材</div>
+  <h1>
+    日常清空術：語音記事、整理雜務與行程<br>
+    <small>把腦袋的雜事丟給 AI，自動生成條理分明的 Schedule</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">⏱ ~8 min</div><div class="stat-label">影片長度</div></div>
+    <div class="stat"><div class="stat-num">🗣️ Voice</div><div class="stat-label">語音即記</div></div>
+    <div class="stat"><div class="stat-num">📝 Summary</div><div class="stat-label">一鍵提煉</div></div>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="info-bar">
+    <span class="tag">🎯 <strong>學完做到咩：</strong>用語音秒速記事自動變 To-do List，長文/WhatsApp 一鍵 Summary</span>
+    <span class="tag">🛠 <strong>工具：</strong>Gemini Voice Mode <span class="badge-purple">🗣️</span><span class="badge-purple">免打字</span></span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🎬 影片逐字稿</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;padding:0.5rem 0.8rem;background:var(--border-light);border-radius:8px;">
+      長度約 8 分鐘 · Voice Mode 收音示範 · 廣東話
+    </div>
+
+    <!-- Part 1 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--purple);">1</span>
+        <span class="part-label">開場</span>
+        <span class="part-time">0:00 – 0:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 手機 Voice Mode 畫面</div>
+      <div class="dialogue">
+        <p>「你生活中有冇試過咁：行行下街諗起要交水費、煮煮飯記得要約牙醫、湊仔時突然有個 idea……」</p>
+        <p>「最後呢啲嘢全部唔記得咗，因為當時冇手打字。」</p>
+        <p>「呢課教你用 AI Voice Mode — 就咁講嘢，佢幫你整理成 To-do List。」</p>
+        <p>「同場加映：長文章同 WhatsApp 對話一鍵 Summary。」</p>
+      </div>
+    </div>
+
+    <!-- Part 2: Voice Mode -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--purple);">2</span>
+        <span class="part-label">語音隨手記（Voice Mode）</span>
+        <span class="part-time">0:30 – 3:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Gemini App，撳 Voice Mode icon</div>
+      <div class="dialogue">
+        <p>「打開 Gemini App，你會見到對話框右邊有個 mic 嘅 icon — 撳佢。」</p>
+        <p class="paren">（畫面示範：撳 mic → 電話開始收音，出現音波 animation）</p>
+        <p>「然後就當係留 Voice Note 咁，直接講你諗住要做嘅嘢：」</p>
+      </div>
+      <div class="voice-wave">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="text">🎙️ 錄音中…</span>
+      </div>
+      <div class="dialogue">
+        <p>「就咁講：」</p>
+      </div>
+      <div class="demo-box">
+        <div class="demo-label">🗣️ 語音輸入示範</div>
+        <div style="font-size:0.85rem;">
+          <em>「聽日要交水費、約星期五下晝三點洗牙、幫阿女買 Bio 練習冊、提醒老公星期六要去老豆度食飯、仲要 book 定下個月 camping site。」</em>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「講完之後佢會自動轉成文字，然後你就可以同佢講：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>幫我將以上嘅嘢整理成 To-do List，
+按優先次序排好，
+urgent 嘅標紅色，
+標埋建議嘅日期同時間。</div>
+      <div class="demo-box">
+        <div class="demo-label">📋 AI 整理結果</div>
+        <div style="font-size:0.8rem;">
+          <span style="color:var(--red);">🔴 <strong>緊急</strong></span><br>
+          □ 交水費 — 聽日（請確認係咪已經過期）<br><br>
+          <span style="color:var(--purple);">🟣 <strong>本週</strong></span><br>
+          □ 約洗牙 — 星期五 3:00pm<br>
+          □ 買 Bio 練習冊 — 呢幾日去書局/網上訂<br><br>
+          <span style="color:var(--teal);">🟢 <strong>排程中</strong></span><br>
+          □ 提醒老公 — 星期六去老豆度食飯<br>
+          □ Book camping site — 下個月（建議提早 book）
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「5 秒前仲係一舊雲，而家變咗一個清清楚楚嘅 To-do List。仲要分咗優先級。」</p>
+        <p>「呢個就係 AI 嘅力量 — 你負責講，佢負責整理。」</p>
+      </div>
+    </div>
+
+    <!-- Part 3: Advanced Voice -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--purple);">3</span>
+        <span class="part-label">進階 Voice 用法</span>
+        <span class="part-time">3:30 – 5:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Voice Mode 繼續，示範不同場景</div>
+      <div class="dialogue">
+        <p>「Voice Mode 唔止用嚟記雜務 — 仲可以做好多嘢：」</p>
+        <p>「例如你接緊阿女放學，突然想起一個 idea：」</p>
+      </div>
+      <div class="voice-wave" style="margin-bottom:0.5rem;">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="text">🎙️ 錄音中…</span>
+      </div>
+      <div class="demo-box">
+        <div class="demo-label">🎙️ 語音 Idea Capture</div>
+        <div style="font-size:0.82rem;">
+          <em>「我諗到一個辦法慳電費：將所有燈轉晒 LED、冷氣較定時 2 點後關、洗衣機用夜間模式 ……」</em>
+          <div class="demo-ai" style="margin-top:0.4rem;">
+            ✅ 已整理成 notes：「節能計劃 — LED 燈、冷氣定時、夜間洗衣」
+          </div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「又或者你同老公 whatsapp 緊討論緊旅行，你可以 open voice mode 講：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>（語音輸入）
+幫我記低：台灣旅行準備事項 —
+1. 阿女要申請特區護照（未過期可 check）
+2. 要買 travel insurance
+3. 老公話想住民宿
+4. 阿女想要去動物園
+5. 可能自駕遊，要 check 國際車牌</div>
+      <div class="dialogue">
+        <p>「你發現未？平時你要搵本簿、打開 Notes App、打字 — 呢啲動作喺 voice mode 入面全部唔需要。就咁講就得。」</p>
+      </div>
+    </div>
+
+    <!-- Part 4: Summary -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--purple);">4</span>
+        <span class="part-label">長文章 / WhatsApp 一鍵 Summary</span>
+        <span class="part-time">5:00 – 7:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 手機 WhatsApp 對話，長按複製</div>
+      <div class="dialogue">
+        <p>「第二個重點功能：Summary。」</p>
+        <p>「你有冇試過 school group WhatsApp 99+ 個 messages — 睇到頭暈？」</p>
+        <p>「好簡單：複製晒啲 messages，貼落 Gemini，叫佢 summarize。」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>請總結以下訊息嘅重點：
+- 最多 5 個重點
+- 每個重點一句講晒
+- 如果有 action item（要做嘅嘢）請獨立列出
+- 用繁體中文
+
+[貼上 WhatsApp 對話 / 長文章 / Email]</div>
+      <div class="summarize-compare">
+        <div class="side" style="background:#f5f0eb;">
+          <div class="head" style="color:var(--text-muted);">📱 Original（60+ messages）</div>
+          <span style="color:var(--text-secondary);">
+            A: 明天家長會幾點？<br>
+            B: 2:30 呀<br>
+            C: 係咪要帶手册？<br>
+            A: 我女話要<br>
+            D: 收到<br>
+            E: 另外旅行通告簽咗未？<br>
+            B: 未呀聽日交<br>
+            ⋮ （60 個 messages）
+          </span>
+        </div>
+        <div class="side" style="background:var(--purple-soft);">
+          <div class="head" style="color:var(--purple);">🤖 AI Summary</div>
+          <span>
+            <strong>📌 5 個重點</strong><br>
+            ① 明天家長會 2:30pm<br>
+            ② 記得帶手册<br>
+            ③ 旅行通告聽日交<br><br>
+            <strong>✅ Action Items</strong><br>
+            □ 簽旅行通告<br>
+            □ 手册放入書包
+          </span>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「60 個 messages 變 3 個重點，仲幫你抽出要做嘅嘢。」</p>
+        <p>「同樣道理可以用喺長文章、學校通告、Email — 複製貼上，5 秒就知重點。」</p>
+      </div>
+    </div>
+
+    <!-- Part 5: Wrap-up -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--purple);">5</span>
+        <span class="part-label">總結 + 日常 workflow</span>
+        <span class="part-time">7:00 – 8:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam recap</div>
+      <div class="dialogue">
+        <p>「今課學咗兩個技能：」</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0 1rem;">
+        <span style="background:var(--purple-light);color:var(--purple);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">① 語音隨手記 → To-do List</span>
+        <span style="background:var(--purple-light);color:var(--purple);padding:0.3rem 0.7rem;border-radius:20px;font-size:0.8rem;">② Long Text Summary</span>
+      </div>
+      <div class="dialogue">
+        <p>「我建議你建立一個日常 workflow：」</p>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.75rem 0;font-size:0.85rem;">
+        <span style="background:#2d2a24;color:#e8e0d8;padding:0.4rem 0.8rem;border-radius:8px;">🌅 朝早</span>
+        <span style="color:var(--text-muted);align-self:center;">→</span>
+        <span style="background:var(--purple-light);color:var(--purple);padding:0.4rem 0.8rem;border-radius:8px;">🗣️ Voice記雜務</span>
+        <span style="color:var(--text-muted);align-self:center;">→</span>
+        <span style="background:var(--purple-light);color:var(--purple);padding:0.4rem 0.8rem;border-radius:8px;">📋 AI整理To-do</span>
+        <span style="color:var(--text-muted);align-self:center;">→</span>
+        <span style="background:var(--purple-light);color:var(--purple);padding:0.4rem 0.8rem;border-radius:8px;">✅ 跟住做</span>
+      </div>
+      <div class="dialogue">
+        <p>「記住：AI 係你嘅員工，唔係你嘅老細。你講佢做，就係咁簡單。」</p>
+        <p>「成個課程嚟到呢度結束。你已經有 5 個實戰技能 — 由無痛開機到日常清空。我哋下次見！👋」</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEPS -->
+  <div class="section">
+    <div class="section-title">📋 步驟懶人包</div>
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--purple);">👉 Voice 記事 → To-do List</div>
+    <ol class="steps-list">
+      <li>打開 Gemini App，撳 mic icon <span class="step-note">對話框右邊</span></li>
+      <li>就咁講你諗住要做嘅嘢 <span class="step-note">可以係雜務、idea、 shopping list</span></li>
+      <li>講完之後話：「幫我整理成 To-do List，按 priority 排好」
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>幫我將以上嘅嘢整理成 To-do List，
+按優先次序排好，
+urgent 標紅色，標埋建議日期。</div>
+      </li>
+    </ol>
+    <div style="font-size:0.9rem;font-weight:600;margin:1.5rem 0 0.5rem;color:var(--purple);">👉 Long Text Summary</div>
+    <ol class="steps-list" style="counter-reset:step 3;">
+      <li>複製你想 summarize 嘅文字（WhatsApp / 文章 / Email）</li>
+      <li>貼落 Gemini，加呢句：
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>請總結以下重點：最多 5 點，每點一句。
+有 action item 請獨立列出。用繁體中文。</div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section">
+    <div class="section-title">💡 小貼士</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🗣️</div>
+        <div class="tip-title">講嘢要自然</div>
+        <div class="tip-desc">唔好就住就住。就當同朋友留 Voice Note 咁講。AI 聽得明亂講嘅口語。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🌙</div>
+        <div class="tip-title">睡前用 Voice</div>
+        <div class="tip-desc">瞓前諗起聽日要做嘅嘢？用 Voice Mode 記低，唔使開燈打字。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📱</div>
+        <div class="tip-title">Background 都得</div>
+        <div class="tip-desc">Gemini Voice Mode 可以背景運作。㩒住個 Home 制或者用耳機都得。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📋</div>
+        <div class="tip-title">Weekly Review</div>
+        <div class="tip-desc">每星期日叫 AI summary 你個星期做過咩：「幫我回顧呢星期嘅 To-do List完成率」</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATES -->
+  <div class="section">
+    <div class="section-title">📎 即用範本</div>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">全部 Copy & Paste 就用得。</p>
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-head">🗣️ Voice → To-do</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>幫我將以上嘅嘢整理成 To-do List，
+按優先次序排好，
+urgent 標紅色，
+標埋建議日期同時間。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📝 Long Text Summary</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>請總結以下訊息嘅重點：
+- 最多 5 個重點
+- 每個重點一句講晒
+- Action items 獨立列出
+用繁體中文</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📊 Weekly Recap</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>回顧我過去一星期嘅 To-do List：
+- 完成率幾多 %？
+- 有咩 recurring task 可以自動化？
+- 下星期可以點樣改善時間分配？</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📧 Email Summary</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>幫我 summarize 以下 Email：
+- 邊啲要回覆？
+- 邊啲有 deadline？
+- 邊啲可以 delete？
+[貼 Email]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGE & COURSE COMPLETE -->
+  <div class="section">
+    <div class="section-title">🎯 課後挑戰</div>
+    <div class="challenge-box" style="margin-bottom:1.5rem;">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">🗣️</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--purple);margin-bottom:0.5rem;">今日就用 Voice Mode 記低你嘅 To-do</div>
+      <div style="font-size:0.85rem;color:var(--text-secondary);max-width:400px;margin:0 auto;">
+        Whole day — 唔打字，所有雜務用講嘅。今晚睇下 AI 幫你整理咗啲咩。
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#f3e5f5,#e8f5e9);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center;">
+      <div style="font-size:3rem;margin-bottom:0.5rem;">🎉</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--purple-dark);margin-bottom:0.5rem;">課程完成！</div>
+      <div style="font-size:0.85rem;color:var(--text-secondary);max-width:500px;margin:0 auto;line-height:1.8;">
+        你已經學晒全部 5 個單元：無痛開機 → 影相計卡路里 → DSE 備戰 → 旅行規劃 → 日常清空。<br>
+        你而家可以：
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:1rem;">
+        <span style="background:#fff;padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">📸 影相分析營養</span>
+        <span style="background:#fff;padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">🎓 AI 幫女溫 DSE</span>
+        <span style="background:#fff;padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">✈️ 規劃旅行</span>
+        <span style="background:#fff;padding:0.4rem 1rem;border-radius:20px;font-size:0.85rem;">🗣️ Voice 記事</span>
+      </div>
+      <div style="margin-top:1rem;font-size:0.8rem;color:var(--text-muted);">
+        「AI 係你嘅員工，唔係你嘅老細。你唔應該服侍佢，係佢服侍你。」
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  《AI 生活與家庭全能管家》· 單元五教材 · 🎉 課程完成！<br>
+  <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.prompt-block').forEach(function(block){
+    block.addEventListener('click', function(){
+      var text = this.innerText.replace('📋 Copy', '').trim();
+      var hint = this.querySelector('.copy-hint');
+      navigator.clipboard.writeText(text).then(function(){
+        if(hint){ var orig = hint.textContent; hint.textContent = '✅ Copied!'; setTimeout(function(){ hint.textContent = orig; }, 1500); }
+      }).catch(function(){
+        if(hint){ hint.textContent = '❌ Failed'; setTimeout(function(){ hint.textContent = '📋 Copy'; }, 1500); }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 2｜影相計卡路里 · AI 生活與家庭全能管家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #faf8f5;
+    --bg-card: #ffffff;
+    --text: #2d2a24;
+    --text-secondary: #6b6258;
+    --text-muted: #a09888;
+    --accent: #d9773e;
+    --accent-dark: #b85a28;
+    --accent-light: #fef0e6;
+    --teal: #3d8b7a;
+    --teal-light: #e6f3ef;
+    --teal-dark: #2d6b5d;
+    --amber: #d4a24e;
+    --amber-light: #fcf2e0;
+    --border: #e8e0d8;
+    --border-light: #f0ebe5;
+    --shadow: 0 2px 16px rgba(0,0,0,0.06);
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a3a32 0%, #2d5b4e 50%, #3d7b68 100%);
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 85% 20%, rgba(61, 139, 122, 0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #a8d8cc;
+    background: rgba(61, 139, 122, 0.2);
+    border: 1px solid rgba(61, 139, 122, 0.35);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 small {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #b8d8d0;
+    margin-top: 0.3rem;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .hero-stats .stat { text-align: center; }
+  .hero-stats .stat-num { font-size: 1.2rem; font-weight: 700; color: #a8d8cc; }
+  .hero-stats .stat-label { font-size: 0.7rem; color: #8ab8ac; letter-spacing: 0.05em; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .info-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow);
+  }
+  .info-bar .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+  }
+  .badge-green { background: var(--teal-light); color: var(--teal); }
+
+  .section { padding: 2rem 0; }
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .script-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .script-card .part-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .script-card .part-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .script-card .part-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; }
+  .script-card .part-title { font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 700; color: var(--text); }
+  .script-card .part-time {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--border-light);
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .visual-cue {
+    background: #f5f0eb;
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  .visual-cue .label { font-weight: 600; color: var(--teal-dark); }
+
+  .dialogue {
+    padding-left: 1.2rem;
+    border-left: 3px solid var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .dialogue p {
+    position: relative;
+    padding-left: 0.8rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .dialogue p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 4px;
+    height: 4px;
+    background: var(--teal);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .dialogue .paren { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+  .dialogue .paren::before { display: none; }
+
+  .prompt-block {
+    background: #2d2a24;
+    color: #e8e0d8;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-family: 'Noto Sans SC', monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    position: relative;
+  }
+  .prompt-block .copy-hint {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.65rem;
+    color: #90887e;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  .steps-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 1rem 0;
+  }
+  .steps-list li {
+    counter-increment: step;
+    position: relative;
+    padding: 0.8rem 0 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .steps-list li:last-child { border-bottom: none; }
+  .steps-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.8rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .steps-list li .step-note {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .tip-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    transition: transform 0.15s;
+  }
+  .tip-card:hover { transform: translateY(-2px); }
+  .tip-card .tip-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .tip-card .tip-title { font-size: 0.85rem; font-weight: 600; }
+  .tip-card .tip-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .template-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .template-card .template-head {
+    background: var(--teal-light);
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--teal-dark);
+    border-bottom: 1px solid rgba(61, 139, 122, 0.15);
+  }
+  .template-card .template-body { padding: 0.75rem 1rem; font-size: 0.85rem; line-height: 1.7; color: var(--text); }
+  .template-card .template-body ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+  .template-card .template-body ul li { margin-bottom: 0.3rem; }
+
+  .demo-box {
+    background: var(--teal-light);
+    border: 1px solid rgba(61, 139, 122, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .demo-box .demo-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .demo-box .demo-ai {
+    background: rgba(255,255,255,0.6);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  .footer a { color: var(--teal); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .hero h1 { font-size: 1.4rem; }
+    .hero-stats { gap: 1rem; }
+    .script-card { padding: 1.1rem; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .template-grid { grid-template-columns: 1fr; }
+    .container { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-badge">📖 單元二 · 教材</div>
+  <h1>
+    健康管理：影相即記！<br>
+    <small>5 分鐘學識用 AI 影相計卡路里 + 個人化飲食建議</small>
+  </h1>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">⏱ ~5 min</div><div class="stat-label">影片長度</div></div>
+    <div class="stat"><div class="stat-num">🟢 L1</div><div class="stat-label">初哥適用</div></div>
+    <div class="stat"><div class="stat-num">📸 即影</div><div class="stat-label">相機即用</div></div>
+  </div>
+</section>
+
+<!-- ══════ CONTAINER ══════ -->
+<div class="container">
+
+  <!-- Info Bar -->
+  <div class="info-bar">
+    <span class="tag">🎯 <strong>學完做到咩：</strong>影相即時知道一餐嘅卡路里同營養，仲有 AI 幫你諗聽日食咩好</span>
+    <span class="tag">🛠 <strong>工具：</strong>Gemini Camera Mode <span class="badge badge-green">📸</span></span>
+  </div>
+
+  <!-- ══════ SCRIPT ══════ -->
+  <div class="section">
+    <div class="section-title">🎬 影片逐字稿</div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;padding:0.5rem 0.8rem;background:var(--border-light);border-radius:8px;">
+      長度約 5 分鐘 · 用手機影相即時示範 · 廣東話
+    </div>
+
+    <!-- Part 1 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">1</span>
+        <span class="part-label">開場</span>
+        <span class="part-time">0:00 – 0:20</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 枱面放咗一盒外賣/碟餸</div>
+      <div class="dialogue">
+        <p>「有冇試過食完一餐，完全唔知自己食咗幾多卡路里？」</p>
+        <p>「呢課我就教大家 — 用手機影張相，AI 就幫你計晒卡路里、蛋白質、碳水化合物、脂肪。」</p>
+        <p>「仲可以問佢聽日食咩好，或者跟住你嘅健康目標俾建議。」</p>
+        <p>「開始之前提一提：記得 open 定 Gemini App。」</p>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">2</span>
+        <span class="part-label">影相 + 分析</span>
+        <span class="part-time">0:20 – 2:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 打開 Gemini App → 影相/揀相</div>
+      <div class="dialogue">
+        <p>「打開 Gemini App，你會見到對話框隔籬有一個『+』號或者相機 icon。」</p>
+        <p>「撳佢，然後揀『拍攝相片』— 或者直接撳相機 icon 就得。」</p>
+        <p class="paren">（畫面示範：撳相機 → 對準枱上嘅飯盒 → 影相）</p>
+        <p>「影完之後，佢會幫你 Upload 張相。然後你就輸入呢句 Prompt：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>幫我分析呢餐嘅營養成分：
+每種食材嘅蛋白質、碳水化合物、脂肪分別係幾多，
+同埋總卡路里大約係幾多。
+用返繁體中文，列出一個表。</div>
+      <div class="dialogue">
+        <p>「撳 Send，等佢分析……大概 5-10 秒就出到結果。」</p>
+      </div>
+      <div class="demo-box">
+        <div class="demo-label">📊 AI 回覆示範</div>
+        <div style="font-weight:600;margin-bottom:0.3rem;">你嘅午餐：叉燒油雞飯</div>
+        <div style="font-size:0.8rem;">
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:0.3rem;">
+            <span>🔥 總卡路里：約 780 kcal</span>
+            <span>🥩 蛋白質：42g</span>
+            <span>🍚 碳水化合物：88g</span>
+            <span>🧈 脂肪：28g</span>
+          </div>
+        </div>
+        <div class="demo-ai">
+          💡 建議：呢餐蛋白質足夠但纖維偏低，建議晚餐補返一份青菜。
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「你見到佢唔單止出數字，仲會俾啲飲食建議你。呢個就係 AI 嘅威力 — 唔係淨係計數，係幫你諗。」</p>
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">3</span>
+        <span class="part-label">個人化飲食建議</span>
+        <span class="part-time">2:30 – 3:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 返到對話框，打字輸入新問題</div>
+      <div class="dialogue">
+        <p>「第二個功能：叫 AI 俾個人化建議。」</p>
+        <p>「你可以同佢講你嘅目標，例如減肥、增肌、或者純粹想食得健康啲。」</p>
+        <p>「你可以咁樣問：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>我今日午餐食咗叉燒油雞飯（約780kcal），
+夜晚想食得輕盈啲，有冇好介紹？
+我鍾意食日本嘢，最好30分鐘內煮到。</div>
+      <div class="demo-box">
+        <div class="demo-label">🤖 AI 建議示範</div>
+        <div style="font-size:0.82rem;">
+          <strong>推薦晚餐：日式三文魚茶漬飯（約 380 kcal）</strong><br>
+          🐟 三文魚（160g）— 蛋白質豐富、Omega-3<br>
+          🍵 茶漬飯（半碗）— 輕量碳水<br>
+          🥒 伴碟青瓜沙律 — 補充纖維<br><br>
+          <span style="color:var(--teal);">⏱ 製作時間：約 20 分鐘</span>
+        </div>
+      </div>
+      <div class="dialogue">
+        <p>「你見到佢會根據你嘅午餐自動調節晚餐建議 — 午餐食得油膩，晚餐就幫你輕返啲。」</p>
+      </div>
+    </div>
+
+    <!-- Part 4 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">4</span>
+        <span class="part-label">設計餐單 + 跟進</span>
+        <span class="part-time">3:30 – 4:30</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> 打字輸入，顯示對話紀錄</div>
+      <div class="dialogue">
+        <p>「第三個 advanced 啲嘅用法：叫佢幫你 design 成個星期嘅餐單。」</p>
+        <p>「你可以一次過俾晒啲 constraints 佢：」</p>
+      </div>
+      <div class="prompt-block">
+        <span class="copy-hint">📋 Copy</span>我目標係減脂，每日大約食 1600 kcal。
+請幫我設計一個 5 日（星期一至五）嘅餐單：
+- 早餐要快（5分鐘搞掂）
+- 午餐正常
+- 晚餐輕盈
+- 唔食牛
+- 鍾意亞洲菜
+- 每日蛋白質不少於 100g</div>
+      <div class="dialogue">
+        <p>「佢會出一份好完整嘅餐單俾你。如果你唔 like 某一餐，就咁同佢講『尋日個午餐太多碳水，可唔可以轉』— 佢會記住你嘅偏好。」</p>
+        <p class="paren">（畫面 scroll 示範：AI 出咗成個星期嘅餐單表）</p>
+        <p>「呢個就係 AI 嘅強大之處 — 佢唔係 static 嘅書，係愈用愈懂你。」</p>
+      </div>
+    </div>
+
+    <!-- Part 5 -->
+    <div class="script-card">
+      <div class="part-header">
+        <span class="part-num" style="background:var(--teal);">5</span>
+        <span class="part-label">收尾 + 小挑戰</span>
+        <span class="part-time">4:30 – 5:00</span>
+      </div>
+      <div class="visual-cue"><span class="label">🎥 畫面：</span> Face cam + 電話畫面 split</div>
+      <div class="dialogue">
+        <p>「總結今課學咗三個功能：」</p>
+        <p>「① 影相 → 自動分析營養同卡路里」</p>
+        <p>「② 話俾 AI 聽你嘅目標 → 個人化飲食建議」</p>
+        <p>「③ 叫佢出成個星期餐單 → 仲可以修改」</p>
+        <p>「今課嘅小挑戰：聽日 lunch，影低你食嘅嘢，問 AI 攞營養分析。然後睇下你夜晚會唔會因為呢個資訊而改變選擇 😉」</p>
+        <p>「我哋下一課見 — 阿女 DSE 備戰神器！」</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════ STEPS ══════ -->
+  <div class="section">
+    <div class="section-title">📋 步驟懶人包</div>
+
+    <div style="font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--teal-dark);">👉 影相分析營養</div>
+    <ol class="steps-list">
+      <li>打開 Gemini App，撳相機 icon <span class="step-note">Android 喺右下角，iPhone 喺對話框左邊</span></li>
+      <li>影低你想分析嘅食物 <span class="step-note">最好光線充足，影到晒全部食材</span></li>
+      <li>輸入呢句 Prompt 然後 Send：
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>幫我分析呢餐嘅營養成分：每種食材嘅蛋白質、碳水化合物、脂肪分別係幾多，同埋總卡路里大約係幾多。用返繁體中文，列出一個表。</div>
+      </li>
+      <li>睇 AI 回覆 — 有齊營養表 + 建議 <span class="step-note">可以再追問「咁我晚餐食咩好？」</span></li>
+    </ol>
+
+    <div style="font-size:0.9rem;font-weight:600;margin:1.5rem 0 0.5rem;color:var(--teal-dark);">👉 設計個人化餐單</div>
+    <ol class="steps-list" style="counter-reset:step 4;">
+      <li>輸入你嘅目標同限制（卡路里、偏好、禁忌）：
+        <div class="prompt-block" style="margin-top:0.5rem;">
+          <span class="copy-hint">📋 Copy</span>我目標係減脂，每日大約食 1600 kcal。
+幫我設計一個 5 日餐單。
+唔食牛，鍾意亞洲菜，每日蛋白質不少於 100g。</div>
+      </li>
+      <li>AI 出餐單後，可以話：<span class="step-note">「頭先個星期三午餐太多碳水，有冇替代？」</span></li>
+    </ol>
+  </div>
+
+  <!-- ══════ TIPS ══════ -->
+  <div class="section">
+    <div class="section-title">💡 小貼士</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">📸</div>
+        <div class="tip-title">影相貼士</div>
+        <div class="tip-desc">光線充足、角度正面、盡量影到晒啲食材。太暗或者太側會影響 AI 判斷。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-title">可以加相冊嘅相</div>
+        <div class="tip-desc">唔一定要即影。撳「+」→「選擇相片」可以揀之前影低嘅食物相。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📏</div>
+        <div class="tip-title">份量要講清楚</div>
+        <div class="tip-desc">AI 靠肉眼估份量。你可以補充：「呢碗飯大概一碗」、「塊扒大概手掌大」。</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🗣️</div>
+        <div class="tip-title">語音都得</div>
+        <div class="tip-desc">Gemini 支援 Voice Mode。影完相之後直接用講嘅：「幫我分析呢餐嘅營養」。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TEMPLATES ══════ -->
+  <div class="section">
+    <div class="section-title">📎 即用範本</div>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">全部 Copy & Paste 就用得，唔使改。</p>
+
+    <div class="template-grid">
+      <div class="template-card">
+        <div class="template-head">🥗 基本營養分析（影相後用）</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>幫我分析呢餐嘅營養成分：
+每種食材嘅蛋白質、碳水化合物、脂肪分別係幾多，
+同埋總卡路里大約係幾多。
+用返繁體中文，列出一個表。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">🍽️ 個人化飲食建議（分析後用）</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>我今日 lunch 食咗上面呢餐，
+夜晚想食得輕盈啲，有冇好介紹？
+我鍾意食日本嘢，最好30分鐘內煮到。</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📅 5 日餐單設計</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>我目標係減脂，每日大約食 1600 kcal。
+請幫我設計一個 5 日（星期一至五）嘅餐單：
+- 早餐要快（5分鐘）
+- 唔食牛
+- 鍾意亞洲菜
+- 每日蛋白質不少於 100g</div>
+        </div>
+      </div>
+      <div class="template-card">
+        <div class="template-head">📊 一週跟進回顧</div>
+        <div class="template-body">
+          <div class="prompt-block" style="margin:0;font-size:0.8rem;">
+            <span class="copy-hint">📋 Copy</span>以下係我過去一星期影低嘅食物：
+[貼返你影個啲相]
+幫我總結一下呢個星期嘅飲食習慣，
+有咩做得好？有咩可以改善？</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ CHALLENGE ══════ -->
+  <div class="section">
+    <div class="section-title">🎯 課後挑戰</div>
+    <div style="background:var(--teal-light);border:1px solid rgba(61,139,122,0.2);border-radius:var(--radius);padding:1.5rem;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:0.5rem;">📸</div>
+      <div style="font-size:1rem;font-weight:600;color:var(--teal-dark);margin-bottom:0.5rem;">今個星期 Lunch，影低你食嘅嘢</div>
+      <div style="font-size:0.85rem;color:var(--text-secondary);max-width:400px;margin:0 auto;">
+        用 Gemini 分析營養，睇下你嘅午餐平均幾多卡路里。<br>
+        然後睇下你會唔會因為知道咗而改變晚餐嘅選擇 😉
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<div class="footer">
+  《AI 生活與家庭全能管家》· 單元二教材<br>
+  <a href="../ai-family-butler-course.html">← 返去課程大綱</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.prompt-block').forEach(function(block){
+    block.addEventListener('click', function(){
+      var text = this.innerText.replace('📋 Copy', '').trim();
+      var hint = this.querySelector('.copy-hint');
+      navigator.clipboard.writeText(text).then(function(){
+        if(hint){ var orig = hint.textContent; hint.textContent = '✅ Copied!'; setTimeout(function(){ hint.textContent = orig; }, 1500); }
+      }).catch(function(){
+        if(hint){ hint.textContent = '❌ Failed'; setTimeout(function(){ hint.textContent = '📋 Copy'; }, 1500); }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>
